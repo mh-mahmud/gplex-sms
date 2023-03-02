@@ -130,8 +130,8 @@
 
 
                       <div class="g-button-group">
-                        <button id="open-btn" class="btn btn-sm btn-block">Open</button>
-                        <button id="close-btn" class="btn btn-sm btn-block">Close</button>
+                        <button id="open-btn" class="btn btn-sm">Open</button>
+                        <button id="close-btn" class="btn btn-sm">Close</button>
                       </div>
                     </div>
 
@@ -619,11 +619,11 @@
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  background-color: #888888;
 
   button {
-    color: #ffffff;
     width: 100%;
+    background-color: #646879;
+    color:#ffffff;
   }
 
   button#open-btn {
@@ -903,14 +903,14 @@ export default {
       openChat.style.display = "block";
       closeChat.style.display = "none";
       openBtn.style.backgroundColor = "#708d3f";
-      closeBtn.style.backgroundColor = "initial";
+      closeBtn.style.backgroundColor = "#5a5e6d";
     });
 
     closeBtn.addEventListener("click", () => {
       openChat.style.display = "none";
       closeChat.style.display = "block";
       closeBtn.style.backgroundColor = "#708d3f";
-      openBtn.style.backgroundColor = "initial";
+      openBtn.style.backgroundColor = "#5a5e6d";
     });
 
   },
