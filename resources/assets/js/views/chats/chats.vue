@@ -30,6 +30,10 @@
                   <div class="g-chat-header">
                     <div class="new-chat-open">
                       <i class="bi bi-chat-right-text-fill"></i> <strong>New Chat</strong>
+                      <div class="search-container">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" placeholder="Search...">
+                      </div>
                     </div>
 
                     <div class="g-open-chat-header">
@@ -37,12 +41,22 @@
                         <div class="g-chat-user-profile">
                           <img src="https://picsum.photos/50/50" alt="">
                           <div class="g-chat-u-name">
-                            <strong class="mb-0">Alkarim Hasan</strong>
-                            <small>015565598345</small>
+                            <div class="g-chat-u-meta">
+                              <strong class="mb-0">Alkarim Hasan</strong>
+                              <small>015565598345</small>
+                            </div>
+                            <div class="g-chat-notes">
+                              <small>2 notes</small>
+                            </div>
                           </div>
                         </div>
 
                         <div class="g-chat-user-property">
+                          <div class="search-container">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" placeholder="Search...">
+                          </div>
+
                         </div>
 
                       </div>
@@ -54,45 +68,71 @@
 
                     <!--      Left List Item-->
                     <div class="g-chat-left">
-                      <ul>
+                      <div id="open-chat">
+                        <ul>
 
-                        <li class="active" data-target="content-1">
-                          <div class="g-left-u-profile">
-                            <div class="g-chat-left-u-image">
-                              <img src="https://picsum.photos/50/50" alt="">
+                          <li class="active" data-target="content-1">
+                            <div class="g-left-u-profile">
+                              <div class="g-chat-left-u-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                              <div class="g-chat-left-u-meta">
+                                <strong class="mb-0">Alkarim Hasan</strong>
+                                <small>015565598345</small>
+                              </div>
                             </div>
-                            <div class="g-chat-left-u-meta">
-                              <strong class="mb-0">Alkarim Hasan</strong>
-                              <small>015565598345</small>
-                            </div>
-                          </div>
-                        </li>
+                          </li>
 
-                        <li data-target="content-2">
-                          <div class="g-left-u-profile">
-                            <div class="g-chat-left-u-image">
-                              <img src="https://picsum.photos/50/50" alt="">
+                          <li data-target="content-2">
+                            <div class="g-left-u-profile">
+                              <div class="g-chat-left-u-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                              <div class="g-chat-left-u-meta">
+                                <strong class="mb-0">Saazia Banu</strong>
+                                <small>015565598345</small>
+                              </div>
                             </div>
-                            <div class="g-chat-left-u-meta">
-                              <strong class="mb-0">Saazia Banu</strong>
-                              <small>015565598345</small>
-                            </div>
-                          </div>
-                        </li>
+                          </li>
 
-                        <li data-target="content-3">
-                          <div class="g-left-u-profile">
-                            <div class="g-chat-left-u-image">
-                              <img src="https://picsum.photos/50/50" alt="">
+                          <li data-target="content-3">
+                            <div class="g-left-u-profile">
+                              <div class="g-chat-left-u-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                              <div class="g-chat-left-u-meta">
+                                <strong class="mb-0">Hasan Masud</strong>
+                                <small>015565598345</small>
+                              </div>
                             </div>
-                            <div class="g-chat-left-u-meta">
-                              <strong class="mb-0">Hasan Masud</strong>
-                              <small>015565598345</small>
-                            </div>
-                          </div>
-                        </li>
+                          </li>
 
-                      </ul>
+                        </ul>
+                      </div>
+                      <div id="close-chat">
+                        <ul>
+
+                          <li class="active" data-target="content-1">
+                            <div class="g-left-u-profile">
+                              <div class="g-chat-left-u-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                              <div class="g-chat-left-u-meta">
+                                <strong class="mb-0">Alkarim Hasan</strong>
+                                <small>015565598345</small>
+                              </div>
+                            </div>
+                          </li>
+
+
+                        </ul>
+                      </div>
+
+
+                      <div class="g-button-group">
+                        <button id="open-btn" class="btn btn-sm btn-block">Open</button>
+                        <button id="close-btn" class="btn btn-sm btn-block">Close</button>
+                      </div>
                     </div>
 
                     <!--Right Chat Area-->
@@ -103,9 +143,6 @@
                         <div id="content-1" class="content active">
 
                           <div class="g-chat-main">
-                            <div class="g-chat-single-data">
-
-                            </div>
                             <div class="text-center">
                               <small class="text-white">
                                 Feb 22, 2023
@@ -122,8 +159,11 @@
                             </div>
                             <div class="chat-msg-content msg-other">
                               <div class="chat-msg">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                                consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                                autem
+                                commodi
+                                consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                                fugiat
                                 harum
                                 hic,
                                 <time datetime="6:00">6:00 pm</time>
@@ -152,8 +192,10 @@
                           </div>
                           <div class="chat-msg-content msg-other">
                             <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                              autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                              fugiat
                               harum
                               hic,
                               <time datetime="6:00">6:00 pm</time>
@@ -164,8 +206,10 @@
                           </div>
                           <div class="chat-msg-content msg-other">
                             <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                              autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                              fugiat
                               harum
                               hic,
                               <time datetime="6:00">6:00 pm</time>
@@ -194,8 +238,10 @@
                           </div>
                           <div class="chat-msg-content msg-other">
                             <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                              autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                              fugiat
                               harum
                               hic,
                               <time datetime="6:00">6:00 pm</time>
@@ -206,8 +252,10 @@
                           </div>
                           <div class="chat-msg-content msg-other">
                             <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                              autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                              fugiat
                               harum
                               hic,
                               <time datetime="6:00">6:00 pm</time>
@@ -234,8 +282,10 @@
                           </div>
                           <div class="chat-msg-content msg-other">
                             <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
+                              autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
+                              fugiat
                               harum
                               hic,
                               <time datetime="6:00">6:00 pm</time>
@@ -266,10 +316,13 @@
 
                           <div class="g-chat-message-bottom">
                             <div class="g-chat-attachment">
-                              <label for="attachment">
-                                <input type="file" name="" id="attachment">
-                                <i class="bi bi-paperclip"></i>
-                              </label>
+                              <select id="template" name="template" class="form-control form-control-sm">
+                                <option selected>Choose Template</option>
+                                <option value="volvo">I will be back</option>
+                                <option value="saab">Good Morning!</option>
+                                <option value="fiat">When you will be free.</option>
+                                <option value="audi">Looking for a schedule meeting.</option>
+                              </select>
                             </div>
 
                             <button class="btn btn-secondary btn-sm">SEND</button>
@@ -325,6 +378,7 @@
 
 
                 </div>
+
               </div>
             </div>
 
@@ -341,8 +395,6 @@
 
 <style lang="scss" scoped>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
-
-
 
 /*============================
      CrossBrowser ScrollBar
@@ -381,16 +433,17 @@
 }
 
 .new-chat-open {
-  width: 295px;
+  width: 25%;
   background-color: darken(#fafafa, 5%);
   color: #484848;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
   padding: 0.3rem;
   border-right: 1px solid darken(#fafafa, 15%);
   border-bottom: 1px solid #f8f8f8;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .g-open-chat-header {
@@ -421,9 +474,9 @@
 
 .g-chat-u-name {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
+  gap: 5px;
 
   strong {
     line-height: 1.4;
@@ -433,6 +486,84 @@
   small {
     line-height: 1;
   }
+}
+
+.g-chat-u-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.g-chat-notes {
+  small {
+    background-color: #718e3f;
+    color: #ffffff;
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    line-height: 1;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      background-color: darken(#718e3f, 10%);
+    }
+  }
+
+}
+
+.g-chat-user-property {
+  margin-left: auto;
+  margin-right: 25%;
+}
+
+
+/*============================
+         Search
+  ============================*/
+.search-container {
+  position: relative;
+  margin-left: auto;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-container input[type="text"] {
+  width: 0;
+  max-width: 0;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  background-color: transparent;
+}
+
+.search-container input[type="text"]:focus {
+  outline: none;
+  border-bottom: 2px solid #708d3f;
+}
+
+.search-container.active .search-icon {
+  left: 10px;
+  color: #708d3f;
+}
+
+.search-container.active input[type="text"] {
+  max-width: 150px;
+  width: 100%;
+  margin-left: 10px;
 }
 
 
@@ -446,14 +577,15 @@
 .g-chat-left {
   width: 232px;
   background-color: #444753;
-  height: 63vh;
   flex-basis: 20%;
+  position: relative;
 
   ul {
     margin: 0;
     padding: 0;
     list-style: none;
-    height: 100%;
+    height: calc(100% - 30px);
+    overflow-y: auto;
   }
 
   ul li {
@@ -476,6 +608,26 @@
         color: inherit;
       }
     }
+  }
+}
+
+.g-button-group {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background-color: #888888;
+
+  button {
+    color: #ffffff;
+    width: 100%;
+  }
+
+  button#open-btn {
+    background-color: #718e3f;
   }
 }
 
@@ -558,12 +710,14 @@
   gap: 0.5rem;
   align-items: flex-end;
   margin-bottom: 1rem;
+  justify-content: flex-end;
 
   .chat-msg {
     background-color: #fbfbfb;
     border-radius: 0.3rem;
     padding: 0.5rem;
     position: relative;
+    max-width: 86%;
 
     time {
       font-size: 12px;
@@ -597,6 +751,7 @@
       background-color: lighten(darkolivegreen, 10%);
       color: #ffffff;
       clear: both;
+      max-width: 86%;
 
       time {
         font-size: 12px;
@@ -614,6 +769,10 @@
   background-color: #ffffff;
   padding: 0.5rem;
   border-radius: 5px;
+  top: 0.5rem;
+  position: relative;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
 }
 
 .g-chat-message-bottom {
@@ -646,10 +805,16 @@
 .g-chat-right {
   background-color: #eaeaea;
   flex-basis: 20%;
-  min-height: 63vh;
-  height: 100%;
 }
 
+
+#open-chat, #close-chat {
+  display: none;
+}
+
+#open-chat {
+  display: block;
+}
 
 </style>
 
@@ -681,6 +846,13 @@ export default {
     const contentItems = document.querySelectorAll('.g-chat .content');
     // Get all the td elements
     const tds = document.querySelectorAll('td');
+    const searchIcons = document.querySelectorAll('.search-icon');
+    // For Toggle Hide And Show
+    // Get the button and div elements
+    const openBtn = document.getElementById("open-btn");
+    const closeBtn = document.getElementById("close-btn");
+    const openChat = document.getElementById("open-chat");
+    const closeChat = document.getElementById("close-chat");
 
     leftItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -718,6 +890,29 @@ export default {
         });
       }
     });
+
+    searchIcons.forEach(function (searchIcon) {
+      searchIcon.addEventListener('click', function () {
+        const searchContainer = searchIcon.parentElement;
+        searchContainer.classList.toggle('active');
+      });
+    });
+
+    // Add click event listeners to the buttons
+    openBtn.addEventListener("click", () => {
+      openChat.style.display = "block";
+      closeChat.style.display = "none";
+      openBtn.style.backgroundColor = "#708d3f";
+      closeBtn.style.backgroundColor = "initial";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      openChat.style.display = "none";
+      closeChat.style.display = "block";
+      closeBtn.style.backgroundColor = "#708d3f";
+      openBtn.style.backgroundColor = "initial";
+    });
+
   },
   methods: {
     chatsView() {
