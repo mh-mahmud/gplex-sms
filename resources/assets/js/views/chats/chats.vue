@@ -1,64 +1,737 @@
 <template>
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
-        <js-plugin :js-plugin="data.js_plugin"></js-plugin>
-        <!-- BreadCrumb	-->
-        <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
-        <div class="m-content">
-            <div class="m-portlet m-portlet--mobile">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text"> 
-                                Chats: New Window
-                            </h3>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="m-portlet__body">                    
-                    <!--begin: Datatable -->
-                    <div id="m_table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                Hello
-                            </div>
-                            <div class="col-lg-6">
-                                World
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="m-grid__item m-grid__item--fluid m-wrapper">
+    <js-plugin :js-plugin="data.js_plugin"></js-plugin>
+    <!-- BreadCrumb	-->
+    <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
+    <div class="m-content">
+      <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__head">
+          <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+              <h3 class="m-portlet__head-text">
+                Chats: New Window
+              </h3>
             </div>
-            <!-- END EXAMPLE TABLE PORTLET-->		        
+          </div>
+
         </div>
+        <div class="m-portlet__body">
+          <!--begin: Datatable -->
+          <div id="m_table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+
+            <!--**********************************
+                          New Chat Window
+             ***********************************-->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="g-chat-area">
+
+                  <div class="g-chat-header">
+                    <div class="new-chat-open">
+                      <i class="bi bi-chat-right-text-fill"></i> <strong>New Chat</strong>
+                    </div>
+
+                    <div class="g-open-chat-header">
+                      <div class="g-open-chat-h-main">
+                        <div class="g-chat-user-profile">
+                          <img src="https://picsum.photos/50/50" alt="">
+                          <div class="g-chat-u-name">
+                            <strong class="mb-0">Alkarim Hasan</strong>
+                            <small>015565598345</small>
+                          </div>
+                        </div>
+
+                        <div class="g-chat-user-property">
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="g-chat-body">
+
+                    <!--      Left List Item-->
+                    <div class="g-chat-left">
+                      <ul>
+
+                        <li class="active" data-target="content-1">
+                          <div class="g-left-u-profile">
+                            <div class="g-chat-left-u-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                            <div class="g-chat-left-u-meta">
+                              <strong class="mb-0">Alkarim Hasan</strong>
+                              <small>015565598345</small>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li data-target="content-2">
+                          <div class="g-left-u-profile">
+                            <div class="g-chat-left-u-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                            <div class="g-chat-left-u-meta">
+                              <strong class="mb-0">Saazia Banu</strong>
+                              <small>015565598345</small>
+                            </div>
+                          </div>
+                        </li>
+
+                        <li data-target="content-3">
+                          <div class="g-left-u-profile">
+                            <div class="g-chat-left-u-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                            <div class="g-chat-left-u-meta">
+                              <strong class="mb-0">Hasan Masud</strong>
+                              <small>015565598345</small>
+                            </div>
+                          </div>
+                        </li>
+
+                      </ul>
+                    </div>
+
+                    <!--Right Chat Area-->
+                    <div class="g-chat">
+
+                      <div class="g-chat-history" id="g-chat-history">
+
+                        <div id="content-1" class="content active">
+
+                          <div class="g-chat-main">
+                            <div class="g-chat-single-data">
+
+                            </div>
+                            <div class="text-center">
+                              <small class="text-white">
+                                Feb 22, 2023
+                              </small>
+                            </div>
+                            <div class="chat-msg-content">
+                              <div class="chat-msg">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                <time datetime="6:00">6:00 pm</time>
+                              </div>
+                              <div class="chat-msg-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                            </div>
+                            <div class="chat-msg-content msg-other">
+                              <div class="chat-msg">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                                consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                                harum
+                                hic,
+                                <time datetime="6:00">6:00 pm</time>
+                              </div>
+                              <div class="chat-msg-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div id="content-2" class="content">
+                          <div class="text-center">
+                            <small class="text-white">
+                              Feb 22, 2023
+                            </small>
+                          </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content msg-other">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              harum
+                              hic,
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content msg-other">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              harum
+                              hic,
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content msg-other">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              harum
+                              hic,
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content msg-other">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              harum
+                              hic,
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                        </div>
+                        <div id="content-3" class="content">
+                          <div class="text-center">
+                            <small class="text-white">
+                              Feb 22, 2023
+                            </small>
+                          </div>
+                          <div class="chat-msg-content msg-other">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda autem commodi
+                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere fugiat
+                              harum
+                              hic,
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                          <div class="chat-msg-content">
+                            <div class="chat-msg">
+                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                              <time datetime="6:00">6:00 pm</time>
+                            </div>
+                            <div class="chat-msg-image">
+                              <img src="https://picsum.photos/50/50" alt="">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="g-chat-message">
+                        <form action="">
+                          <label for="s-msg" class="w-100">
+                  <textarea class="form-control" name="" cols="30" rows="2" placeholder="Write...."
+                            id="s-msg"></textarea>
+                          </label>
+
+                          <div class="g-chat-message-bottom">
+                            <div class="g-chat-attachment">
+                              <label for="attachment">
+                                <input type="file" name="" id="attachment">
+                                <i class="bi bi-paperclip"></i>
+                              </label>
+                            </div>
+
+                            <button class="btn btn-secondary btn-sm">SEND</button>
+                          </div>
+                        </form>
+
+                      </div>
+
+
+                    </div>
+
+
+                    <div class="g-chat-right">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-sm table-striped">
+                          <thead>
+                          <tr class="text-center">
+                            <th colspan="3">Contact Details</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td><small>First Name</small></td>
+                            <td><small>Momin Riyadh</small></td>
+                            <td><small class="bi bi-pencil-square"></small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Last Name</small></td>
+                            <td><small>Support</small></td>
+                            <td><small class="bi bi-pencil-square"></small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Email</small></td>
+                            <td><small>email@email.com</small></td>
+                            <td><small class="bi bi-pencil-square"></small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Company</small></td>
+                            <td><small>GSL</small></td>
+                            <td><small class="bi bi-pencil-square"></small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Country</small></td>
+                            <td><small>United States</small></td>
+                            <td><small class="bi bi-pencil-square"></small></td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+
+
+            <!--            End Chat Window-->
+
+          </div>
+        </div>
+      </div>
+      <!-- END EXAMPLE TABLE PORTLET-->
     </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
+
+
+/*============================
+     CrossBrowser ScrollBar
+  ============================*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(112, 141, 63, 0.5), rgba(0, 0, 0, 0.099);
+}
+
+::-webkit-scrollbar {
+  width: 5px; /* for vertical scrollbars */
+  height: auto; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.099);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(112, 141, 63, 0.5);
+  border-radius: 30px;
+}
+
+
+/*============================
+         New Chat Area
+  ============================*/
+.g-chat-area {
+  min-height: 65vh;
+  background-color: #fafafa;
+}
+
+.g-chat-header {
+  display: flex;
+  height: 45px;
+}
+
+.new-chat-open {
+  width: 295px;
+  background-color: darken(#fafafa, 5%);
+  color: #484848;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem;
+  border-right: 1px solid darken(#fafafa, 15%);
+  border-bottom: 1px solid #f8f8f8;
+  font-size: 13px;
+}
+
+.g-open-chat-header {
+  background-color: darken(#fafafa, 5%);
+  flex-grow: 1;
+  width: 100%;
+}
+
+.g-open-chat-h-main {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 0.3rem;;
+}
+
+.g-chat-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+
+  img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+  }
+}
+
+.g-chat-u-name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  strong {
+    line-height: 1.4;
+    font-size: 13px;
+  }
+
+  small {
+    line-height: 1;
+  }
+}
+
+
+/*============================
+        Chat Body
+  ============================*/
+.g-chat-body {
+  display: flex;
+}
+
+.g-chat-left {
+  width: 232px;
+  background-color: #444753;
+  height: 63vh;
+  flex-basis: 20%;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+  }
+
+  ul li {
+    cursor: pointer;
+    padding: 0.3rem;
+    display: block;
+    transition: all 0.4s ease-in-out;
+    color: darken(#ffffff, 25%);
+
+    &:hover {
+      background-color: #555555;
+      color: #ffffff;
+    }
+
+    &.active {
+      background-color: #b39240;
+      color: #ffffff;
+
+      &:hover {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.g-chat {
+  flex: 2;
+  width: 100%;
+  background-color: darkolivegreen;
+  padding: 1rem;
+}
+
+
+.content {
+  transition: all 0.4s ease;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.content.active {
+  transition: all 0.4s ease;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/*============================
+         Left List Item
+  ============================*/
+.g-left-u-profile {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  height: 40px;
+}
+
+.g-chat-left-u-image {
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    -o-object-fit: cover;
+  }
+}
+
+.g-chat-left-u-meta {
+  display: flex;
+  flex-direction: column;
+
+  strong {
+    line-height: 1.2;
+    font-size: 0.9rem;
+  }
+
+  small {
+    line-height: 1;
+  }
+}
+
+
+/*============================
+         Main Chat Format
+  ============================*/
+.g-chat {
+
+}
+
+.g-chat-history {
+  width: auto;
+  margin: auto auto 0.5rem;
+  height: 44vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+
+.chat-msg-content {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+
+  .chat-msg {
+    background-color: #fbfbfb;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    position: relative;
+
+    time {
+      font-size: 12px;
+      display: block;
+      float: right;
+      width: 100%;
+    }
+  }
+
+  .chat-msg-image {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+
+.chat-msg-content {
+  &.msg-other {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    flex-direction: row-reverse;
+    clear: both;
+    width: 100%;
+
+    & .chat-msg {
+      background-color: lighten(darkolivegreen, 10%);
+      color: #ffffff;
+      clear: both;
+
+      time {
+        font-size: 12px;
+        display: block;
+        width: 100%;
+        float: right;
+        clear: both;
+      }
+    }
+  }
+}
+
+
+.g-chat-message {
+  background-color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.g-chat-message-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.g-chat-attachment {
+  label > input[type=file] {
+    visibility: hidden;
+    width: 0;
+  }
+
+  i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #718e3f;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.2rem;
+  }
+}
+
+
+/*============================
+        Chat Right Parts
+  ============================*/
+.g-chat-right {
+  background-color: #eaeaea;
+  flex-basis: 20%;
+  min-height: 63vh;
+  height: 100%;
+}
+
+
+</style>
 
 <script>
 import AppComponent from '../../components/AppComponent'
+
 export default {
-    extends: AppComponent,
-    data() {
-        return {
-            data:{}
-        };
+  extends: AppComponent,
+  data() {
+    return {
+      data: {},
+      items: [
+        {id: 1, title: 'Item 1', target: 'content1'},
+        {id: 2, title: 'Item 2', target: 'content2'},
+        {id: 3, title: 'Item 3', target: 'content3'},
+      ],
+      contents: [
+        {id: 'content1', text: 'Content 1'},
+        {id: 'content2', text: 'Content 2'},
+        {id: 'content3', text: 'Content 3'},
+      ],
+    };
+  },
+  mounted() {
+    this.chatsView();
+    this.bindCurrentRoute("Chats");
+
+    const leftItems = document.querySelectorAll('.g-chat-left li');
+    const contentItems = document.querySelectorAll('.g-chat .content');
+    // Get all the td elements
+    const tds = document.querySelectorAll('td');
+
+    leftItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Remove active class from all list items
+        leftItems.forEach(item => item.classList.remove('active'));
+
+        // Add active class to clicked item
+        item.classList.add('active');
+
+        // Show corresponding content item and hide others
+        contentItems.forEach(content => {
+          if (content.id === item.dataset.target) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    tds.forEach((td) => {
+      // Check if it's the last or third td
+      if (td === td.parentNode.lastElementChild || td === td.parentNode.children[2]) {
+        //Cursor Pointer Style
+        td.style.cursor = 'pointer'
+
+        // Add a click event listener
+        td.addEventListener('click', () => {
+          // Get the second td element
+          const secondTd = td.parentNode.children[1];
+
+          // Make it contenteditable
+          secondTd.contentEditable = true;
+          secondTd.focus();
+        });
+      }
+    });
+  },
+  methods: {
+    chatsView() {
+      var url = 'api/chats';
+      axios.get(url).then((res) => {
+        this.data = res.data;
+        this.$setDocumentTitle(this.data.title);
+      })
+          .catch(function (error) {
+            console.log(error.response);
+          });
     },
-    mounted(){              
-        this.chatsView();         
-        this.bindCurrentRoute("Chats");
-    },
-    methods: {
-        chatsView(){
-            var url = 'api/chats';
-            axios.get(url).then((res) => 
-            { 
-                this.data = res.data;
-                this.$setDocumentTitle(this.data.title);
-            })
-            .catch(function (error) {
-                console.log(error.response);
-            });
-        },
-    }
+  }
 };
+
+
 </script>
