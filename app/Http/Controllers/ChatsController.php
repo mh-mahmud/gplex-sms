@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UsersService;
 use App\Services\LogService;
+use App\Services\ChatsService;
 use Auth;
 use Session;
 
 class ChatsController extends AppController
 {
     public $Service;
+    public $ChatsService;
     /**
      * Create a new controller instance.
      *
@@ -23,6 +25,7 @@ class ChatsController extends AppController
         $this->account_id = Auth::user() ? Auth::user()->account_id : '';
         $this->Service = new UsersService();
         $this->LogService = new LogService();
+        $this->ChatsService = new ChatsService();
     }
 
     /**
@@ -46,7 +49,7 @@ class ChatsController extends AppController
         get chats data
     */
     public function getChatsData()
-    {         
+    {
         $authUser = Session::get('loginUser'); 
         $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_BOOTBOX"]);
         $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
@@ -70,6 +73,7 @@ class ChatsController extends AppController
         $layoutData['outboundLog'] = $this->LogService->getLogOutboundSummary($this->account_id);
         $layoutData['accountInfo'] = $this->Service->getAccountInfo($this->account_id);        
         $layoutData['smsInfo'] = $this->LogService->getSmsInfo($this->account_id);
+        $layoutData['templateInfoNew'] = $this->ChatsService->getTemplateList($this->account_id);
         
         // Return collection of list as a reosurce
         return response()->json($layoutData);   

@@ -1,7 +1,7 @@
 <template>
   <div class="m-grid__item m-grid__item--fluid m-wrapper">
     <js-plugin :js-plugin="data.js_plugin"></js-plugin>
-    <!-- BreadCrumb	-->
+    <!-- BreadCrumb -->
     <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
     <div class="m-content">
       <div class="m-portlet m-portlet--mobile">
@@ -310,19 +310,27 @@
                       <div class="g-chat-message">
                         <form action="">
                           <label for="s-msg" class="w-100">
-                  <textarea class="form-control" name="" cols="30" rows="2" placeholder="Write...."
-                            id="s-msg"></textarea>
+                            <textarea class="form-control" name="" cols="30" rows="2" placeholder="Write...." id="s-msg"></textarea>
                           </label>
 
                           <div class="g-chat-message-bottom">
                             <div class="g-chat-attachment">
-                              <select id="template" name="template" class="form-control form-control-sm">
+                              <!-- <select id="template" name="template" class="form-control form-control-sm">
                                 <option selected>Choose Template</option>
                                 <option value="volvo">I will be back</option>
                                 <option value="saab">Good Morning!</option>
                                 <option value="fiat">When you will be free.</option>
                                 <option value="audi">Looking for a schedule meeting.</option>
+                              </select> -->
+
+                              <select id="template" name="template" class="form-control form-control-sm">
+                                    <option selected>Choose Template</option>
+                                    <option v-for="(value,key) in templateData" 
+                                       :value="value.message">
+                                       {{value.name}}
+                                    </option>
                               </select>
+
                             </div>
 
                             <button class="btn btn-secondary btn-sm">SEND</button>
@@ -394,427 +402,427 @@
 </template>
 
 <style lang="scss" scoped>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 
-/*============================
-     CrossBrowser ScrollBar
-  ============================*/
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(112, 141, 63, 0.5), rgba(0, 0, 0, 0.099);
-}
-
-::-webkit-scrollbar {
-  width: 5px; /* for vertical scrollbars */
-  height: auto; /* for horizontal scrollbars */
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.099);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(112, 141, 63, 0.5);
-  border-radius: 30px;
-}
-
-
-/*============================
-         New Chat Area
-  ============================*/
-.g-chat-area {
-  min-height: 65vh;
-  background-color: #fafafa;
-}
-
-.g-chat-header {
-  display: flex;
-  height: 45px;
-}
-
-.new-chat-open {
-  width: 25%;
-  background-color: darken(#fafafa, 5%);
-  color: #484848;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem;
-  border-right: 1px solid darken(#fafafa, 15%);
-  border-bottom: 1px solid #f8f8f8;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.g-open-chat-header {
-  background-color: darken(#fafafa, 5%);
-  flex-grow: 1;
-  width: 100%;
-}
-
-.g-open-chat-h-main {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 0.3rem;;
-}
-
-.g-chat-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 100%;
-
-  img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-  }
-}
-
-.g-chat-u-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-
-  strong {
-    line-height: 1.4;
-    font-size: 13px;
-  }
-
-  small {
-    line-height: 1;
-  }
-}
-
-.g-chat-u-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.g-chat-notes {
-  small {
-    background-color: #718e3f;
-    color: #ffffff;
-    padding: 0.2rem;
-    border-radius: 0.5rem;
-    line-height: 1;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.4s ease-in-out;
-
-    &:hover {
-      background-color: darken(#718e3f, 10%);
-    }
-  }
-
-}
-
-.g-chat-user-property {
-  margin-left: auto;
-  margin-right: 25%;
-}
-
-
-/*============================
-         Search
-  ============================*/
-.search-container {
-  position: relative;
-  margin-left: auto;
-}
-
-.search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.search-container input[type="text"] {
-  width: 0;
-  max-width: 0;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
-  background-color: transparent;
-}
-
-.search-container input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #708d3f;
-}
-
-.search-container.active .search-icon {
-  left: 10px;
-  color: #708d3f;
-}
-
-.search-container.active input[type="text"] {
-  max-width: 150px;
-  width: 100%;
-  margin-left: 10px;
-}
-
-
-/*============================
-        Chat Body
-  ============================*/
-.g-chat-body {
-  display: flex;
-}
-
-.g-chat-left {
-  width: 232px;
-  background-color: #444753;
-  flex-basis: 20%;
-  position: relative;
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: calc(100% - 30px);
-    overflow-y: auto;
-  }
-
-  ul li {
-    cursor: pointer;
-    padding: 0.3rem;
-    display: block;
-    transition: all 0.4s ease-in-out;
-    color: darken(#ffffff, 25%);
-
-    &:hover {
-      background-color: #555555;
-      color: #ffffff;
+    /*============================
+         CrossBrowser ScrollBar
+      ============================*/
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(112, 141, 63, 0.5), rgba(0, 0, 0, 0.099);
     }
 
-    &.active {
-      background-color: #b39240;
-      color: #ffffff;
-
-      &:hover {
-        color: inherit;
-      }
+    ::-webkit-scrollbar {
+      width: 5px; /* for vertical scrollbars */
+      height: auto; /* for horizontal scrollbars */
     }
-  }
-}
 
-.g-button-group {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.099);
+    }
 
-  button {
-    width: 100%;
-    background-color: #646879;
-    color:#ffffff;
-  }
-
-  button#open-btn {
-    background-color: #718e3f;
-  }
-}
-
-.g-chat {
-  flex: 2;
-  width: 100%;
-  background-color: darkolivegreen;
-  padding: 1rem;
-}
+    ::-webkit-scrollbar-thumb {
+      background: rgba(112, 141, 63, 0.5);
+      border-radius: 30px;
+    }
 
 
-.content {
-  transition: all 0.4s ease;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-}
+    /*============================
+             New Chat Area
+      ============================*/
+    .g-chat-area {
+      min-height: 65vh;
+      background-color: #fafafa;
+    }
 
-.content.active {
-  transition: all 0.4s ease;
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
+    .g-chat-header {
+      display: flex;
+      height: 45px;
+    }
 
+    .new-chat-open {
+      width: 25%;
+      background-color: darken(#fafafa, 5%);
+      color: #484848;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem;
+      border-right: 1px solid darken(#fafafa, 15%);
+      border-bottom: 1px solid #f8f8f8;
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-/*============================
-         Left List Item
-  ============================*/
-.g-left-u-profile {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  height: 40px;
-}
-
-.g-chat-left-u-image {
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    -o-object-fit: cover;
-  }
-}
-
-.g-chat-left-u-meta {
-  display: flex;
-  flex-direction: column;
-
-  strong {
-    line-height: 1.2;
-    font-size: 0.9rem;
-  }
-
-  small {
-    line-height: 1;
-  }
-}
-
-
-/*============================
-         Main Chat Format
-  ============================*/
-.g-chat {
-
-}
-
-.g-chat-history {
-  width: auto;
-  margin: auto auto 0.5rem;
-  height: 44vh;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-
-.chat-msg-content {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-  justify-content: flex-end;
-
-  .chat-msg {
-    background-color: #fbfbfb;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    position: relative;
-    max-width: 86%;
-
-    time {
-      font-size: 12px;
-      display: block;
-      float: right;
+    .g-open-chat-header {
+      background-color: darken(#fafafa, 5%);
+      flex-grow: 1;
       width: 100%;
     }
-  }
 
-  .chat-msg-image {
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
+    .g-open-chat-h-main {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 0.3rem;;
     }
-  }
-}
 
-.chat-msg-content {
-  &.msg-other {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-    flex-direction: row-reverse;
-    clear: both;
-    width: 100%;
+    .g-chat-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 100%;
 
-    & .chat-msg {
-      background-color: lighten(darkolivegreen, 10%);
-      color: #ffffff;
-      clear: both;
-      max-width: 86%;
-
-      time {
-        font-size: 12px;
-        display: block;
-        width: 100%;
-        float: right;
-        clear: both;
+      img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
       }
     }
-  }
-}
+
+    .g-chat-u-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      strong {
+        line-height: 1.4;
+        font-size: 13px;
+      }
+
+      small {
+        line-height: 1;
+      }
+    }
+
+    .g-chat-u-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .g-chat-notes {
+      small {
+        background-color: #718e3f;
+        color: #ffffff;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+          background-color: darken(#718e3f, 10%);
+        }
+      }
+
+    }
+
+    .g-chat-user-property {
+      margin-left: auto;
+      margin-right: 25%;
+    }
 
 
-.g-chat-message {
-  background-color: #ffffff;
-  padding: 0.5rem;
-  border-radius: 5px;
-  top: 0.5rem;
-  position: relative;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-}
+    /*============================
+             Search
+      ============================*/
+    .search-container {
+      position: relative;
+      margin-left: auto;
+    }
 
-.g-chat-message-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
-}
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-.g-chat-attachment {
-  label > input[type=file] {
-    visibility: hidden;
-    width: 0;
-  }
+    .search-container input[type="text"] {
+      width: 0;
+      max-width: 0;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      background-color: transparent;
+    }
 
-  i {
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #718e3f;
-    font-weight: bold;
-    display: inline-block;
-    padding: 0.2rem;
-  }
-}
+    .search-container input[type="text"]:focus {
+      outline: none;
+      border-bottom: 2px solid #708d3f;
+    }
+
+    .search-container.active .search-icon {
+      left: 10px;
+      color: #708d3f;
+    }
+
+    .search-container.active input[type="text"] {
+      max-width: 150px;
+      width: 100%;
+      margin-left: 10px;
+    }
 
 
-/*============================
-        Chat Right Parts
-  ============================*/
-.g-chat-right {
-  background-color: #eaeaea;
-  flex-basis: 20%;
-}
+    /*============================
+            Chat Body
+      ============================*/
+    .g-chat-body {
+      display: flex;
+    }
+
+    .g-chat-left {
+      width: 232px;
+      background-color: #444753;
+      flex-basis: 20%;
+      position: relative;
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: calc(100% - 30px);
+        overflow-y: auto;
+      }
+
+      ul li {
+        cursor: pointer;
+        padding: 0.3rem;
+        display: block;
+        transition: all 0.4s ease-in-out;
+        color: darken(#ffffff, 25%);
+
+        &:hover {
+          background-color: #555555;
+          color: #ffffff;
+        }
+
+        &.active {
+          background-color: #b39240;
+          color: #ffffff;
+
+          &:hover {
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    .g-button-group {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+
+      button {
+        width: 100%;
+        background-color: #646879;
+        color:#ffffff;
+      }
+
+      button#open-btn {
+        background-color: #718e3f;
+      }
+    }
+
+    .g-chat {
+      flex: 2;
+      width: 100%;
+      background-color: darkolivegreen;
+      padding: 1rem;
+    }
 
 
-#open-chat, #close-chat {
-  display: none;
-}
+    .content {
+      transition: all 0.4s ease;
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+    }
 
-#open-chat {
-  display: block;
-}
+    .content.active {
+      transition: all 0.4s ease;
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+
+    /*============================
+             Left List Item
+      ============================*/
+    .g-left-u-profile {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      height: 40px;
+    }
+
+    .g-chat-left-u-image {
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        -o-object-fit: cover;
+      }
+    }
+
+    .g-chat-left-u-meta {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        line-height: 1.2;
+        font-size: 0.9rem;
+      }
+
+      small {
+        line-height: 1;
+      }
+    }
+
+
+    /*============================
+             Main Chat Format
+      ============================*/
+    .g-chat {
+
+    }
+
+    .g-chat-history {
+      width: auto;
+      margin: auto auto 0.5rem;
+      height: 44vh;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+
+    .chat-msg-content {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+
+      .chat-msg {
+        background-color: #fbfbfb;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        position: relative;
+        max-width: 86%;
+
+        time {
+          font-size: 12px;
+          display: block;
+          float: right;
+          width: 100%;
+        }
+      }
+
+      .chat-msg-image {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .chat-msg-content {
+      &.msg-other {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        flex-direction: row-reverse;
+        clear: both;
+        width: 100%;
+
+        & .chat-msg {
+          background-color: lighten(darkolivegreen, 10%);
+          color: #ffffff;
+          clear: both;
+          max-width: 86%;
+
+          time {
+            font-size: 12px;
+            display: block;
+            width: 100%;
+            float: right;
+            clear: both;
+          }
+        }
+      }
+    }
+
+
+    .g-chat-message {
+      background-color: #ffffff;
+      padding: 0.5rem;
+      border-radius: 5px;
+      top: 0.5rem;
+      position: relative;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+    }
+
+    .g-chat-message-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .g-chat-attachment {
+      label > input[type=file] {
+        visibility: hidden;
+        width: 0;
+      }
+
+      i {
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #718e3f;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0.2rem;
+      }
+    }
+
+
+    /*============================
+            Chat Right Parts
+      ============================*/
+    .g-chat-right {
+      background-color: #eaeaea;
+      flex-basis: 20%;
+    }
+
+
+    #open-chat, #close-chat {
+      display: none;
+    }
+
+    #open-chat {
+      display: block;
+    }
 
 </style>
 
@@ -826,6 +834,7 @@ export default {
   data() {
     return {
       data: {},
+      templateData: {},
       items: [
         {id: 1, title: 'Item 1', target: 'content1'},
         {id: 2, title: 'Item 2', target: 'content2'},
@@ -919,6 +928,8 @@ export default {
       var url = 'api/chats';
       axios.get(url).then((res) => {
         this.data = res.data;
+        this.templateData = res.data.templateInfoNew;
+        console.log(this.templateData);
         this.$setDocumentTitle(this.data.title);
       })
           .catch(function (error) {
