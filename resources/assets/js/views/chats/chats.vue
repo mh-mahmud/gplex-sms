@@ -71,55 +71,35 @@
                       <div id="open-chat">
                         <ul>
 
-                          <li class="active" data-target="content-1">
+                          <li v-for="(item, key) in openData" :data-target="'content-'+key" v-on:click="greet(item)">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
                                 <img src="https://picsum.photos/50/50" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">Alkarim Hasan</strong>
-                                <small>015565598345</small>
+                                <strong class="mb-0">{{ item.first_name }} {{ item.last_name }}</strong>
+                                <small>{{ item.phone }}</small>
                               </div>
                             </div>
                           </li>
 
-                          <li data-target="content-2">
-                            <div class="g-left-u-profile">
-                              <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
-                              </div>
-                              <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">Saazia Banu</strong>
-                                <small>015565598345</small>
-                              </div>
-                            </div>
-                          </li>
 
-                          <li data-target="content-3">
-                            <div class="g-left-u-profile">
-                              <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
-                              </div>
-                              <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">Hasan Masud</strong>
-                                <small>015565598345</small>
-                              </div>
-                            </div>
-                          </li>
 
                         </ul>
                       </div>
+
+
                       <div id="close-chat">
                         <ul>
 
-                          <li class="active" data-target="content-1">
+                          <li v-for="(item2, key2) in closeData" :data-target="'content-'+key2">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
                                 <img src="https://picsum.photos/50/50" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">Alkarim Hasan</strong>
-                                <small>015565598345</small>
+                                <strong class="mb-0">{{ item2.first_name }} {{ item2.last_name }}</strong>
+                                <small>{{ item2.phone }}</small>
                               </div>
                             </div>
                           </li>
@@ -140,42 +120,9 @@
 
                       <div class="g-chat-history" id="g-chat-history">
 
+
                         <div id="content-1" class="content active">
-
-                          <div class="g-chat-main">
-                            <div class="text-center">
-                              <small class="text-white">
-                                Feb 22, 2023
-                              </small>
-                            </div>
-                            <div class="chat-msg-content">
-                              <div class="chat-msg">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                <time datetime="6:00">6:00 pm</time>
-                              </div>
-                              <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
-                              </div>
-                            </div>
-                            <div class="chat-msg-content msg-other">
-                              <div class="chat-msg">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                                autem
-                                commodi
-                                consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                                fugiat
-                                harum
-                                hic,
-                                <time datetime="6:00">6:00 pm</time>
-                              </div>
-                              <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
-                              </div>
-                            </div>
-                          </div>
-
-                        </div>
-                        <div id="content-2" class="content">
+                          {{chatInfo}}
                           <div class="text-center">
                             <small class="text-white">
                               Feb 22, 2023
@@ -274,36 +221,8 @@
                             </div>
                           </div>
                         </div>
-                        <div id="content-3" class="content">
-                          <div class="text-center">
-                            <small class="text-white">
-                              Feb 22, 2023
-                            </small>
-                          </div>
-                          <div class="chat-msg-content msg-other">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                              autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                              fugiat
-                              harum
-                              hic,
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                        </div>
+
+
                       </div>
 
 
@@ -315,22 +234,13 @@
 
                           <div class="g-chat-message-bottom">
                             <div class="g-chat-attachment">
-                              <!-- <select id="template" name="template" class="form-control form-control-sm">
-                                <option selected>Choose Template</option>
-                                <option value="volvo">I will be back</option>
-                                <option value="saab">Good Morning!</option>
-                                <option value="fiat">When you will be free.</option>
-                                <option value="audi">Looking for a schedule meeting.</option>
-                              </select> -->
-
-                              <select id="template" name="template" class="form-control form-control-sm">
-                                    <option selected>Choose Template</option>
+                              <select v-model="selectedValue" id="template" name="template" class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
+                                    <option value="" selected>-- Choose Template --</option>
                                     <option v-for="(value,key) in templateData" 
                                        :value="value.message">
                                        {{value.name}}
                                     </option>
                               </select>
-
                             </div>
 
                             <button class="btn btn-secondary btn-sm">SEND</button>
@@ -834,7 +744,11 @@ export default {
   data() {
     return {
       data: {},
+      chatInfo:{},
+      selectedValue : {}, // First option will be selected by default
       templateData: {},
+      openData: {},
+      closeData: {},
       items: [
         {id: 1, title: 'Item 1', target: 'content1'},
         {id: 2, title: 'Item 2', target: 'content2'},
@@ -862,6 +776,7 @@ export default {
     const closeBtn = document.getElementById("close-btn");
     const openChat = document.getElementById("open-chat");
     const closeChat = document.getElementById("close-chat");
+    const selectTemplate = document.getElementById("template");
 
     leftItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -875,8 +790,10 @@ export default {
         contentItems.forEach(content => {
           if (content.id === item.dataset.target) {
             content.classList.add('active');
+            console.log("Hi bro");
           } else {
             content.classList.remove('active');
+            console.log("papana");
           }
         });
       });
@@ -922,6 +839,9 @@ export default {
       openBtn.style.backgroundColor = "#5a5e6d";
     });
 
+
+
+
   },
   methods: {
     chatsView() {
@@ -929,13 +849,36 @@ export default {
       axios.get(url).then((res) => {
         this.data = res.data;
         this.templateData = res.data.templateInfoNew;
-        console.log(this.templateData);
+        this.openData = res.data.openChat;
+        this.closeData = res.data.closeChat;
+        console.log(this.openData);
+        console.log(this.closeData);
         this.$setDocumentTitle(this.data.title);
       })
           .catch(function (error) {
             console.log(error.response);
           });
     },
+
+    onChangeTemplate(event) {
+        console.log(this.selectedValue);
+        const chatBox = document.getElementById("s-msg");
+        chatBox.value = this.selectedValue;
+    },
+
+
+    greet: function (itemInfo) {
+      console.log(itemInfo);
+
+      var url = `api/chat-info/${itemInfo.phone}`;
+      axios.get(url).then((res) => {
+        this.chatInfo = res.data;
+      }).catch(function (error) {
+            console.log(error.response);
+      });
+
+    }
+
   }
 };
 

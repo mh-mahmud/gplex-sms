@@ -71,12 +71,18 @@ class ChatsController extends AppController
         $layoutData['unreadLog'] = $this->LogService->getLogUnreadSummary($this->account_id);
         $layoutData['inboundLog'] = $this->LogService->getLogInboundSummary($this->account_id);
         $layoutData['outboundLog'] = $this->LogService->getLogOutboundSummary($this->account_id);
-        $layoutData['accountInfo'] = $this->Service->getAccountInfo($this->account_id);        
+        $layoutData['accountInfo'] = $this->Service->getAccountInfo($this->account_id);
         $layoutData['smsInfo'] = $this->LogService->getSmsInfo($this->account_id);
         $layoutData['templateInfoNew'] = $this->ChatsService->getTemplateList($this->account_id);
+        $layoutData['openChat'] = $this->ChatsService->getOpenChats($this->account_id);
+        $layoutData['closeChat'] = $this->ChatsService->getCloseChats($this->account_id);
         
         // Return collection of list as a reosurce
         return response()->json($layoutData);   
+    }
+
+    public function chatsByUserId($phone) {
+        return $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
     }
 
     /*
