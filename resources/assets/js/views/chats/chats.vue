@@ -120,108 +120,24 @@
 
                       <div class="g-chat-history" id="g-chat-history">
 
-
-                        <div id="content-1" class="content active">
-                          {{chatInfo}}
-                          <div class="text-center">
-                            <small class="text-white">
-                              Feb 22, 2023
-                            </small>
-                          </div>
-                          <div class="chat-msg-content">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content msg-other">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                              autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                              fugiat
-                              harum
-                              hic,
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content msg-other">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                              autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                              fugiat
-                              harum
-                              hic,
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content msg-other">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                              autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                              fugiat
-                              harum
-                              hic,
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content msg-other">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus animi assumenda
-                              autem commodi
-                              consequatur corporis cumque deleniti deserunt dolore doloremque doloribus ducimus facere
-                              fugiat
-                              harum
-                              hic,
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
-                            </div>
-                          </div>
-                          <div class="chat-msg-content">
-                            <div class="chat-msg">
-                              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                              <time datetime="6:00">6:00 pm</time>
-                            </div>
-                            <div class="chat-msg-image">
-                              <img src="https://picsum.photos/50/50" alt="">
+                        <div id="content-1" class="content active" v-for="msg in chatInfo.data">
+                          <div class="g-chat-main">
+                            <!-- <div class="text-center">
+                              <small class="text-white">
+                                Feb 22, 2023
+                              </small>
+                            </div> -->
+                            <div class="" :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
+                              <div class="chat-msg">
+                                {{msg.sms_text}}
+                                <time datetime="6:00">{{msg.log_time | formatDate("ddd, MMM YY HH:mm A")}}</time>
+                              </div>
+                              <div class="chat-msg-image">
+                                <img src="https://picsum.photos/50/50" alt="">
+                              </div>
                             </div>
                           </div>
                         </div>
-
 
                       </div>
 
