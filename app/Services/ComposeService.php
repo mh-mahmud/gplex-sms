@@ -123,9 +123,9 @@ class ComposeService extends AppService
      */
     public function saveReply($request){
 
-        if(!$this->hasBalance()){
+        /*if(!$this->hasBalance()){
             return $this->processServiceResponse(false, 'Balance is insufficient.Please talk to your management for top-up.',null);
-        }
+        }*/
 
         $authUser = Session::get('loginUser');
         $user_time_zone = $authUser['timezone'];
