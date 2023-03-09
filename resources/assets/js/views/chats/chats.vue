@@ -237,7 +237,7 @@
   ============================*/
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(112, 141, 63, 0.5), rgba(0, 0, 0, 0.099);
+  scrollbar-color: rgba(104, 106, 102, 0.5), rgba(0, 0, 0, 0.099);
 }
 
 ::-webkit-scrollbar {
@@ -250,7 +250,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(115, 144, 66, 0.5);
+  background: rgba(104, 106, 102, 0.5);
   border-radius: 30px;
 }
 
@@ -604,13 +604,14 @@
 
 
 .g-chat-message {
-  background-color: #ffffff;
+  background-color: #f8f8f8;
   padding: 0.5rem;
   border-radius: 5px;
   top: 0.5rem;
   position: relative;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 }
 
 .g-chat-message-bottom {
