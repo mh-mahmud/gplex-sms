@@ -557,7 +557,7 @@
     min-width: 60%;
 
     time {
-      font-size: 12px;
+      font-size: 10px;
       display: block;
       float: right;
       width: 100%;
@@ -592,7 +592,7 @@
 
 
       time {
-        font-size: 12px;
+        font-size: 10px;
         display: block;
         width: 100%;
         float: right;
