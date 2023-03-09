@@ -341,6 +341,7 @@
       }
     }
 
+
     .g-chat-u-meta {
       display: flex;
       flex-direction: column;
@@ -415,6 +416,49 @@
 
     .search-container.active input[type="text"] {
       max-width: 150px;
+=======
+  small {
+    line-height: 1;
+  }
+}
+
+
+/*============================
+         Main Chat Format
+  ============================*/
+.g-chat {
+
+}
+
+.g-chat-history {
+  width: auto;
+  margin: auto auto 0.5rem;
+  height: 44vh;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+
+.chat-msg-content {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+
+  .chat-msg {
+    background-color: #dcdee7;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+    position: relative;
+    max-width: 86%;
+    min-width: 60%;
+
+    time {
+      font-size: 10px;
+      display: block;
+      float: right;
+
       width: 100%;
       margin-left: 10px;
     }
@@ -426,6 +470,7 @@
     .g-chat-body {
       display: flex;
     }
+
 
     .g-chat-left {
       width: 232px;
@@ -444,6 +489,30 @@
       ul li {
         cursor: pointer;
         padding: 0.3rem;
+
+  }
+}
+
+.chat-msg-content {
+  &.msg-other {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    flex-direction: row-reverse;
+    clear: both;
+
+    & .chat-msg {
+      background-color: #e8e8e8;
+      color: #434652;
+      clear: both;
+      max-width: 86%;
+      min-width: 60%;
+
+
+      time {
+        font-size: 10px;
+
         display: block;
         transition: all 0.4s ease-in-out;
         color: darken(#ffffff, 25%);
