@@ -42,12 +42,12 @@
                           <img src="https://picsum.photos/50/50" alt="">
                           <div class="g-chat-u-name">
                             <div class="g-chat-u-meta">
-                              <strong class="mb-0">Alkarim Hasan</strong>
-                              <small>015565598345</small>
+                              <strong class="mb-0">{{chatHeadFirstName}} {{chatHeadLastName}}</strong>
+                              <small>{{chatHeadPhone}}</small>
                             </div>
-                            <div class="g-chat-notes">
+                            <!-- <div class="g-chat-notes">
                               <small>2 notes</small>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -91,7 +91,7 @@
                       <div id="close-chat">
                         <ul>
 
-                          <li v-for="(item2, key2) in closeData" :data-target="'content-'+key2">
+                          <li v-for="(item2, key2) in closeData" :data-target="'content-'+key2" v-on:click="greet(item2)">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
                                 <img src="https://picsum.photos/50/50" alt="">
@@ -162,7 +162,7 @@
                       <div class="g-chat-message">
                         <!-- <form action=""> -->
                           <label for="s-msg" class="w-100">
-                            <textarea class="form-control" name="" cols="30" rows="2" placeholder="Write...."
+                            <textarea class="form-control" name="" cols="30" rows="5" placeholder="Write...."
                                       id="s-msg"></textarea>
                           </label>
 
@@ -341,7 +341,6 @@
       }
     }
 
-
     .g-chat-u-meta {
       display: flex;
       flex-direction: column;
@@ -416,49 +415,6 @@
 
     .search-container.active input[type="text"] {
       max-width: 150px;
-=======
-  small {
-    line-height: 1;
-  }
-}
-
-
-/*============================
-         Main Chat Format
-  ============================*/
-.g-chat {
-
-}
-
-.g-chat-history {
-  width: auto;
-  margin: auto auto 0.5rem;
-  height: 44vh;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-
-.chat-msg-content {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-  justify-content: flex-end;
-
-  .chat-msg {
-    background-color: #dcdee7;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    position: relative;
-    max-width: 86%;
-    min-width: 60%;
-
-    time {
-      font-size: 10px;
-      display: block;
-      float: right;
-
       width: 100%;
       margin-left: 10px;
     }
@@ -470,7 +426,6 @@
     .g-chat-body {
       display: flex;
     }
-
 
     .g-chat-left {
       width: 232px;
@@ -489,30 +444,6 @@
       ul li {
         cursor: pointer;
         padding: 0.3rem;
-
-  }
-}
-
-.chat-msg-content {
-  &.msg-other {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-    flex-direction: row-reverse;
-    clear: both;
-
-    & .chat-msg {
-      background-color: #e8e8e8;
-      color: #434652;
-      clear: both;
-      max-width: 86%;
-      min-width: 60%;
-
-
-      time {
-        font-size: 10px;
-
         display: block;
         transition: all 0.4s ease-in-out;
         color: darken(#ffffff, 25%);
@@ -760,16 +691,10 @@ export default {
       instantSmsData: {},
       scheduleShow: false,
       compose: {to : []},
-      items: [
-        {id: 1, title: 'Item 1', target: 'content1'},
-        {id: 2, title: 'Item 2', target: 'content2'},
-        {id: 3, title: 'Item 3', target: 'content3'},
-      ],
-      contents: [
-        {id: 'content1', text: 'Content 1'},
-        {id: 'content2', text: 'Content 2'},
-        {id: 'content3', text: 'Content 3'},
-      ],
+      chatHeadFirstName: null,
+      chatHeadLastName: null,
+      chatHeadPhone: null,
+      chatBoxMessage: "",
     };
   },
   mounted() {
@@ -788,6 +713,9 @@ export default {
     const openChat = document.getElementById("open-chat");
     const closeChat = document.getElementById("close-chat");
     const selectTemplate = document.getElementById("template");
+
+
+
 
     leftItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -870,20 +798,35 @@ export default {
     },
 
     onChangeTemplate(event) {
-      console.log(this.selectedValue);
+      // console.log(this.selectedValue);
       const chatBox = document.getElementById("s-msg");
       chatBox.value = this.selectedValue;
+      // this.chatBoxMessage = this.selectedValue;
     },
 
 
     greet: function (itemInfo) {
-      console.log(itemInfo);
+      //console.log(itemInfo);
+      this.chatHeadFirstName = itemInfo.first_name;
+      this.chatHeadLastName = itemInfo.last_name;
+      this.chatHeadPhone = itemInfo.phone;
 
       var url = `api/chat-info/${itemInfo.phone}`;
       axios.get(url).then((res) => {
-        this.chatInfo = res.data;
-        this.prevSmsData = res.data;
-        this.instantSmsData = {};
+          this.chatInfo = res.data;
+          this.prevSmsData = res.data;
+          this.instantSmsData = {};
+
+          // scroll into sms box view
+          const contents = document.querySelectorAll('.content');
+          const chatLists = document.querySelectorAll('#open-chat ul li');
+          chatLists.forEach((chatList, index) => {
+            chatList.addEventListener('click', function () {
+              contents[index].scrollIntoView({behavior: "smooth", block: "end"});
+            });
+          });
+
+
       }).catch(function (error) {
         console.log(error.response);
       });
@@ -895,44 +838,73 @@ export default {
     },*/
 
     sendMessage() {
+                let phoneValue;
+                let didValue;
                 // var localTime = new Date().toLocaleString("en-US", {timeZone: this.data.timezone});
                 var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});
                 const smsBoxData = document.getElementById("s-msg").value;
-                this.instantSmsData = {
-                  text: smsBoxData,
-                  timesend: localTime
-                };
-                console.log(this.instantSmsData);
+
                 if(smsBoxData.length <= 0) {
                   return;
                 }
-                console.log(smsBoxData.length);
-                console.log(this.prevSmsData.data[0]);
+
+                if(!this.chatHeadPhone) {
+                  alert("Please select a contact from sidebar");return;
+                }
+
+                if(this.prevSmsData.data[0]) {
+                    phoneValue = this.prevSmsData.data[0].client_number;
+                    didValue = this.prevSmsData.data[0].did;
+                }
+                else {
+                    phoneValue = this.chatHeadPhone;
+                    didValue = "19723182200";
+                }
+
+                // SEND SMS DATA
+                this.instantSmsData = {
+                  text: smsBoxData,
+                  timesend: localTime
+                };                
+
+                /*console.log(phoneValue);
+                console.log(didValue);
+                return;*/
 
 
                 /*if(this.message.length > this.data.sms_text_size){
                     return;
                 }*/
                 var vm = this;
-                this.compose.to = this.prevSmsData.data[0].client_number;
-                this.compose.from = this.prevSmsData.data[0].did;
+                this.compose.to = phoneValue;
+                this.compose.from = didValue;
                 this.compose.message = smsBoxData;
                 this.compose.scheduleShow = this.scheduleShow;
                 axios.post('api/reply-create', this.compose).then((res) => 
                 {
+
                     commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                    console.log(res.data.response_msg);
                     if(res.data.response_msg.type == 'success'){
-                        var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});                       
-                        this.pushMessage(localTime);
+                        //var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});                       
+                        //this.pushMessage(localTime);
                         //this.fetchInbound();
-                        this.compose = {};
-                        this.message = "";
-                        this.instantSmsData = {};
-                        document.getElementById("s-msg").value = "";
+
+                        // this.compose = {};
+                        // this.message = "";
+                        // this.instantSmsData = {};
+
+                        this.selectedValue = {};
+                        const chatBox = document.getElementById("s-msg");
+                        chatBox.value = "";
+
+                        this.chatBoxMessage = "";
+                        console.log("All done from now");
                     }
                     commonLib.unblockUI(".m-content");
                 })
                 .catch(function (error) {
+                  console.log("All end from now");
                     /*vm.validationErrors = error.response.data;
                     commonLib.unblockUI(".m-content");*/
                 });

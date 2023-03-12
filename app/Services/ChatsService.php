@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Models\Log;
 use Session;
+use Auth;
 
 class ChatsService extends AppService {
 
@@ -14,11 +15,11 @@ class ChatsService extends AppService {
 	}
 
 	public function getOpenChats($account_id) {
-		return DB::table('contacts')->where(['account_id'=>$account_id, 'lead_status'=>1])->get(['first_name', 'last_name', 'phone'])->toArray();
+		return DB::table('contacts')->where(['account_id'=>$account_id, 'lead_status'=>1])->get(['first_name', 'last_name', 'phone', 'company'])->toArray();
 	}
 
 	public function getCloseChats($account_id) {
-		return DB::table('contacts')->where(['account_id'=>$account_id, 'lead_status'=>0])->get(['first_name', 'last_name', 'phone'])->toArray();
+		return DB::table('contacts')->where(['account_id'=>$account_id, 'lead_status'=>0])->get(['first_name', 'last_name', 'phone', 'company'])->toArray();
 	}
 
     public function getChatHistoryByNumber($account_id, $to, $from){
