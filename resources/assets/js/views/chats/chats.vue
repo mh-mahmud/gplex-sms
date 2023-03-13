@@ -3,14 +3,18 @@
     <js-plugin :js-plugin="data.js_plugin"></js-plugin>
     <!-- BreadCrumb -->
     <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
-    <div class="m-content">
+    <div class="m-content" ref="fullscreen">
       <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
           <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
-              <h3 class="m-portlet__head-text">
-                Chats: New Window
-              </h3>
+              <div class="g-chattop-header">
+                <h3 class="m-portlet__head-text mb-0">
+                  Chats: New Window
+                </h3>
+                <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i class="bi bi-arrows-fullscreen"></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -119,7 +123,7 @@
                     <!--Right Chat Area-->
                     <div class="g-chat">
 
-                      <div class="g-chat-history" id="g-chat-history">
+                      <div class="g-chat-history" id="g-chat-history" v-chat-scroll>
 
                         <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                           <div class="g-chat-main">
@@ -277,6 +281,17 @@
 /*============================
          New Chat Area
   ============================*/
+.m-portlet__head-title {
+  width: 100%;
+  height: auto!important;
+}
+
+.g-chattop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .g-chat-area {
   min-height: 65vh;
   background-color: #fafafa;
@@ -677,6 +692,10 @@
 </style>
 
 <script>
+import Vue from 'vue';
+import VueChatScroll from 'vue-chat-scroll';
+
+Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent'
 
 export default {
@@ -702,6 +721,7 @@ export default {
     };
   },
   mounted() {
+    this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
     this.bindCurrentRoute("Chats");
 
@@ -783,6 +803,14 @@ export default {
 
   },
   methods: {
+    toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        this.fullScreen.requestFullscreen();
+        this.fullscreen.style.height = '100vh';
+      } else {
+        document.exitFullscreen();
+      }
+    },
     selectItem: function (index) {
       // remove active state from previously active item
       if (this.activeIndex !== -1) {
@@ -828,16 +856,6 @@ export default {
         this.chatInfo = res.data;
         this.prevSmsData = res.data;
         this.instantSmsData = {};
-
-        // scroll into sms box view
-        const contents = document.querySelectorAll('.content');
-        const chatLists = document.querySelectorAll('#open-chat ul li');
-        chatLists.forEach((chatList, index) => {
-          chatList.addEventListener('click', function () {
-            contents[index].scrollIntoView({behavior: "smooth", block: "end"});
-          });
-        });
-
 
       }).catch(function (error) {
         console.log(error.response);
