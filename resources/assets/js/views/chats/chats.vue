@@ -39,7 +39,7 @@
                     <div class="g-open-chat-header">
                       <div class="g-open-chat-h-main">
                         <div class="g-chat-user-profile">
-                          <img src="https://picsum.photos/50/50" alt="">
+                          <img :src="imageUrl" alt="">
                           <div class="g-chat-u-name">
                             <div class="g-chat-u-meta">
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
@@ -71,11 +71,11 @@
                       <div id="open-chat">
                         <ul>
 
-                          <li v-for="(item, key) in openData" :data-target="'content-'+key"
+                          <li class="chat-box" v-for="(item, key) in openData" :data-target="'content-'+key"
                               v-on:click="greet(item); selectItem(key)" :class="{active: activeIndex === key}">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item.first_name }} {{ item.last_name }}</strong>
@@ -92,11 +92,11 @@
                       <div id="close-chat">
                         <ul>
 
-                          <li v-for="(item2, key2) in closeData" :data-target="'content-'+key2"
+                          <li class="chat-box" v-for="(item2, key2) in closeData" :data-target="'content-'+key2"
                               v-on:click="greet(item2)">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item2.first_name }} {{ item2.last_name }}</strong>
@@ -135,7 +135,7 @@
                                 <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
                               </div>
                               <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'" alt="">
                               </div>
                             </div>
                           </div>
@@ -152,7 +152,7 @@
                                 <time datetime="6:00">{{ instantSmsData.timesend }}</time>
                               </div>
                               <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                             </div>
                           </div>
@@ -276,7 +276,10 @@
       min-height: 65vh;
       background-color: #fafafa;
     }
-
+    .chat-box {
+      padding: 13px !important;
+      border-bottom: 1px solid #333;
+    }
     .g-chat-header {
       display: flex;
       height: 45px;
@@ -695,7 +698,8 @@ export default {
       chatHeadCompany: null,
       chatBoxMessage: "",
       isActive: false,
-      activeIndex: -1
+      activeIndex: -1,
+      imageUrl: '/gplex-sms-core' + '/public/assets/app/media/img/users/user-avatar.png'
     };
   },
   mounted() {
