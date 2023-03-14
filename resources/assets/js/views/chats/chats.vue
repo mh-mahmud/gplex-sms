@@ -12,7 +12,8 @@
                 <h3 class="m-portlet__head-text mb-0">
                   Chats: New Window
                 </h3>
-                <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i class="bi bi-arrows-fullscreen"></i>
+                <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i
+                    class="bi bi-arrows-fullscreen"></i>
                 </button>
               </div>
             </div>
@@ -36,7 +37,7 @@
                       <i class="bi bi-chat-right-text-fill"></i> <strong>New Chat</strong>
                       <div class="search-container">
                         <i class="bi bi-search search-icon"></i>
-                        <input type="text" placeholder="Search...">
+                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">
                       </div>
                     </div>
 
@@ -283,7 +284,7 @@
   ============================*/
 .m-portlet__head-title {
   width: 100%;
-  height: auto!important;
+  height: auto !important;
 }
 
 .g-chattop-header {
@@ -708,6 +709,7 @@ export default {
       selectedValue: {}, // First option will be selected by default
       templateData: {},
       openData: {},
+      openDataForSearch: {},
       closeData: {},
       instantSmsData: {},
       scheduleShow: false,
@@ -717,7 +719,8 @@ export default {
       chatHeadPhone: null,
       chatBoxMessage: "",
       isActive: false,
-      activeIndex: -1
+      activeIndex: -1,
+      search: "",
     };
   },
   mounted() {
@@ -802,7 +805,23 @@ export default {
 
 
   },
+
+
   methods: {
+    onSearch() {
+
+      if(this.search && this.search!=='') {
+        this.openData = this.openData.filter((item) => {
+          if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
+            return item
+          }
+        })
+
+      } else {
+        this.openData = this.openDataForSearch;
+      }
+    },
+
     toggleFullScreen() {
       if (!document.fullscreenElement) {
         this.fullScreen.requestFullscreen();
@@ -827,6 +846,7 @@ export default {
         this.data = res.data;
         this.templateData = res.data.templateInfoNew;
         this.openData = res.data.openChat;
+        this.openDataForSearch = res.data.openChat;
         this.closeData = res.data.closeChat;
         console.log(this.openData);
         console.log(this.closeData);
