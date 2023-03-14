@@ -9,7 +9,7 @@
           <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
               <h3 class="m-portlet__head-text">
-                Chats: New Window
+                Chat: New Window
               </h3>
             </div>
           </div>
@@ -164,20 +164,23 @@
                       <div class="g-chat-message">
                         <!-- <form action=""> -->
                         <label for="s-msg" class="w-100">
-                            <textarea class="form-control" name="" cols="30" rows="5" placeholder="Write...."
-                                      id="s-msg"></textarea>
+                            <textarea data-vv-as="Message" name="message"  v-model="message" class="form-control" cols="30" rows="5" placeholder="Write...." id="s-msg"></textarea>
                         </label>
 
                         <div class="g-chat-message-bottom">
                           <div class="g-chat-attachment">
-                            <select v-model="selectedValue" id="template" name="template"
+                            <!-- <select v-model="selectedValue" id="template" name="template"
                                     class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
                               <option value="" selected>-- Choose Template --</option>
                               <option v-for="(value,key) in templateData"
                                       :value="value.message">
                                 {{ value.name }}
                               </option>
-                            </select>
+                            </select> -->
+
+                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
+                            <br />
+
                           </div>
 
                           <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
@@ -234,6 +237,9 @@
 
 
             <!--            End Chat Window-->
+
+            <!-- template modal -->
+            <template-modal v-bind:modal-data="modalData"></template-modal>
 
           </div>
         </div>
@@ -676,19 +682,25 @@
 </style>
 
 <script>
-import AppComponent from '../../components/AppComponent'
+import AppComponent from '../../components/AppComponent';
+import TemplateModal from '../compose/template_modal';
 
 export default {
   extends: AppComponent,
+  components:{
+    TemplateModal
+  },
   data() {
     return {
       data: {},
+      modalData: {},
       chatInfo: {},
       prevSmsData: {},
       selectedValue: {}, // First option will be selected by default
       templateData: {},
       openData: {},
       closeData: {},
+      message: "",
       instantSmsData: {},
       scheduleShow: false,
       compose: {to: []},
@@ -701,7 +713,7 @@ export default {
       activeIndex: -1,
       imageUrl: '/gplex-sms-core' + '/public/assets/app/media/img/users/user-avatar.png'
     };
-  },
+  } ,
   mounted() {
     this.chatsView();
     this.bindCurrentRoute("Chats");
@@ -881,10 +893,6 @@ export default {
         timesend: localTime
       };
 
-      /*console.log(phoneValue);
-      console.log(didValue);
-      return;*/
-
 
       /*if(this.message.length > this.data.sms_text_size){
           return;
@@ -899,13 +907,6 @@ export default {
         commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
         console.log(res.data.response_msg);
         if (res.data.response_msg.type == 'success') {
-          //var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});
-          //this.pushMessage(localTime);
-          //this.fetchInbound();
-
-          // this.compose = {};
-          // this.message = "";
-          // this.instantSmsData = {};
 
           this.selectedValue = {};
           const chatBox = document.getElementById("s-msg");
@@ -922,6 +923,12 @@ export default {
             commonLib.unblockUI(".m-content");*/
           });
     },
+
+    // bind data to use on modal
+    bindModalData(data){
+        this.modalData = data;
+    },
+
 
   }
 };

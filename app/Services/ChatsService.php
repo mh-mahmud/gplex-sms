@@ -7,6 +7,7 @@ use DB;
 use App\Models\Log;
 use Session;
 use Auth;
+use App\Models\Template;
 
 class ChatsService extends AppService {
 
@@ -41,6 +42,16 @@ class ChatsService extends AppService {
         }
 
         return $this->paginationDataFormat($data->toArray());
+    }
+
+    public function getTemplates(){
+        $account_id = $this->getAccountId();        
+        $data = Template::where('account_id', '=', $account_id)->get();
+        foreach($data as $key => $value){
+            $value->omessage = $value->message;
+            $value->message = nl2br($value->message);
+        }
+        return $data->toArray();
     }
 
 }
