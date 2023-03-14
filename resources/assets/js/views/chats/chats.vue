@@ -87,7 +87,7 @@
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item.first_name }} {{ item.last_name }}</strong>
-                                <small>{{ item.phone }}</small>
+                                <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
                             </div>
                           </li>
@@ -108,7 +108,7 @@
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item2.first_name }} {{ item2.last_name }}</strong>
-                                <small>{{ item2.phone }}</small>
+                                <small v-if="item2.sms_text">{{ item2.sms_text.substr(0, 15) }}</small>
                               </div>
                             </div>
                           </li>
@@ -923,6 +923,7 @@ export default {
       chatHeadLastName: null,
       chatHeadPhone: null,
       chatHeadCompany: null,
+      chatHeadSmsText: null,
       chatBoxMessage: "",
       isActive: false,
       activeIndex: -1,
@@ -935,7 +936,7 @@ export default {
     this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
     this.bindCurrentRoute("Chats");
-    setInterval(() => this.openChatsView(),6000);
+    setInterval(() => this.openChatsView(),9000);
 
     const leftItems = document.querySelectorAll('.g-chat-left li');
     const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1092,12 +1093,14 @@ export default {
       this.chatHeadLastName = itemInfo.last_name;
       this.chatHeadPhone = itemInfo.phone;
       this.chatHeadCompany = itemInfo.company;
+      this.chatHeadSmsText = itemInfo.sms_text;
 
       var url = `api/chat-info/${itemInfo.phone}`;
       axios.get(url).then((res) => {
         this.chatInfo = res.data;
         this.prevSmsData = res.data;
         this.instantSmsData = {};
+        this.message = "";
 
       }).catch(function (error) {
         console.log(error.response);
@@ -1158,7 +1161,7 @@ export default {
           const chatBox = document.getElementById("s-msg");
           chatBox.value = "";
 
-          this.chatBoxMessage = "";
+          this.message = "";
           console.log("All done from now");
         }
         commonLib.unblockUI(".m-content");
