@@ -935,7 +935,7 @@ export default {
     this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
     this.bindCurrentRoute("Chats");
-    setInterval(() => this.chatsView(),3000);
+    setInterval(() => this.openChatsView(),6000);
 
     const leftItems = document.querySelectorAll('.g-chat-left li');
     const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1065,6 +1065,18 @@ export default {
             console.log(error.response);
           });
     },
+    openChatsView() {
+      let url = 'api/open-chats';
+      console.log(url);
+      axios.get(url).then((res) => {
+        this.openData = res.data.openChat;
+        console.log(this.openData);
+      })
+          .catch(function (error) {
+            console.log(error.response);
+          });
+    },
+    
 
     onChangeTemplate(event) {
       // console.log(this.selectedValue);
