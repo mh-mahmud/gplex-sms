@@ -880,12 +880,12 @@
     #open-chat {
       display: block;
       height: calc(100% - 5px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     #close-chat{
       height: calc(100% - 5px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
 </style>
