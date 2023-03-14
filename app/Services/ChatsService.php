@@ -23,6 +23,11 @@ class ChatsService extends AppService {
 		return $data;
 	}
 
+	public function getLatestChats($account_id) {
+		return DB::select("SELECT * FROM (SELECT c.first_name, c.last_name,c.phone, c.company, c.lead_status, ls.log_time, ls.account_id, ls.client_number, ls.sms_text, ls.status, ls.did FROM contacts AS c
+LEFT JOIN log_sms AS ls ON c.phone=ls.client_number ORDER BY ls.log_time DESC) as dt GROUP BY dt.phone ORDER BY dt.sms_text DESC");
+	}
+
 	public function getCloseChats($account_id) {
 		return DB::table('contacts')->where(['account_id'=>$account_id, 'lead_status'=>0])->get(['first_name', 'last_name', 'phone', 'company'])->toArray();
 	}
