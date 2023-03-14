@@ -74,6 +74,7 @@ class ChatsController extends AppController
         $layoutData['accountInfo'] = $this->Service->getAccountInfo($this->account_id);
         $layoutData['smsInfo'] = $this->LogService->getSmsInfo($this->account_id);
         $layoutData['templateInfoNew'] = $this->ChatsService->getTemplateList($this->account_id);
+        $layoutData['templates'] = $this->ChatsService->getTemplates();
         $layoutData['openChat'] = $this->ChatsService->getOpenChats($this->account_id);
         $layoutData['closeChat'] = $this->ChatsService->getCloseChats($this->account_id);
         

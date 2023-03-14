@@ -8,6 +8,7 @@
         <div class="m-portlet__head">
           <div class="m-portlet__head-caption">
             <div class="m-portlet__head-title">
+
               <div class="g-chattop-header">
                 <h3 class="m-portlet__head-text mb-0">
                   Chats: New Window
@@ -16,6 +17,8 @@
                     class="bi bi-arrows-fullscreen"></i>
                 </button>
               </div>
+
+
             </div>
           </div>
 
@@ -44,7 +47,7 @@
                     <div class="g-open-chat-header">
                       <div class="g-open-chat-h-main">
                         <div class="g-chat-user-profile">
-                          <img src="https://picsum.photos/50/50" alt="">
+                          <img :src="imageUrl" alt="">
                           <div class="g-chat-u-name">
                             <div class="g-chat-u-meta">
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
@@ -76,11 +79,11 @@
                       <div id="open-chat">
                         <ul>
 
-                          <li v-for="(item, key) in openData" :data-target="'content-'+key"
+                          <li class="chat-box" v-for="(item, key) in openData" :data-target="'content-'+key"
                               v-on:click="greet(item); selectItem(key)" :class="{active: activeIndex === key}">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item.first_name }} {{ item.last_name }}</strong>
@@ -97,11 +100,11 @@
                       <div id="close-chat">
                         <ul>
 
-                          <li v-for="(item2, key2) in closeData" :data-target="'content-'+key2"
+                          <li class="chat-box" v-for="(item2, key2) in closeData" :data-target="'content-'+key2"
                               v-on:click="greet(item2)">
                             <div class="g-left-u-profile">
                               <div class="g-chat-left-u-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item2.first_name }} {{ item2.last_name }}</strong>
@@ -140,7 +143,7 @@
                                 <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
                               </div>
                               <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'" alt="">
                               </div>
                             </div>
                           </div>
@@ -157,7 +160,7 @@
                                 <time datetime="6:00">{{ instantSmsData.timesend }}</time>
                               </div>
                               <div class="chat-msg-image">
-                                <img src="https://picsum.photos/50/50" alt="">
+                                <img :src="imageUrl" alt="">
                               </div>
                             </div>
                           </div>
@@ -169,20 +172,23 @@
                       <div class="g-chat-message">
                         <!-- <form action=""> -->
                         <label for="s-msg" class="w-100">
-                            <textarea class="form-control" name="" cols="30" rows="5" placeholder="Write...."
-                                      id="s-msg"></textarea>
+                            <textarea data-vv-as="Message" name="message"  v-model="message" class="form-control" cols="30" rows="5" placeholder="Write...." id="s-msg"></textarea>
                         </label>
 
                         <div class="g-chat-message-bottom">
                           <div class="g-chat-attachment">
-                            <select v-model="selectedValue" id="template" name="template"
+                            <!-- <select v-model="selectedValue" id="template" name="template"
                                     class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
                               <option value="" selected>-- Choose Template --</option>
                               <option v-for="(value,key) in templateData"
                                       :value="value.message">
                                 {{ value.name }}
                               </option>
-                            </select>
+                            </select> -->
+
+                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
+                            <br />
+
                           </div>
 
                           <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
@@ -195,7 +201,7 @@
                     </div>
 
 
-                    <div class="g-chat-right">
+                    <div v-if="chatHeadPhone" class="g-chat-right">
                       <div class="table-responsive">
                         <table class="table table-bordered table-sm table-striped">
                           <thead>
@@ -206,27 +212,22 @@
                           <tbody>
                           <tr>
                             <td><small>First Name</small></td>
-                            <td><small>Momin Riyadh</small></td>
+                            <td><small>{{chatHeadFirstName}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
                             <td><small>Last Name</small></td>
-                            <td><small>Support</small></td>
+                            <td><small>{{chatHeadLastName}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
-                            <td><small>Email</small></td>
-                            <td><small>email@email.com</small></td>
+                            <td><small>Phone</small></td>
+                            <td><small>{{chatHeadPhone}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
                             <td><small>Company</small></td>
-                            <td><small>GSL</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
-                          </tr>
-                          <tr>
-                            <td><small>Country</small></td>
-                            <td><small>United States</small></td>
+                            <td><small>{{chatHeadCompany}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           </tbody>
@@ -245,6 +246,9 @@
 
             <!--            End Chat Window-->
 
+            <!-- template modal -->
+            <template-modal v-bind:modal-data="modalData"></template-modal>
+
           </div>
         </div>
       </div>
@@ -254,7 +258,8 @@
 </template>
 
 <style lang="scss" scoped>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+
 
 /*============================
      CrossBrowser ScrollBar
@@ -471,239 +476,431 @@
       color: #ffffff;
     }
 
-    &.active {
-      background-color: #b39240;
-      color: #ffffff;
-
-      &:hover {
-        color: inherit;
-      }
+  }
+}
+    /*============================
+             New Chat Area
+      ============================*/
+    .g-chat-area {
+      min-height: 65vh;
+      background-color: #fafafa;
     }
-  }
-}
 
-.g-button-group {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
+    .chat-box {
+      padding: 13px !important;
+      border-bottom: 1px solid #333;
+    }
 
-  button {
-    width: 100%;
-    background-color: #646879;
-    color: #ffffff;
-  }
+    .g-chat-header {
+      display: flex;
+      height: 45px;
+    }
 
-  button#open-btn {
-    background-color: #329e8c;
-  }
-}
+    .new-chat-open {
+      width: 25%;
+      background-color: darken(#fafafa, 5%);
+      color: #484848;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem;
+      border-right: 1px solid darken(#fafafa, 15%);
+      border-bottom: 1px solid #f8f8f8;
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-.g-chat {
-  flex: 2;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 1rem;
-}
-
-
-.content {
-  transition: all 0.4s ease;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.content.active {
-  transition: all 0.4s ease;
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-
-/*============================
-         Left List Item
-  ============================*/
-.g-left-u-profile {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  height: 40px;
-}
-
-.g-chat-left-u-image {
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    -o-object-fit: cover;
-  }
-}
-
-.g-chat-left-u-meta {
-  display: flex;
-  flex-direction: column;
-
-  strong {
-    line-height: 1.2;
-    font-size: 0.9rem;
-  }
-
-  small {
-    line-height: 1;
-  }
-}
-
-
-/*============================
-         Main Chat Format
-  ============================*/
-.g-chat {
-
-}
-
-.g-chat-history {
-  width: auto;
-  margin: auto auto 0.5rem;
-  height: 44vh;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-
-.chat-msg-content {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-  justify-content: flex-end;
-
-  .chat-msg {
-    background-color: #dcdee7;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    position: relative;
-    max-width: 86%;
-    min-width: 60%;
-
-    time {
-      font-size: 12px;
-      display: block;
-      float: right;
+    .g-open-chat-header {
+      background-color: darken(#fafafa, 5%);
+      flex-grow: 1;
       width: 100%;
     }
-  }
 
-  .chat-msg-image {
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
+    .g-open-chat-h-main {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 0.3rem;;
     }
-  }
-}
 
-.chat-msg-content {
-  &.msg-other {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-    flex-direction: row-reverse;
-    clear: both;
+    .g-chat-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 100%;
 
-    & .chat-msg {
-      background-color: #e8e8e8;
-      color: #434652;
-      clear: both;
-      max-width: 86%;
-      min-width: 60%;
-
-
-      time {
-        font-size: 12px;
-        display: block;
-        width: 100%;
-        float: right;
-        clear: both;
+      img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
       }
     }
-  }
-}
+
+    .g-chat-u-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+
+      strong {
+        line-height: 1.4;
+        font-size: 13px;
+      }
+
+      small {
+        line-height: 1;
+      }
+    }
+
+    .g-chat-u-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .g-chat-notes {
+      small {
+        background-color: #329e8c;
+        color: #ffffff;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+          background-color: darken(#329e8c, 10%);
+        }
+      }
+
+    }
+
+    .g-chat-user-property {
+      margin-left: auto;
+      margin-right: 25%;
+    }
 
 
-.g-chat-message {
-  background-color: #f8f8f8;
-  padding: 0.5rem;
-  border-radius: 5px;
-  top: 0.5rem;
-  position: relative;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-}
+    /*============================
+             Search
+      ============================*/
+    .search-container {
+      position: relative;
+      margin-left: auto;
+    }
 
-.g-chat-message-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
-}
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-.g-chat-attachment {
-  label > input[type=file] {
-    visibility: hidden;
-    width: 0;
-  }
+    .search-container input[type="text"] {
+      width: 0;
+      max-width: 0;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      background-color: transparent;
+    }
 
-  i {
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #329e8c;
-    font-weight: bold;
-    display: inline-block;
-    padding: 0.2rem;
-  }
-}
+    .search-container input[type="text"]:focus {
+      outline: none;
+      border-bottom: 2px solid #329e8c;
+    }
+
+    .search-container.active .search-icon {
+      left: 10px;
+      color: #329e8c;
+    }
+
+    .search-container.active input[type="text"] {
+      max-width: 150px;
+      width: 100%;
+      margin-left: 10px;
+    }
 
 
-/*============================
-        Chat Right Parts
-  ============================*/
-.g-chat-right {
-  background-color: #eaeaea;
-  flex-basis: 20%;
-}
+    /*============================
+            Chat Body
+      ============================*/
+    .g-chat-body {
+      display: flex;
+    }
+
+    .g-chat-left {
+      width: 232px;
+      background-color: #444753;
+      flex-basis: 20%;
+      position: relative;
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: calc(100% - 30px);
+        overflow-y: auto;
+      }
+
+      ul li {
+        cursor: pointer;
+        padding: 0.3rem;
+        display: block;
+        transition: all 0.4s ease-in-out;
+        color: darken(#ffffff, 25%);
+
+        &:hover {
+          background-color: #555555;
+          color: #ffffff;
+        }
+
+        &.active {
+          background-color: #b39240;
+          color: #ffffff;
+
+          &:hover {
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    .g-button-group {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+
+      button {
+        width: 100%;
+        background-color: #646879;
+        color: #ffffff;
+      }
+
+      button#open-btn {
+        background-color: #329e8c;
+      }
+    }
+
+    .g-chat {
+      flex: 2;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 1rem;
+    }
+
+    .content {
+      transition: all 0.4s ease;
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .content.active {
+      transition: all 0.4s ease;
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
 
 
-#open-chat, #close-chat {
-  display: none;
-}
+    /*============================
+             Left List Item
+      ============================*/
+    .g-left-u-profile {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      height: 40px;
+    }
 
-#open-chat {
-  display: block;
-}
+    .g-chat-left-u-image {
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        -o-object-fit: cover;
+      }
+    }
+
+    .g-chat-left-u-meta {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        line-height: 1.2;
+        font-size: 0.9rem;
+      }
+
+      small {
+        line-height: 1;
+      }
+    }
+
+
+    /*============================
+             Main Chat Format
+      ============================*/
+    .g-chat {
+
+    }
+
+    .g-chat-history {
+      width: auto;
+      margin: auto auto 0.5rem;
+      height: 44vh;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .chat-msg-content {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+
+      .chat-msg {
+        background-color: #dcdee7;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        position: relative;
+        max-width: 86%;
+        min-width: 60%;
+
+        time {
+          font-size: 12px;
+          display: block;
+          float: right;
+          width: 100%;
+        }
+      }
+
+      .chat-msg-image {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+      }
+    }
+
+    .chat-msg-content {
+      &.msg-other {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        flex-direction: row-reverse;
+        clear: both;
+
+        & .chat-msg {
+          background-color: #e8e8e8;
+          color: #434652;
+          clear: both;
+          max-width: 86%;
+          min-width: 60%;
+
+
+          time {
+            font-size: 12px;
+            display: block;
+            width: 100%;
+            float: right;
+            clear: both;
+          }
+        }
+      }
+    }
+
+    .g-chat-message {
+      background-color: #f8f8f8;
+      padding: 0.5rem;
+      border-radius: 5px;
+      top: 0.5rem;
+      position: relative;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    }
+
+    .g-chat-message-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .g-chat-attachment {
+      label > input[type=file] {
+        visibility: hidden;
+        width: 0;
+      }
+
+      i {
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #329e8c;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0.2rem;
+      }
+    }
+
+
+    /*============================
+            Chat Right Parts
+      ============================*/
+    .g-chat-right {
+      background-color: #eaeaea;
+      flex-basis: 20%;
+    }
+
+
+    #open-chat, #close-chat {
+      display: none;
+    }
+
+    #open-chat {
+      display: block;
+    }
 
 </style>
 
 <script>
+
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
-
 Vue.use(VueChatScroll);
-import AppComponent from '../../components/AppComponent'
+import AppComponent from '../../components/AppComponent';
+import TemplateModal from '../compose/template_modal';
+
 
 export default {
   extends: AppComponent,
+  components:{
+    TemplateModal
+  },
   data() {
     return {
       data: {},
+      modalData: {},
       chatInfo: {},
       prevSmsData: {},
       selectedValue: {}, // First option will be selected by default
@@ -711,18 +908,22 @@ export default {
       openData: {},
       openDataForSearch: {},
       closeData: {},
+      message: "",
       instantSmsData: {},
       scheduleShow: false,
       compose: {to: []},
       chatHeadFirstName: null,
       chatHeadLastName: null,
       chatHeadPhone: null,
+      chatHeadCompany: null,
       chatBoxMessage: "",
       isActive: false,
       activeIndex: -1,
       search: "",
+      imageUrl: '/gplex-sms-core' + '/public/assets/app/media/img/users/user-avatar.png'
+
     };
-  },
+  } ,
   mounted() {
     this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
@@ -870,6 +1071,7 @@ export default {
       this.chatHeadFirstName = itemInfo.first_name;
       this.chatHeadLastName = itemInfo.last_name;
       this.chatHeadPhone = itemInfo.phone;
+      this.chatHeadCompany = itemInfo.company;
 
       var url = `api/chat-info/${itemInfo.phone}`;
       axios.get(url).then((res) => {
@@ -917,10 +1119,6 @@ export default {
         timesend: localTime
       };
 
-      /*console.log(phoneValue);
-      console.log(didValue);
-      return;*/
-
 
       /*if(this.message.length > this.data.sms_text_size){
           return;
@@ -935,13 +1133,6 @@ export default {
         commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
         console.log(res.data.response_msg);
         if (res.data.response_msg.type == 'success') {
-          //var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});
-          //this.pushMessage(localTime);
-          //this.fetchInbound();
-
-          // this.compose = {};
-          // this.message = "";
-          // this.instantSmsData = {};
 
           this.selectedValue = {};
           const chatBox = document.getElementById("s-msg");
@@ -958,6 +1149,12 @@ export default {
             commonLib.unblockUI(".m-content");*/
           });
     },
+
+    // bind data to use on modal
+    bindModalData(data){
+        this.modalData = data;
+    },
+
 
   }
 };
