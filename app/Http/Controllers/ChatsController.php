@@ -86,6 +86,11 @@ class ChatsController extends AppController
         return $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
     }
 
+    public function getOpenChat() {
+        $layoutData['openChat'] = $this->ChatsService->getLatestChats($this->account_id);
+        return response()->json($layoutData);
+    }
+
     /*
         -- End
     */
