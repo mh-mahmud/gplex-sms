@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JSHintConfiguration" version="2.13.0" use-config-file="true" use-custom-config-file="true" custom-config-file-path="$PROJECT_DIR$/public/assets/plugins/jPlayer/src/javascript/jplayer/.jshintrc">
+  <component name="JSHintConfiguration" version="2.10.2" use-config-file="true" use-custom-config-file="true" custom-config-file-path="$PROJECT_DIR$/public/assets/plugins/jPlayer/src/javascript/add-on/.jshintrc">
     <option bitwise="true" />
     <option browser="true" />
     <option curly="true" />

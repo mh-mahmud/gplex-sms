@@ -172,8 +172,7 @@
                       <div class="g-chat-message">
                         <!-- <form action=""> -->
                         <label for="s-msg" class="w-100">
-                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
-                                    rows="5" placeholder="Write...." id="s-msg"></textarea>
+                            <textarea data-vv-as="Message" name="message"  v-model="message" class="form-control" cols="30" rows="5" placeholder="Write...." id="s-msg"></textarea>
                         </label>
 
                         <div class="g-chat-message-bottom">
@@ -187,11 +186,8 @@
                               </option>
                             </select> -->
 
-                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal"
-                               data-target="#template-modal" class="pull-right"><i
-                                class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label
-                                style="cursor:pointer;">Insert Template</label></span></a>
-                            <br/>
+                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
+                            <br />
 
                           </div>
 
@@ -216,22 +212,22 @@
                           <tbody>
                           <tr>
                             <td><small>First Name</small></td>
-                            <td><small>{{ chatHeadFirstName }}</small></td>
+                            <td><small>{{chatHeadFirstName}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
                             <td><small>Last Name</small></td>
-                            <td><small>{{ chatHeadLastName }}</small></td>
+                            <td><small>{{chatHeadLastName}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
                             <td><small>Phone</small></td>
-                            <td><small>{{ chatHeadPhone }}</small></td>
+                            <td><small>{{chatHeadPhone}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           <tr>
                             <td><small>Company</small></td>
-                            <td><small>{{ chatHeadCompany }}</small></td>
+                            <td><small>{{chatHeadCompany}}</small></td>
                             <td><small class="bi bi-pencil-square"></small></td>
                           </tr>
                           </tbody>
@@ -262,7 +258,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 
 
 /*============================
@@ -482,416 +478,415 @@
 
   }
 }
-
-/*============================
-         New Chat Area
-  ============================*/
-.g-chat-area {
-  min-height: 65vh;
-  background-color: #fafafa;
-}
-
-.chat-box {
-  padding: 13px !important;
-  border-bottom: 1px solid #333;
-}
-
-.g-chat-header {
-  display: flex;
-  height: 45px;
-}
-
-.new-chat-open {
-  width: 25%;
-  background-color: darken(#fafafa, 5%);
-  color: #484848;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem;
-  border-right: 1px solid darken(#fafafa, 15%);
-  border-bottom: 1px solid #f8f8f8;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.g-open-chat-header {
-  background-color: darken(#fafafa, 5%);
-  flex-grow: 1;
-  width: 100%;
-}
-
-.g-open-chat-h-main {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 0.3rem;;
-}
-
-.g-chat-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 100%;
-
-  img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-  }
-}
-
-.g-chat-u-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-
-  strong {
-    line-height: 1.4;
-    font-size: 13px;
-  }
-
-  small {
-    line-height: 1;
-  }
-}
-
-.g-chat-u-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.g-chat-notes {
-  small {
-    background-color: #329e8c;
-    color: #ffffff;
-    padding: 0.2rem;
-    border-radius: 0.5rem;
-    line-height: 1;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.4s ease-in-out;
-
-    &:hover {
-      background-color: darken(#329e8c, 10%);
-    }
-  }
-
-}
-
-.g-chat-user-property {
-  margin-left: auto;
-  margin-right: 25%;
-}
-
-
-/*============================
-         Search
-  ============================*/
-.search-container {
-  position: relative;
-  margin-left: auto;
-}
-
-.search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.search-container input[type="text"] {
-  width: 0;
-  max-width: 0;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
-  background-color: transparent;
-}
-
-.search-container input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #329e8c;
-}
-
-.search-container.active .search-icon {
-  left: 10px;
-  color: #329e8c;
-}
-
-.search-container.active input[type="text"] {
-  max-width: 150px;
-  width: 100%;
-  margin-left: 10px;
-}
-
-
-/*============================
-        Chat Body
-  ============================*/
-.g-chat-body {
-  display: flex;
-}
-
-.g-chat-left {
-  width: 232px;
-  background-color: #444753;
-  flex-basis: 20%;
-  position: relative;
-
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: calc(100% - 30px);
-    overflow-y: auto;
-  }
-
-  ul li {
-    cursor: pointer;
-    padding: 0.3rem;
-    display: block;
-    transition: all 0.4s ease-in-out;
-    color: darken(#ffffff, 25%);
-
-    &:hover {
-      background-color: #555555;
-      color: #ffffff;
+    /*============================
+             New Chat Area
+      ============================*/
+    .g-chat-area {
+      min-height: 65vh;
+      background-color: #fafafa;
     }
 
-    &.active {
-      background-color: #b39240;
-      color: #ffffff;
-
-      &:hover {
-        color: inherit;
-      }
+    .chat-box {
+      padding: 13px !important;
+      border-bottom: 1px solid #333;
     }
-  }
-}
 
-.g-button-group {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
+    .g-chat-header {
+      display: flex;
+      height: 45px;
+    }
 
-  button {
-    width: 100%;
-    background-color: #646879;
-    color: #ffffff;
-  }
+    .new-chat-open {
+      width: 25%;
+      background-color: darken(#fafafa, 5%);
+      color: #484848;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.3rem;
+      border-right: 1px solid darken(#fafafa, 15%);
+      border-bottom: 1px solid #f8f8f8;
+      font-size: 13px;
+      white-space: nowrap;
+    }
 
-  button#open-btn {
-    background-color: #329e8c;
-  }
-}
-
-.g-chat {
-  flex: 2;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 1rem;
-}
-
-.content {
-  transition: all 0.4s ease;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-}
-
-.content.active {
-  transition: all 0.4s ease;
-  display: block;
-  opacity: 1;
-  visibility: visible;
-}
-
-
-/*============================
-         Left List Item
-  ============================*/
-.g-left-u-profile {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  height: 40px;
-}
-
-.g-chat-left-u-image {
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    -o-object-fit: cover;
-  }
-}
-
-.g-chat-left-u-meta {
-  display: flex;
-  flex-direction: column;
-
-  strong {
-    line-height: 1.2;
-    font-size: 0.9rem;
-  }
-
-  small {
-    line-height: 1;
-  }
-}
-
-
-/*============================
-         Main Chat Format
-  ============================*/
-.g-chat {
-
-}
-
-.g-chat-history {
-  width: auto;
-  margin: auto auto 0.5rem;
-  height: 44vh;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-.chat-msg-content {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-  justify-content: flex-end;
-
-  .chat-msg {
-    background-color: #dcdee7;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    position: relative;
-    max-width: 86%;
-    min-width: 60%;
-
-    time {
-      font-size: 12px;
-      display: block;
-      float: right;
+    .g-open-chat-header {
+      background-color: darken(#fafafa, 5%);
+      flex-grow: 1;
       width: 100%;
     }
-  }
 
-  .chat-msg-image {
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
+    .g-open-chat-h-main {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 0.3rem;;
     }
 
-  }
-}
+    .g-chat-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 100%;
 
-.chat-msg-content {
-  &.msg-other {
-    display: flex;
-    gap: 0.5rem;
-    align-items: flex-end;
-    margin-bottom: 1rem;
-    flex-direction: row-reverse;
-    clear: both;
-
-    & .chat-msg {
-      background-color: #e8e8e8;
-      color: #434652;
-      clear: both;
-      max-width: 86%;
-      min-width: 60%;
-
-
-      time {
-        font-size: 12px;
-        display: block;
-        width: 100%;
-        float: right;
-        clear: both;
+      img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
       }
     }
-  }
-}
 
-.g-chat-message {
-  background-color: #f8f8f8;
-  padding: 0.5rem;
-  border-radius: 5px;
-  top: 0.5rem;
-  position: relative;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-}
+    .g-chat-u-name {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
 
-.g-chat-message-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.5rem;
-}
+      strong {
+        line-height: 1.4;
+        font-size: 13px;
+      }
 
-.g-chat-attachment {
-  label > input[type=file] {
-    visibility: hidden;
-    width: 0;
-  }
+      small {
+        line-height: 1;
+      }
+    }
 
-  i {
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #329e8c;
-    font-weight: bold;
-    display: inline-block;
-    padding: 0.2rem;
-  }
-}
+    .g-chat-u-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .g-chat-notes {
+      small {
+        background-color: #329e8c;
+        color: #ffffff;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+          background-color: darken(#329e8c, 10%);
+        }
+      }
+
+    }
+
+    .g-chat-user-property {
+      margin-left: auto;
+      margin-right: 25%;
+    }
 
 
-/*============================
-        Chat Right Parts
-  ============================*/
-.g-chat-right {
-  background-color: #eaeaea;
-  flex-basis: 20%;
-}
+    /*============================
+             Search
+      ============================*/
+    .search-container {
+      position: relative;
+      margin-left: auto;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .search-container input[type="text"] {
+      width: 0;
+      max-width: 0;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+      background-color: transparent;
+    }
+
+    .search-container input[type="text"]:focus {
+      outline: none;
+      border-bottom: 2px solid #329e8c;
+    }
+
+    .search-container.active .search-icon {
+      left: 10px;
+      color: #329e8c;
+    }
+
+    .search-container.active input[type="text"] {
+      max-width: 150px;
+      width: 100%;
+      margin-left: 10px;
+    }
 
 
-#open-chat, #close-chat {
-  display: none;
-}
+    /*============================
+            Chat Body
+      ============================*/
+    .g-chat-body {
+      display: flex;
+    }
 
-#open-chat {
-  display: block;
-  height: calc(100% - 5px);
-  overflow-y: scroll;
-}
+    .g-chat-left {
+      width: 232px;
+      background-color: #444753;
+      flex-basis: 20%;
+      position: relative;
 
-#close-chat{
-  height: calc(100% - 5px);
-  overflow-y: scroll;
-}
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: calc(100% - 30px);
+        overflow-y: auto;
+      }
+
+      ul li {
+        cursor: pointer;
+        padding: 0.3rem;
+        display: block;
+        transition: all 0.4s ease-in-out;
+        color: darken(#ffffff, 25%);
+
+        &:hover {
+          background-color: #555555;
+          color: #ffffff;
+        }
+
+        &.active {
+          background-color: #b39240;
+          color: #ffffff;
+
+          &:hover {
+            color: inherit;
+          }
+        }
+      }
+    }
+
+    .g-button-group {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+
+      button {
+        width: 100%;
+        background-color: #646879;
+        color: #ffffff;
+      }
+
+      button#open-btn {
+        background-color: #329e8c;
+      }
+    }
+
+    .g-chat {
+      flex: 2;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 1rem;
+    }
+
+    .content {
+      transition: all 0.4s ease;
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .content.active {
+      transition: all 0.4s ease;
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
+
+
+    /*============================
+             Left List Item
+      ============================*/
+    .g-left-u-profile {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      height: 40px;
+    }
+
+    .g-chat-left-u-image {
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        -o-object-fit: cover;
+      }
+    }
+
+    .g-chat-left-u-meta {
+      display: flex;
+      flex-direction: column;
+
+      strong {
+        line-height: 1.2;
+        font-size: 0.9rem;
+      }
+
+      small {
+        line-height: 1;
+      }
+    }
+
+
+    /*============================
+             Main Chat Format
+      ============================*/
+    .g-chat {
+
+    }
+
+    .g-chat-history {
+      width: auto;
+      margin: auto auto 0.5rem;
+      height: 44vh;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .chat-msg-content {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      margin-bottom: 1rem;
+      justify-content: flex-end;
+
+      .chat-msg {
+        background-color: #dcdee7;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        position: relative;
+        max-width: 86%;
+        min-width: 60%;
+
+        time {
+          font-size: 12px;
+          display: block;
+          float: right;
+          width: 100%;
+        }
+      }
+
+      .chat-msg-image {
+        img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+      }
+    }
+
+    .chat-msg-content {
+      &.msg-other {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        flex-direction: row-reverse;
+        clear: both;
+
+        & .chat-msg {
+          background-color: #e8e8e8;
+          color: #434652;
+          clear: both;
+          max-width: 86%;
+          min-width: 60%;
+
+
+          time {
+            font-size: 12px;
+            display: block;
+            width: 100%;
+            float: right;
+            clear: both;
+          }
+        }
+      }
+    }
+
+    .g-chat-message {
+      background-color: #f8f8f8;
+      padding: 0.5rem;
+      border-radius: 5px;
+      top: 0.5rem;
+      position: relative;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    }
+
+    .g-chat-message-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .g-chat-attachment {
+      label > input[type=file] {
+        visibility: hidden;
+        width: 0;
+      }
+
+      i {
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #329e8c;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0.2rem;
+      }
+    }
+
+
+    /*============================
+            Chat Right Parts
+      ============================*/
+    .g-chat-right {
+      background-color: #eaeaea;
+      flex-basis: 20%;
+    }
+
+
+    #open-chat, #close-chat {
+      display: none;
+    }
+
+    #open-chat {
+      display: block;
+      height: calc(100% - 5px);
+      overflow-y: scroll;
+    }
+
+    #close-chat{
+      height: calc(100% - 5px);
+      overflow-y: scroll;
+    }
 
 </style>
 
@@ -899,7 +894,6 @@
 
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
-
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
@@ -907,7 +901,7 @@ import TemplateModal from '../compose/template_modal';
 
 export default {
   extends: AppComponent,
-  components: {
+  components:{
     TemplateModal
   },
   data() {
@@ -933,14 +927,15 @@ export default {
       isActive: false,
       activeIndex: -1,
       search: "",
-      imageUrl: '/gplex-sms' + '/public/assets/app/media/img/users/user-avatar.png'
+      imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png'
 
     };
-  },
+  } ,
   mounted() {
     this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
     this.bindCurrentRoute("Chats");
+    setInterval(() => this.chatsView(),3000);
 
     const leftItems = document.querySelectorAll('.g-chat-left li');
     const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1024,7 +1019,7 @@ export default {
   methods: {
     onSearch() {
 
-      if (this.search && this.search !== '') {
+      if(this.search && this.search!=='') {
         this.openData = this.openData.filter((item) => {
           if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
             return item
@@ -1164,8 +1159,8 @@ export default {
     },
 
     // bind data to use on modal
-    bindModalData(data) {
-      this.modalData = data;
+    bindModalData(data){
+        this.modalData = data;
     },
 
 
