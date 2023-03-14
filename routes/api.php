@@ -81,5 +81,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/dashboard', 'DashboardController@getDashboardData');
     //Chats
     Route::get('/chats', 'ChatsController@getChatsData');
+    Route::get('/open-chats', 'ChatsController@getOpenChat');
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
 });
