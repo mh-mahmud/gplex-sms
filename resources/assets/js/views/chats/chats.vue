@@ -928,7 +928,8 @@ export default {
       isActive: false,
       activeIndex: -1,
       search: "",
-      imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png'
+      imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
+      interval:null
 
     };
   } ,
@@ -936,7 +937,7 @@ export default {
     this.fullScreen = this.$refs.fullscreen;
     this.chatsView();
     this.bindCurrentRoute("Chats");
-    setInterval(() => this.openChatsView(),9000);
+    this.interval =  setInterval(() => this.openChatsView(),9000);
 
     const leftItems = document.querySelectorAll('.g-chat-left li');
     const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1015,8 +1016,9 @@ export default {
 
 
   },
-
-
+  destroyed() {
+    clearInterval(this.interval)
+  },
   methods: {
     onSearch() {
 
