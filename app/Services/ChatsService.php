@@ -24,8 +24,10 @@ class ChatsService extends AppService {
 	}
 
 	public function getLatestChats($account_id) {
-		return DB::select("SELECT * FROM (SELECT c.first_name, c.last_name,c.phone, c.company, c.lead_status, ls.log_time, ls.account_id, ls.client_number, ls.sms_text, ls.status, ls.did FROM contacts AS c
-LEFT JOIN log_sms AS ls ON c.phone=ls.client_number WHERE c.lead_status=1 ORDER BY ls.log_time DESC LIMIT 30) as dt GROUP BY dt.phone ORDER BY dt.sms_text DESC");
+		// return DB::select("SELECT * FROM (SELECT c.first_name, c.last_name,c.phone, c.company, c.lead_status, ls.log_time, ls.account_id, ls.client_number, ls.sms_text, ls.status, ls.did FROM contacts AS c LEFT JOIN log_sms AS ls ON c.phone=ls.client_number WHERE c.lead_status=1 ORDER BY ls.log_time DESC LIMIT 30) as dt GROUP BY dt.phone ORDER BY dt.sms_text DESC");
+
+		$data = DB::select("SELECT c.first_name, c.phone, c.last_name, c.company, c.lead_status, ls.log_time, ls.account_id, ls.client_number, ls.sms_text, ls.status, ls.did FROM contacts AS c LEFT JOIN log_sms AS ls ON c.phone=ls.client_number WHERE c.lead_status=1 GROUP BY c.phone ORDER BY ls.log_time DESC LIMIT 30");
+		return $data;
 	}
 
 	public function getCloseChats($account_id) {
