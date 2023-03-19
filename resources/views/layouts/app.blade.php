@@ -9,7 +9,7 @@
     @yield('meta')
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="{{ url('public/assets/demo/default/media/img/logo/favicon.ico') }}" /> 
+    <link rel="shortcut icon" href="{{ url('public/assets/demo/default/media/img/logo/favicon.ico') }}" />
     {!! Html::script('public/js/webfont.js') !!}
     <script>
         WebFont.load({
@@ -26,6 +26,7 @@
 
     <!-- Styles -->
     {!! Html::style('public/assets/vendors/base/vendors.bundle.css') !!}
+    {!! Html::style('public/assets/vendors/css/bootstrap-icons.css') !!}
     {!! Html::style('public/assets/demo/default/base/style.bundle.css') !!}
     {!! Html::style('public/css/min/app-bundle.min.css?'.$version) !!}
     <style type="text/css">
@@ -43,7 +44,7 @@
     </div>
 
     <!-- Scripts -->
-    
+
     {{-- {!! Html::script('public/js/min/app.min.js?'.$version) !!} --}}
     {!! Html::script('public/js/app.js') !!}
     {!! Html::script('public/assets/vendors/base/vendors.bundle.js') !!}
