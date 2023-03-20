@@ -934,8 +934,8 @@ export default {
       activeIndex: -1,
       search: "",
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
-      interval: null
-
+      interval:null,
+      lastUpdate:""
     };
   },
   mounted() {
@@ -1068,6 +1068,7 @@ export default {
         this.openData = res.data.openChat;
         this.openDataForSearch = res.data.openChat;
         this.closeData = res.data.closeChat;
+        this.lastUpdate = res.data.lastUpdate;
         console.log(this.openData);
         console.log(this.closeData);
         this.$setDocumentTitle(this.data.title);
@@ -1077,15 +1078,23 @@ export default {
           });
     },
     openChatsView() {
-      let url = 'api/open-chats';
-      console.log(url);
-      axios.get(url).then((res) => {
-        this.openData = res.data.openChat;
-        console.log(this.openData);
-      })
-          .catch(function (error) {
-            console.log(error.response);
-          });
+      let url = `api/open-chats/${this.lastUpdate}`;
+      if (this.lastUpdate){
+        axios.get(url).then((res) => {
+          // console.log(this.openData);
+          if(typeof res.data.lastUpdate !== 'undefined'){
+            let result = res.data.openChat;
+            result = {...result,...this.openData};
+            this.lastUpdate = res.data.lastUpdate;
+            this.openData = result;
+          }
+          // console.log(this.openData);
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+      }
+
     },
 
 
@@ -1098,7 +1107,7 @@ export default {
 
 
     greet: function (itemInfo) {
-      //console.log(itemInfo);
+      console.log(itemInfo);
       this.chatHeadFirstName = itemInfo.first_name;
       this.chatHeadLastName = itemInfo.last_name;
       this.chatHeadPhone = itemInfo.phone;

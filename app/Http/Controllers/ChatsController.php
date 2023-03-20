@@ -76,6 +76,7 @@ class ChatsController extends AppController
         $layoutData['templateInfoNew'] = $this->ChatsService->getTemplateList($this->account_id);
         $layoutData['templates'] = $this->ChatsService->getTemplates();
         $layoutData['openChat'] = $this->ChatsService->getOpenChats($this->account_id);
+        $layoutData['lastUpdate'] = $layoutData['openChat'][array_key_first($layoutData['openChat'])]->log_time;
         $layoutData['closeChat'] = $this->ChatsService->getCloseChats($this->account_id);
         
         // Return collection of list as a reosurce
@@ -86,8 +87,10 @@ class ChatsController extends AppController
         return $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
     }
 
-    public function getOpenChat() {
-        $layoutData['openChat'] = $this->ChatsService->getLatestChats($this->account_id);
+    public function getOpenChat($date) {
+        $layoutData['openChat'] = $this->ChatsService->getLatestChats($this->account_id,$date);
+        if(count($layoutData['openChat']) > 0)
+            $layoutData['lastUpdate'] = $layoutData['openChat'][array_key_first($layoutData['openChat'])]->log_time;
         return response()->json($layoutData);
     }
 
