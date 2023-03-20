@@ -188,7 +188,7 @@
 
                             <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
                             <br />
-
+                            <date-picker v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"></date-picker>
                           </div>
 
                           <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
