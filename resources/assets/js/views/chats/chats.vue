@@ -190,9 +190,15 @@
                             </select> -->
 
 
-                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
-                            <br />
-                            <date-picker v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"></date-picker>
+                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal"
+                               data-target="#template-modal" class="btn btn-sm btn-default"><i
+                                class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label
+                                style="cursor:pointer;margin-bottom: 0">Insert Template</label></span></a>
+
+                            <date-picker  v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"
+                                         :config="{format: 'DD-MM-YYYY'}">
+
+                            </date-picker>
 
                           </div>
 
@@ -852,6 +858,12 @@
 }
 
 .g-chat-attachment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+
   label > input[type=file] {
     visibility: hidden;
     width: 0;
@@ -864,6 +876,15 @@
     font-weight: bold;
     display: inline-block;
     padding: 0.2rem;
+  }
+
+  a {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+
   }
 }
 
@@ -898,6 +919,7 @@
 
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
+
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
@@ -933,8 +955,8 @@ export default {
       activeIndex: -1,
       search: "",
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
-      interval:null,
-      lastUpdate:""
+      interval: null,
+      lastUpdate: ""
     };
   },
   mounted() {
@@ -1078,20 +1100,20 @@ export default {
     },
     openChatsView() {
       let url = `api/open-chats/${this.lastUpdate}`;
-      if (this.lastUpdate){
+      if (this.lastUpdate) {
         axios.get(url).then((res) => {
           // console.log(this.openData);
-          if(typeof res.data.lastUpdate !== 'undefined'){
+          if (typeof res.data.lastUpdate !== 'undefined') {
             let result = res.data.openChat;
-            result = {...result,...this.openData};
+            result = {...result, ...this.openData};
             this.lastUpdate = res.data.lastUpdate;
             this.openData = result;
           }
           // console.log(this.openData);
         })
-        .catch(function (error) {
-          console.log(error.response);
-        });
+            .catch(function (error) {
+              console.log(error.response);
+            });
       }
 
     },
