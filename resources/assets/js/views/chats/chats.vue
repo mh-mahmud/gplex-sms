@@ -195,14 +195,23 @@
                                 class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label
                                 style="cursor:pointer;margin-bottom: 0">Insert Template</label></span></a>
 
+                            <div class="g-date-picker">
+                                  <i class="bi bi-calendar-week"></i>
+
                             <date-picker  v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"
                                          :config="{format: 'DD-MM-YYYY'}">
 
                             </date-picker>
+                              </div>
 
                           </div>
 
-                          <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
+                        
+                            
+                             <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
+                        
+
+                      
                         </div>
                         <!-- </form> -->
 
@@ -911,6 +920,17 @@
 #close-chat {
   height: calc(100% - 5px);
   overflow-y: auto;
+}
+
+.g-date-picker{
+  position:relative;
+
+  i{
+    position: absolute;
+    right: 5px;
+    top:50%;
+    transform:translateY(-50%);
+  }
 }
 
 </style>
