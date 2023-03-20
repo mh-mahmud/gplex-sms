@@ -196,22 +196,20 @@
                                 style="cursor:pointer;margin-bottom: 0">Insert Template</label></span></a>
 
                             <div class="g-date-picker">
-                                  <i class="bi bi-calendar-week"></i>
+                              <i class="bi bi-calendar-week"></i>
 
-                            <date-picker  v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"
-                                         :config="{format: 'DD-MM-YYYY'}">
+                              <date-picker v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"
+                                           :config="{format: 'DD-MM-YYYY'}">
 
-                            </date-picker>
-                              </div>
+                              </date-picker>
+                            </div>
 
                           </div>
 
-                        
-                            
-                             <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
-                        
 
-                      
+                          <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
+
+
                         </div>
                         <!-- </form> -->
 
@@ -922,14 +920,14 @@
   overflow-y: auto;
 }
 
-.g-date-picker{
-  position:relative;
+.g-date-picker {
+  position: relative;
 
-  i{
+  i {
     position: absolute;
     right: 5px;
-    top:50%;
-    transform:translateY(-50%);
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 
