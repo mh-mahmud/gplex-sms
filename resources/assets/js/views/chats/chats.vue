@@ -143,6 +143,7 @@
                               <div class="chat-msg">
                                 {{ msg.sms_text }}
                                 <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
+                                <div style="font-size:10px" v-if="msg.direction=='O'"><i>{{ msg.account_id }}</i></div>
                               </div>
                               <div class="chat-msg-image">
                                 <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'" alt="">
