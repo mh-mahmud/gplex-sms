@@ -53,9 +53,9 @@
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
                               <small>{{ chatHeadPhone }}</small>
                             </div>
-                            <!-- <div class="g-chat-notes">
+                            <div class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
                               <small>2 notes</small>
-                            </div> -->
+                            </div>
                           </div>
                         </div>
 
@@ -266,6 +266,11 @@
 
             <!-- template modal -->
             <template-modal v-bind:modal-data="modalData"></template-modal>
+
+
+            <!--            Disposition Modal-->
+            <disposition-modal> </disposition-modal>
+
 
           </div>
         </div>
@@ -941,11 +946,15 @@ import VueChatScroll from 'vue-chat-scroll';
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
+import Disposition_modal from "../compose/disposition_modal.vue";
+import DispositionModal from "../compose/disposition_modal.vue";
 
 
 export default {
   extends: AppComponent,
   components: {
+    DispositionModal,
+    Disposition_modal,
     TemplateModal
   },
   data() {
