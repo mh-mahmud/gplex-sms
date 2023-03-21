@@ -4,7 +4,7 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-require('./bootstrap'); 
+require('./bootstrap');
 
 window.Vue = require('vue');
 window.VueRouter=require('vue-router').default;
@@ -15,7 +15,7 @@ window.moment = require('moment');
 Vue.use(VueRouter,VueAxios, axios);
 // vue axios redirect to login page if it is unautenticated
 axios.interceptors.response.use((response) => response, (error) => {
-    if(error.response.status == 401){ 
+    if(error.response.status == 401){
         window.location.href = BASE_URL+"login";
     }else{
         throw error;
@@ -23,7 +23,7 @@ axios.interceptors.response.use((response) => response, (error) => {
 });
 
 // bootstrap vue
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue);
 
 // vue validate
@@ -44,7 +44,7 @@ Vue.component('Breadcrumb', require('./components/Breadcrumb.vue'));
 import router from './routes/index.js';
 import moment from 'moment';
 import customPluginLib from './plugins/custom_plugin_lib.js';
-const app = new Vue({ router }).$mount('#app')
+const app = new Vue({ router }).$mount('#app');
 Vue.use(customPluginLib);
 
 
