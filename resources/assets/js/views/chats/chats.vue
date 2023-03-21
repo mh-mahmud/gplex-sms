@@ -53,8 +53,8 @@
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
                               <small>{{ chatHeadPhone }}</small>
                             </div>
-                            <div class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
-                              <small>2 notes</small>
+                            <div v-if="chatHeadPhone" class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
+                              <small v-if="chatHeadPhone" >set Disposition</small>
                             </div>
                           </div>
                         </div>
@@ -199,7 +199,7 @@
                             <div class="g-date-picker">
                               <i class="bi bi-calendar-week"></i>
 
-                              <date-picker v-model="date" @dp-hide="doSomethingOnHide" @dp-change="doSomethingOnChange"
+                              <date-picker v-model="currentDate"
                                            :config="{format: 'DD-MM-YYYY'}">
 
                               </date-picker>
@@ -947,7 +947,6 @@ import VueChatScroll from 'vue-chat-scroll';
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
-import Disposition_modal from "../compose/disposition_modal.vue";
 import DispositionModal from "../compose/disposition_modal.vue";
 
 
@@ -955,7 +954,6 @@ export default {
   extends: AppComponent,
   components: {
     DispositionModal,
-    Disposition_modal,
     TemplateModal
   },
   data() {
@@ -984,7 +982,8 @@ export default {
       search: "",
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
       interval: null,
-      lastUpdate: ""
+      lastUpdate: "",
+      currentDate:""
     };
   },
   mounted() {
