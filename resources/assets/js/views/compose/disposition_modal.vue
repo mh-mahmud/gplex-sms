@@ -10,17 +10,17 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-sm-12">
-              <form action="">
+              <form class="m-form" @submit.prevent="addDisposition" autocomplete="off">
                 <div class="form-group">
-                  <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Write here..."></textarea>
+                  <textarea name="" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
+                  <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
+                     {{ errors.first('disposition') || validationErrors.disposition[0] }}
+                  </span>
                   <button type="submit" class="btn btn-success mt-2 float-right">Submit</button>
                 </div>
               </form>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
 
@@ -36,6 +36,8 @@ export default {
   extends: AppComponent,
   data() {
     return {
+      formData:{},
+      validationErrors: {},
     }
   },
   mounted(){
@@ -45,14 +47,48 @@ export default {
   },
   methods: {
     closeModal(refid){
-      $(refid).on('hidden.bs.modal', function () {
+      let self = this;
+      $(refid).on("hidden.bs.modal", function(){
+        self.formData = {};
+        self.validationErrors = {};
+        $("body").removeAttr("style");
       });
+    },
+    addDisposition(){
+      this.$validator.validateAll().then((result) => {
+        if(result == true){
+          if(typeof commonLib != 'undefined'){
+            commonLib.blockUI({target: "#disposition-modal",animate: true,overlayColor: 'none'});
+          }
+          let self = this;
 
+          axios.post('api/add-disposition', self.formData).then((res) =>
+          {
+            self.formData = {};
+            self.validationErrors = {};
+            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+            commonLib.unblockUI("#disposition-modal");
+            self.hideModal('#disposition-modal');
+          })
+                  .catch(function (error) {
+                    self.validationErrors = error.response.data;
+                    commonLib.unblockUI("#disposition-modal");
+                  });
 
+        }
+
+      });
     },
     showModal(refid){
-      $(refid).on('shown.bs.modal', function () {
+      let self = this;
+      $(refid).on("shown.bs.modal", function(){
+        self.formData = {};
+        self.validationErrors = {};
       });
+    },
+    hideModal(refid){
+      $(refid).modal('hide');
+      $(".modal-backdrop").remove();
     }
   }
 }
