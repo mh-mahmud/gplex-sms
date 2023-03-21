@@ -127,9 +127,8 @@
                     <!--Right Chat Area-->
                     <div class="g-chat">
 
-                      <div class="g-chat-history" id="g-chat-history"
-                           v-chat-scroll
-                           @v-chat-scroll-top-reached="reachedBottom">
+                      <div @scroll="handleScroll" class="g-chat-history" id="g-chat-history"
+                           v-chat-scroll>
 
                         <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                           <div class="g-chat-main">
@@ -269,7 +268,7 @@
 
 
             <!--            Disposition Modal-->
-            <disposition-modal> </disposition-modal>
+            <disposition-modal></disposition-modal>
 
 
           </div>
@@ -1073,8 +1072,12 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    reachedBottom() {
-
+    handleScroll(event) {
+      const element = event.target
+      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        // do something when scrolled to the bottom
+        console.log('Scrolled to bottom!')
+      }
     },
 
     onSearch() {
