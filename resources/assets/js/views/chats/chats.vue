@@ -1079,7 +1079,7 @@ export default {
       const element = event.target
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
         // do something when scrolled to the bottom
-       alert('Im at bottom');
+       // alert('Im at bottom');
       }
     },
 
@@ -1089,10 +1089,10 @@ export default {
      * @script  Initialize when chat history scroll reached at top
      * */
     scrollAtTop(){
-      alert('Im at top');
+      // alert('Im at top');
     },
 
-    
+
     /**
      * @script array object based search
      * */
