@@ -191,9 +191,8 @@
 
 
                             <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal"
-                               data-target="#template-modal" class="btn btn-sm btn-default"><i
-                                class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label
-                                style="cursor:pointer;margin-bottom: 0">Insert Template</label></span></a>
+                               data-target="#template-modal" class="btn btn-sm btn-default" title="Insert Template"><i
+                                class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i></a>
 
                             <div class="g-date-picker">
                               <i class="bi bi-calendar-week"></i>
@@ -665,6 +664,7 @@
   background-color: #444753;
   flex-basis: 20%;
   position: relative;
+  height: 66vh;
 
   ul {
     margin: 0;
