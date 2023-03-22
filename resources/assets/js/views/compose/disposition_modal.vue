@@ -12,7 +12,7 @@
             <div class="col-sm-12">
               <form class="m-form" @submit.prevent="addDisposition" autocomplete="off">
                 <div class="form-group">
-                  <textarea name="" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
+                  <textarea name="disposition" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
                   <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
                      {{ errors.first('disposition') || validationErrors.disposition[0] }}
                   </span>
@@ -32,11 +32,13 @@
 <script>
 import AppComponent from '../../components/AppComponent';
 export default {
-  name: 'disposition-modal',
-  extends: AppComponent,
+  components:{
+    AppComponent
+  },
   data() {
     return {
       formData:{},
+      disposition: "",
       validationErrors: {},
     }
   },
@@ -45,7 +47,16 @@ export default {
     this.closeModal("#disposition-modal");
     this.showModal("#disposition-modal");
   },
+  props: ["dispositionData"],
   methods: {
+
+    showModal(refid){
+      let self = this;
+      $(refid).on("shown.bs.modal", function(){
+        self.formData = self.dispositionData;
+        self.validationErrors = {};
+      });
+    },
     closeModal(refid){
       let self = this;
       $(refid).on("hidden.bs.modal", function(){
@@ -61,7 +72,7 @@ export default {
             commonLib.blockUI({target: "#disposition-modal",animate: true,overlayColor: 'none'});
           }
           let self = this;
-
+          console.log(self.formData);
           axios.post('api/add-disposition', self.formData).then((res) =>
           {
             self.formData = {};
@@ -70,20 +81,13 @@ export default {
             commonLib.unblockUI("#disposition-modal");
             self.hideModal('#disposition-modal');
           })
-                  .catch(function (error) {
-                    self.validationErrors = error.response.data;
-                    commonLib.unblockUI("#disposition-modal");
-                  });
+          .catch(function (error) {
+            self.validationErrors = error.response.data;
+            commonLib.unblockUI("#disposition-modal");
+          });
 
         }
 
-      });
-    },
-    showModal(refid){
-      let self = this;
-      $(refid).on("shown.bs.modal", function(){
-        self.formData = {};
-        self.validationErrors = {};
       });
     },
     hideModal(refid){

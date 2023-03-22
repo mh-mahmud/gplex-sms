@@ -83,4 +83,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/chats', 'ChatsController@getChatsData');
     Route::get('/open-chats/{date}', 'ChatsController@getOpenChat');
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
+    Route::post('/add-disposition', 'ChatsController@storeDisposition');
 });

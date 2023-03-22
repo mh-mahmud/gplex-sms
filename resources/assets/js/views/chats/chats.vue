@@ -53,7 +53,7 @@
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
                               <small>{{ chatHeadPhone }}</small>
                             </div>
-                            <div v-if="chatHeadPhone" class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
+                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)" class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
                               <small v-if="chatHeadPhone" >set Disposition</small>
                             </div>
                           </div>
@@ -86,7 +86,7 @@
                                 <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">{{ item.first_name }} {{ item.last_name }}</strong>
+                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone}} {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
                             </div>
@@ -269,7 +269,7 @@
 
 
             <!--            Disposition Modal-->
-            <disposition-modal></disposition-modal>
+            <disposition-modal v-bind:disposition-data="dispositionData"> </disposition-modal>
 
 
           </div>
@@ -942,7 +942,6 @@
 
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
-
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
@@ -959,6 +958,7 @@ export default {
     return {
       data: {},
       modalData: {},
+      dispositionData: {},
       chatInfo: {},
       prevSmsData: {},
       selectedValue: {}, // First option will be selected by default
@@ -1146,6 +1146,7 @@ export default {
     },
     openChatsView() {
       let url = `api/open-chats/${this.lastUpdate}`;
+      let self = this;
       if (this.lastUpdate) {
         axios.get(url).then((res) => {
           // console.log(this.openData);
@@ -1154,8 +1155,12 @@ export default {
             result = {...result, ...this.openData};
             this.lastUpdate = res.data.lastUpdate;
             this.openData = result;
+            // console.log(this.openData);
+            let newResult = res.data.openChat;
+            $.each(newResult, function(index, value) {
+              self.openData[index] = value;
+            });
           }
-          // console.log(this.openData);
         })
             .catch(function (error) {
               console.log(error.response);
@@ -1180,6 +1185,7 @@ export default {
       this.chatHeadPhone = itemInfo.phone;
       this.chatHeadCompany = itemInfo.company;
       this.chatHeadSmsText = itemInfo.sms_text;
+      this.callid = itemInfo.callid;
 
       var url = `api/chat-info/${itemInfo.phone}`;
       axios.get(url).then((res) => {
@@ -1262,6 +1268,17 @@ export default {
     // bind data to use on modal
     bindModalData(data) {
       this.modalData = data;
+    },
+
+    // bind data to use on modal
+    bindDispositionData(clientNumber,clientCallid) {
+      console.log(clientNumber);
+      console.log(clientCallid);
+      this.dispositionData = {
+        clientNumber : clientNumber,
+        clientCallid : clientCallid
+      };
+      console.log(this.modalData);
     },
 
 
