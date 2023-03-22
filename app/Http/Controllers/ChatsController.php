@@ -131,4 +131,16 @@ class ChatsController extends AppController
         }
     }
 
+    /**
+     * Check for auto login.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeDisposition(Request $request)
+    {
+        $data = $this->ChatsService->saveDisposition($request);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);
+    }
+
 }

@@ -194,4 +194,10 @@ class AppService
             ]
         ];
     }
+
+    public function genRandId(){
+        $rand = $this->genRandNum(6);
+        $tstmp = substr(time(),4);
+        return $str = $tstmp.$rand;
+    }
 }
