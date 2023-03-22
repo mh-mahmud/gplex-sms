@@ -127,9 +127,8 @@
                     <!--Right Chat Area-->
                     <div class="g-chat">
 
-                      <div class="g-chat-history" id="g-chat-history"
-                           v-chat-scroll
-                           @v-chat-scroll-top-reached="reachedBottom">
+                      <div @scroll="scrollAtBottom" class="g-chat-history" id="g-chat-history"
+                           v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
 
                         <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                           <div class="g-chat-main">
@@ -1073,10 +1072,30 @@ export default {
     clearInterval(this.interval)
   },
   methods: {
-    reachedBottom() {
-
+    /**
+    * @script  Initialize when chat history scroll reached at bottom
+    * */
+    scrollAtBottom(event) {
+      const element = event.target
+      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        // do something when scrolled to the bottom
+       alert('Im at bottom');
+      }
     },
 
+
+
+    /**
+     * @script  Initialize when chat history scroll reached at top
+     * */
+    scrollAtTop(){
+      alert('Im at top');
+    },
+
+
+    /**
+     * @script array object based search
+     * */
     onSearch() {
       if (this.search && this.search !== '') {
         this.openData = this.openData.filter((item) => {
