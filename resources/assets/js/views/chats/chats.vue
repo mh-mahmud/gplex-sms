@@ -202,7 +202,7 @@
                           </div>
 
 
-                          <button @click="sendMessage()" class="btn btn-secondary btn-sm">SEND</button>
+                          <button @click="sendMessage()" class="btn btn-primary btn-sm">SEND</button>
 
 
                         </div>
