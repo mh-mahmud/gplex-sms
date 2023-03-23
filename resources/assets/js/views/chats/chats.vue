@@ -53,9 +53,8 @@
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
                               <small>{{ chatHeadPhone }}</small>
                             </div>
-                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)"
-                                 class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
-                              <small v-if="chatHeadPhone">set Disposition</small>
+                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)" class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
+                              <small v-if="chatHeadPhone" >set Disposition</small>
                             </div>
                           </div>
                         </div>
@@ -78,8 +77,7 @@
                     <!--      Left List Item-->
                     <div class="g-chat-left">
                       <div id="open-chat">
-                        <ul>
-
+                        <ul @scroll="scrollCustomBottom">
                           <li class="chat-box" v-for="(item, key) in openData" :data-target="'content-'+key"
                               v-on:click="greet(item); selectItem(key)" :class="{active: activeIndex === key}">
                             <div class="g-left-u-profile">
@@ -87,14 +85,12 @@
                                 <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone }}
-                                  {{ item.last_name }} </strong>
+                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone}} {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
+                              <div v-if="item.status == 'U'" class=""><span class="text-right"><i class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
                             </div>
                           </li>
-
-
                         </ul>
                       </div>
 
@@ -129,7 +125,7 @@
                     <!--Right Chat Area-->
                     <div class="g-chat">
 
-                      <div @scroll="scrollAtBottom" class="g-chat-history" id="g-chat-history"
+                      <div class="g-chat-history" id="g-chat-history"
                            v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
 
                         <div id="content-1" class="content active" v-for="msg in chatInfo.data">
@@ -196,8 +192,13 @@
                                data-target="#template-modal" class="btn btn-sm btn-default" title="Insert Template"><i
                                 class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i></a>
 
-                            <div class="g-date-picker" role="button" title="Calendar">
-                              <date-picker v-model="currentDate" :config="{format: 'DD-MM-YYYY'}"></date-picker>
+                            <div class="g-date-picker">
+                              <i class="bi bi-calendar-week"></i>
+
+                              <date-picker v-model="currentDate"
+                                           :config="{format: 'DD-MM-YYYY'}">
+
+                              </date-picker>
                             </div>
 
                           </div>
@@ -265,7 +266,7 @@
 
 
             <!--            Disposition Modal-->
-            <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
+            <disposition-modal v-bind:disposition-data="dispositionData"> </disposition-modal>
 
 
           </div>
@@ -924,45 +925,12 @@
 
 .g-date-picker {
   position: relative;
-  width: 37px;
-  border: 1px solid #ebedf2;
-  cursor: pointer;
-  border-radius: 4px;
 
-  &::after {
-    font-family: 'bootstrap-icons', sans-serif;
+  i {
     position: absolute;
-    content: "\F1F3";
-    left: 50%;
+    right: 5px;
     top: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    color: #329e8c;
-    z-index: 2;
-    border-radius: 4px;
-    padding: 10px;
-  }
-
-  &::before {
-    content: "";
-    background-color: #ffffff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    border-radius: 4px;
-    transition: all 0.4s ease-in-out;
-  }
-
-  &:hover::before {
-    background-color: darken(#ffffff, 5%);
-    border-radius: 4px;
-  }
-
-  > input {
-    height: 35px;
-    border-radius: 4px;
+    transform: translateY(-50%);
   }
 }
 
@@ -972,7 +940,6 @@
 
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
-
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
@@ -1013,7 +980,7 @@ export default {
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
       interval: null,
       lastUpdate: "",
-      currentDate: ""
+      currentDate:""
     };
   },
   mounted() {
@@ -1104,22 +1071,49 @@ export default {
   },
   methods: {
     /**
-     * @script  Initialize when chat history scroll reached at bottom
-     * */
+    * @script  Initialize when chat history scroll reached at bottom
+    * */
     scrollAtBottom(event) {
       const element = event.target
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
         // do something when scrolled to the bottom
-        // alert('Im at bottom');
+       alert('Im at bottom');
       }
     },
+    /**
+    * @script  Initialize when chat history scroll reached at bottom
+    * */
+    scrollCustomBottom(event) {
+      const element = event.target
+      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        // do something when scrolled to the bottom
+        let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
+        // console.log(lastValue);
+        let url = `api/previous-chats/${lastValue}`;
+        if (this.lastUpdate) {
+          axios.get(url).then((res) => {
+            // console.log(this.openData);
+            if (typeof res.data.lastUpdate !== 'undefined') {
+              let result = res.data.openChat;
+              result = {...this.openData, ...result};
+              this.lastUpdate = res.data.lastUpdate;
+              this.openData = result;
+            }
+          })
+          .catch(function (error) {
+            console.log(error.response);
+          });
+        }
+      }
+    },
+
 
 
     /**
      * @script  Initialize when chat history scroll reached at top
      * */
-    scrollAtTop() {
-      // alert('Im at top');
+    scrollAtTop(){
+      console.log('I am at top');
     },
 
 
@@ -1187,7 +1181,7 @@ export default {
             this.openData = result;
             // console.log(this.openData);
             let newResult = res.data.openChat;
-            $.each(newResult, function (index, value) {
+            $.each(newResult, function(index, value) {
               self.openData[index] = value;
             });
           }
@@ -1301,12 +1295,12 @@ export default {
     },
 
     // bind data to use on modal
-    bindDispositionData(clientNumber, clientCallid) {
+    bindDispositionData(clientNumber,clientCallid) {
       console.log(clientNumber);
       console.log(clientCallid);
       this.dispositionData = {
-        clientNumber: clientNumber,
-        clientCallid: clientCallid
+        clientNumber : clientNumber,
+        clientCallid : clientCallid
       };
       console.log(this.modalData);
     },
