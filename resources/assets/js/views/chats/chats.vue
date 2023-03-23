@@ -940,6 +940,7 @@
     color: #329e8c;
     z-index: 2;
     border-radius: 4px;
+    padding: 10px;
   }
 
   &::before {
