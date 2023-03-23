@@ -77,8 +77,7 @@
                     <!--      Left List Item-->
                     <div class="g-chat-left">
                       <div id="open-chat">
-                        <ul>
-
+                        <ul @scroll="scrollCustomBottom">
                           <li class="chat-box" v-for="(item, key) in openData" :data-target="'content-'+key"
                               v-on:click="greet(item); selectItem(key)" :class="{active: activeIndex === key}">
                             <div class="g-left-u-profile">
@@ -89,10 +88,9 @@
                                 <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone}} {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
+                              <div v-if="item.status == 'U'" class=""><span class="text-right"><i class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
                             </div>
                           </li>
-
-
                         </ul>
                       </div>
 
@@ -127,7 +125,7 @@
                     <!--Right Chat Area-->
                     <div class="g-chat">
 
-                      <div @scroll="scrollAtBottom" class="g-chat-history" id="g-chat-history"
+                      <div class="g-chat-history" id="g-chat-history"
                            v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
 
                         <div id="content-1" class="content active" v-for="msg in chatInfo.data">
@@ -1079,7 +1077,33 @@ export default {
       const element = event.target
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
         // do something when scrolled to the bottom
-       // alert('Im at bottom');
+       alert('Im at bottom');
+      }
+    },
+    /**
+    * @script  Initialize when chat history scroll reached at bottom
+    * */
+    scrollCustomBottom(event) {
+      const element = event.target
+      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+        // do something when scrolled to the bottom
+        let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
+        // console.log(lastValue);
+        let url = `api/previous-chats/${lastValue}`;
+        if (this.lastUpdate) {
+          axios.get(url).then((res) => {
+            // console.log(this.openData);
+            if (typeof res.data.lastUpdate !== 'undefined') {
+              let result = res.data.openChat;
+              result = {...this.openData, ...result};
+              this.lastUpdate = res.data.lastUpdate;
+              this.openData = result;
+            }
+          })
+          .catch(function (error) {
+            console.log(error.response);
+          });
+        }
       }
     },
 
@@ -1089,7 +1113,7 @@ export default {
      * @script  Initialize when chat history scroll reached at top
      * */
     scrollAtTop(){
-      // alert('Im at top');
+      console.log('I am at top');
     },
 
 
