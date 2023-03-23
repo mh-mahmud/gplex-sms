@@ -957,6 +957,7 @@
 
   &:hover::before {
     background-color: darken(#ffffff, 5%);
+    border-radius: 4px;
   }
 
   > input {
