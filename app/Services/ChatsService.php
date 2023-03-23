@@ -97,6 +97,9 @@ class ChatsService extends AppService {
             $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
         }
 
+        // update all chats data to read
+        Log::where('client_number', $sms_to)->update(['status' => 'R']);
+
         return $this->paginationDataFormat($data->toArray());
     }
 
