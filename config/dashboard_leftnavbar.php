@@ -84,6 +84,15 @@ return [
     ],
     [
         'name' => 'administrator',
+        'title' => 'Contact Settings',
+        'icon' => 'flaticon-book',
+        'sidebar_menu_active' => 'contact-settings',
+        'vue_route_name' => 'ContactSettings',
+        'url' => '#/contact-settings',
+        'model_list' => []
+    ],
+    [
+        'name' => 'administrator',
         'title' => 'Templates',
         'icon' => 'flaticon-list',
         'sidebar_menu_active' => 'templates',

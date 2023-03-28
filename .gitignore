@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm,windows,sublimetext,vuejs,vue,laravel
 
 ### Laravel ###
+public/*
 /vendor/
 node_modules/
 npm-debug.log
@@ -16,7 +17,9 @@ storage/*
 public/storage
 public/hot
 public/js/app.js
+public/*
 /public/js/*
+
 
 # Laravel 5 & Lumen specific with changed public path
 public_html/storage
