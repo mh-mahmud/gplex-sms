@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Disposition;
+use App\Models\DispositionCode;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Log;
@@ -44,7 +45,7 @@ class ChatsService extends AppService {
 
 
 //        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit  50 ");
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE c.lead_status=1 AND ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
+//        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE c.lead_status=1 AND ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
 
 
         $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND c.lead_status!=0 OR c.lead_status IS NULL and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
@@ -73,9 +74,12 @@ class ChatsService extends AppService {
 //        DB::enableQueryLog();
         $dataObj =  new Disposition;
 
+        $dataObj->account_id = $this->getAccountId();
         $dataObj->record_id = $this->genRandId();
         $dataObj->callid = $request->input('clientCallid');
         $dataObj->cli = $request->input('clientNumber');
+        $dataObj->cli = $request->input('clientNumber');
+        $dataObj->disposition_id = $request->input('disposition_id');
         $dataObj->tstamp = time();
         $dataObj->agent_id = $authUser['extn'];
         $dataObj->note = $request->input('disposition');
@@ -123,6 +127,21 @@ class ChatsService extends AppService {
             $value->omessage = $value->message;
             $value->message = nl2br($value->message);
         }
+        return $data->toArray();
+    }
+
+    public function getAllDisposition(){
+        $account_id = $this->getAccountId();
+        $data = DispositionCode::where('account_id', '=', $account_id)->get();
+        $result = [];
+        foreach($data as $key => $value){
+            $result[$value->disposition_id] = $value->title;
+        }
+        return $result;
+    }
+
+    public function getClientDisposition($clientNumber){
+        $data = Disposition::where('cli', '=', $clientNumber)->orderBy('tstamp','DESC')->limit(10)->get();
         return $data->toArray();
     }
 

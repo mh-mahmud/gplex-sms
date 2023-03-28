@@ -30,6 +30,9 @@ Route::group(['middleware' => ['auth']], function() {
         'schedules' => 'ScheduleController',
     ]);
     Route::resources([
+        'dispositions' => 'DispositionController',
+    ]);
+    Route::resources([
         'history' => 'HistoryController',
     ]);
     Route::resources([
@@ -84,4 +87,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/open-chats/{date}', 'ChatsController@getOpenChat');
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
     Route::post('/add-disposition', 'ChatsController@storeDisposition');
+    Route::get('/all-dispositions/{clientNumber}', 'ChatsController@allDispositions');
 });

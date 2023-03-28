@@ -20,6 +20,15 @@ return [
         'model_list' => []
     ],
     [
+        'name' => 'DispositionList',
+        'title' => 'Disposition',
+        'icon' => 'flaticon-list',
+        'sidebar_menu_active' => 'DispositionList',
+        'vue_route_name' => 'DispositionList',
+        'url' => '#/disposition-list',
+        'model_list' => []
+    ],
+    [
         'name' => 'administrator',
         'title' => 'Compose',
         'icon' => 'flaticon-list',

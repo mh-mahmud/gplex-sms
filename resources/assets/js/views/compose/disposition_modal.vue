@@ -12,10 +12,22 @@
             <div class="col-sm-12">
               <form class="m-form" @submit.prevent="addDisposition" autocomplete="off">
                 <div class="form-group">
-                  <textarea name="disposition" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
-                  <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
+                  <div class="row">
+                    <div class="col-md-5 m--margin-bottom-10-tablet-and-mobile">
+                      <label>Disposition Type:</label>
+                      <select data-vv-as="Disposition Type" name="disposition_id" v-model="formData.disposition_id" class="form-control m-input">
+                        <option value="">All</option>
+                        <option v-for="(item, index) in modalData.DispositionType" :value="index" :key="index">{{item}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <textarea name="disposition" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
+                    <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
                      {{ errors.first('disposition') || validationErrors.disposition[0] }}
                   </span>
+                  </div>
+
                   <button type="submit" class="btn btn-success mt-2 float-right">Submit</button>
                 </div>
               </form>
@@ -40,12 +52,15 @@ export default {
       formData:{},
       disposition: "",
       validationErrors: {},
+      modalData:{},
+      modalPagination:{},
     }
   },
   mounted(){
     this.baseUrl = BASE_URL;
     this.closeModal("#disposition-modal");
     this.showModal("#disposition-modal");
+    this.getAllDisposition();
   },
   props: ["dispositionData"],
   methods: {
@@ -54,8 +69,23 @@ export default {
       let self = this;
       $(refid).on("shown.bs.modal", function(){
         self.formData = self.dispositionData;
+        axios.get('api/all-dispositions/'+self.formData.clientNumber).then((res) =>
+        {
+          console.log(res.data);
+          self.modalData = res.data;
+          if(blockUI.show == true && typeof commonLib != 'undefined'){
+            commonLib.unblockUI(targetElm);
+          }
+        })
+        .catch(function (error) {
+          self.validationErrors = error;
+          commonLib.unblockUI("#disposition-modal");
+        });
         self.validationErrors = {};
       });
+    },
+    getAllDisposition(){
+
     },
     closeModal(refid){
       let self = this;

@@ -132,7 +132,7 @@ class ChatsController extends AppController
     }
 
     /**
-     * Check for auto login.
+     * Check for store Disposition.
      *
      * @return \Illuminate\Http\Response
      */
@@ -141,6 +141,20 @@ class ChatsController extends AppController
         $data = $this->ChatsService->saveDisposition($request);
         $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
         return response()->json($responseMsg);
+    }
+
+    /**
+     * Check for store Disposition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function allDispositions($clientNumber)
+    {
+        $data = $this->ChatsService->getClientDisposition($clientNumber);
+        $layoutData['DispositionType'] = $this->ChatsService->getAllDisposition();
+        $layoutData['data'] = $data;
+        // Return collection of list as a reosurce
+        return response()->json($layoutData);
     }
 
 }

@@ -98,6 +98,15 @@ return[
         'A' => 'Active',
         'I' => 'Inactive'
     ],
+    'DISPOSITION_STATUS' => [
+        'Y' => 'Active',
+        'N' => 'Inactive'
+    ],
+    'DISPOSIOTION_TYPE' => [
+        'R' => 'Request',
+        'Q' => 'Query',
+        'C' => 'Complain'
+    ],
     'DELETE_STATUS' => [
         '0' => 'Deleted',
         '1' => 'Not Deleted'

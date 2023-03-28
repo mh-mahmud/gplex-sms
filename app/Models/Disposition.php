@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Disposition extends Model
 {
-    protected $table='sms_disposition_log';
+    protected $table='log_sms_disposition';
     public $timestamps = false;
 	
 }
