@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Contact;
+use App\Models\ContactSettings;
 use App\Models\Group;
 use App\Models\ContactGroup;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,7 @@ class ContactsService extends AppService
 {
 
     public function __construct()
-    {        
+    {
         $this->account_id = Auth::user()->account_id;
         $this->DidService = new DidService();
         $this->AuditLogService = new AuditLogService();        
@@ -974,6 +975,10 @@ class ContactsService extends AppService
         $data2 = $this->getSearchGroupData($queryParam);        
         $data = array_merge($data1,$data2);
         return $data; 
+    }
+
+    public function getContactSettings() {
+        return ContactSettings::where('account_id', $this->account_id)->first();
     }
 
 }

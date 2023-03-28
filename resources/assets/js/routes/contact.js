@@ -5,6 +5,7 @@ const ContactGroupList = Vue.component('ContactList', require('../views/contacts
 const ContactCreate = Vue.component('ContactCreate', require('../views/contacts/create.vue'));
 const ContactEdit = Vue.component('ContactEdit', require('../views/contacts/edit.vue'));
 const ContactImport = Vue.component('ContactImport', require('../views/contacts/import.vue'));
+const ContactSettings = Vue.component('ContactSettings', require('../views/contacts/contact_settings.vue'));
 
 export default [
     // users route
@@ -13,5 +14,6 @@ export default [
     {name: 'ContactCreate', path: '/contact-create', component: ContactCreate},
     {name: 'ContactEdit', path: '/contact-edit//:id', component: ContactEdit},
     {name: 'ContactImport', path: '/contact-import/', component: ContactImport},
+    {name: 'ContactSettings', path: '/contact-settings/', component: ContactSettings},
 
 ];

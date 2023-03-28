@@ -242,7 +242,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        print_r("Hello");
     }
 
     /**
@@ -405,5 +405,55 @@ class ContactController extends Controller
     public function getSearchContactList(Request $request){
         $data = $this->Service->getSearchData($request);
         return response()->json($data); 
+    }
+
+    // -- code for contact settings
+    public function createInitSettings()
+    {
+        dd("Hello");
+        $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
+        $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
+        $layoutData['title'] = 'Contact Settings Page | '.config("app.name");
+        $layoutData['groups'] = $this->GroupService->getAllGroups();
+        $layoutData['breadcrumb'] = [
+            "links" => [
+                [
+                    "name" => "Contact",
+                    "url" => url("#/contact-list"),
+                    "icon" => "flaticon-user"
+                ],
+                [
+                    "name" => "Add Contact",
+                    "url" => url("#/contact-create"),
+                    "icon" => "flaticon-plus"
+                ]
+            ]    
+        ];
+        $layoutData['countries'] = $this->getCountryList();
+        return $layoutData;
+    }
+
+    public function getContactSettings() {
+
+        $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
+        $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
+        $layoutData['title'] = 'Contact Settings Page | '.config("app.name");
+        $layoutData['settingsData'] = $this->Service->getContactSettings();
+        $layoutData['breadcrumb'] = [
+            "links" => [
+                [
+                    "name" => "Contact",
+                    "url" => url("#/contact-list"),
+                    "icon" => "flaticon-user"
+                ],
+                [
+                    "name" => "Add Contact",
+                    "url" => url("#/contact-create"),
+                    "icon" => "flaticon-plus"
+                ]
+            ]    
+        ];
+        $layoutData['countries'] = $this->getCountryList();
+        return $layoutData;
     }
 }
