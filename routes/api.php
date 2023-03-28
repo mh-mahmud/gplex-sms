@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/groups-list', 'GroupController@postGroupList');
     Route::post('/add-contact/{id}', 'GroupController@postAddContactToGroup');
     // List contacts
-    //Route::get('/create-init-settings', 'ContactController@createInitSettings');
+    Route::post('/create-settings', 'ContactController@storeSettings');
     Route::get('/contact-settings', 'ContactController@getContactSettings');
     Route::get('/contact-list', 'ContactController@getContactList');
     Route::post('/contact-list', 'ContactController@postContactList');

@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    <form class="m-form" @submit.prevent="addContact">
+                    <form class="m-form" @submit.prevent="addContactSettings">
                         <div class="m-portlet__body">
                             <div class="m-form__section m-form__section--first">
 
@@ -196,19 +196,19 @@ export default {
 
     },
     // Add/Update Contact
-    addContact() {
+    addContactSettings() {
         this.$validator.validateAll().then((result) => { 
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
                 }
                 var vm = this;
-                axios.post('api/contacts', this.contact).then((res) => 
+                axios.post('api/create-settings', this.contact).then((res) => 
                 {
                     commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
                     if(res.data.response_msg.type == 'success'){
-                        this.contact = {};
-                        this.$router.push({name:'ContactList'});
+                        //this.contact = {};
+                        this.$router.push({name:'ContactSettings'});
                     }
                     commonLib.unblockUI(".m-content");
                 })

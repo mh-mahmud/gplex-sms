@@ -205,7 +205,7 @@ class ContactsService extends AppService
     public function save($request){
 
         $validator = Validator::make($request->all(),[                                    
-            'phone' => 'required|max:13',
+            'account_id' => 'required|max:13',
             'country' => 'required',
             'phone_type' => 'required',
             //'group' => 'required',
@@ -979,6 +979,118 @@ class ContactsService extends AppService
 
     public function getContactSettings() {
         return ContactSettings::where('account_id', $this->account_id)->first();
+    }
+
+    public function saveSettings($request){
+
+        $validator = Validator::make($request->all(),[                                    
+            'custom_0_name' => 'required',
+
+        ]);
+        
+        if ($validator->fails()){
+            return $this->processServiceResponse(false, $validator->errors()->first(),null);                      
+        }
+
+        // check account id is not empty
+        $chk_data = ContactSettings::where('account_id', $this->account_id)->first();
+        if(empty($chk_data)) {
+            $data = new ContactSettings;
+            $data->account_id = $this->account_id;
+            $data->custom_0_name = $request->custom_0_name;
+            $data->custom_1_name = !empty($request->custom_1_name) ? $request->custom_1_name : '';
+            $data->custom_2_name = !empty($request->custom_2_name) ? $request->custom_2_name : '';
+            $data->custom_3_name = !empty($request->custom_3_name) ? $request->custom_3_name : '';
+            $data->custom_4_name = !empty($request->custom_4_name) ? $request->custom_4_name : '';
+            $data->custom_5_name = !empty($request->custom_5_name) ? $request->custom_5_name : '';
+            $data->custom_6_name = !empty($request->custom_6_name) ? $request->custom_6_name : '';
+            $data->custom_7_name = !empty($request->custom_7_name) ? $request->custom_7_name : '';
+            $data->custom_8_name = !empty($request->custom_8_name) ? $request->custom_8_name : '';
+            $data->custom_9_name = !empty($request->custom_9_name) ? $request->custom_9_name : '';
+            if($data->save()) {
+                //$this->DidService->save($request);
+                $this->AuditLogService->createLog($data, 'A');
+                return $this->processServiceResponse(true, "Contact Added Successfully!",$data);
+            }
+        }
+        else {
+            $data = ContactSettings::where('account_id', $this->account_id)
+            ->update([
+                'custom_0_name' => $request->custom_0_name,
+                'custom_1_name' => $request->custom_1_name,
+                'custom_2_name' => $request->custom_2_name,
+                'custom_3_name' => $request->custom_3_name,
+                'custom_4_name' => $request->custom_4_name,
+                'custom_5_name' => $request->custom_5_name,
+                'custom_6_name' => $request->custom_6_name,
+                'custom_7_name' => $request->custom_7_name,
+                'custom_8_name' => $request->custom_8_name,
+                'custom_9_name' => $request->custom_9_name
+            ]);
+            if($data) {
+                return $this->processServiceResponse(true, "Contact Settings Updated Successfully!",$data);
+            }
+        }
+        return $this->processServiceResponse(false, "Contact Added Failed!",$data);
+
+
+        $group = $request->input('group');
+        $phone = $request->input('phone');
+
+        if(strlen($phone)==10){
+            $phone = '1'.$phone;
+        }
+        $obj = Contact::where('phone','=',$phone)->where('account_id','=',$this->account_id)->count();
+        if($obj){
+            return $this->processServiceResponse(false, 'This phone number already exist',null);
+        }
+
+        // Create or Update 
+        $dataObj =  new Contact;
+        
+        // $dataObj->id = strrev(strtotime(date("Y-m-d H:i:s")));
+        $contactId = $this->genContactId();
+        $dataObj->id = $contactId;
+        $dataObj->user_id = Auth::user()->userid;
+        $dataObj->account_id = $this->account_id;
+        if(empty($request->input('first_name'))){
+            $dataObj->first_name = $phone;
+        }else{
+            $dataObj->first_name = $request->input('first_name');
+        }
+        if(!empty($request->input('last_name'))){
+            $dataObj->last_name = $request->input('last_name');
+        }else{
+            $dataObj->last_name = '';
+        }
+        //$dataObj->group_id = (!empty($group['code'])) ? $group['code'] : '';
+        $dataObj->phone = $phone;
+        $dataObj->country = $request->input('country');
+        if(!empty($request->input('company'))){
+            $dataObj->company = $request->input('company');
+        }else{
+            $dataObj->company = '';
+        }
+        //$dataObj->status = config('dashboard_constant.PENDING');
+        $dataObj->contact_type = 'S';
+        $dataObj->phone_type = $request->input('phone_type');
+
+        if($dataObj->save()) {
+            //$this->DidService->save($request);
+            $this->AuditLogService->createLog($dataObj, 'A');
+            if(!empty($group)){
+                foreach ($group as $key => $value) {
+                    $this->addContactGroup($this->account_id, $value['code'], $contactId);
+                    $updateList = Group::find($value['code']);
+                    if($updateList){
+                        $updateList->num_contacts = $updateList->num_contacts + 1;
+                        $updateList->save();
+                    }
+                }
+            }
+            return $this->processServiceResponse(true, "Contact Added Successfully!",$dataObj);
+        }
+        return $this->processServiceResponse(false, "Contact Added Failed!",$dataObj);
     }
 
 }

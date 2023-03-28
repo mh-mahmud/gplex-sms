@@ -456,4 +456,11 @@ class ContactController extends Controller
         $layoutData['countries'] = $this->getCountryList();
         return $layoutData;
     }
+
+    public function storeSettings(Request $request)
+    {
+        $data = $this->Service->saveSettings($request);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);  
+    }
 }
