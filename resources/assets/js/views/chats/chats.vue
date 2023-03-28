@@ -53,16 +53,24 @@
                               <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
                               <small>{{ chatHeadPhone }}</small>
                             </div>
-                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)" class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
-                              <small v-if="chatHeadPhone" >set Disposition</small>
+                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)"
+                                 class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
+                              <small v-if="chatHeadPhone">set Disposition</small>
                             </div>
                           </div>
                         </div>
 
                         <div class="g-chat-user-property">
+
                           <div class="search-container">
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
+                          </div>
+                          <div class="g-close-box btn btn-sm btn-success" @click="dataCloseHandler">
+                            <i class="bi bi-x-lg"></i>
+                          </div>
+                          <div class="g-close-box btn btn-sm btn-success" @click="dataCheckHandler">
+                            <i class="bi bi-check2"></i>
                           </div>
 
                         </div>
@@ -85,10 +93,12 @@
                                 <img :src="imageUrl" alt="">
                               </div>
                               <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone}} {{ item.last_name }} </strong>
+                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone }}
+                                  {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
-                              <div v-if="item.status == 'U'" class=""><span class="text-right"><i class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
+                              <div v-if="item.status == 'U'" class=""><span class="text-right"><i
+                                  class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
                             </div>
                           </li>
                         </ul>
@@ -264,7 +274,7 @@
 
 
             <!--            Disposition Modal-->
-            <disposition-modal v-bind:disposition-data="dispositionData"> </disposition-modal>
+            <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
 
 
           </div>
@@ -408,6 +418,10 @@
 .g-chat-user-property {
   margin-left: auto;
   margin-right: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 
@@ -974,6 +988,7 @@
 
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
+
 Vue.use(VueChatScroll);
 import AppComponent from '../../components/AppComponent';
 import TemplateModal from '../compose/template_modal';
@@ -1014,7 +1029,7 @@ export default {
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
       interval: null,
       lastUpdate: "",
-      currentDate:""
+      currentDate: ""
     };
   },
   mounted() {
@@ -1105,18 +1120,33 @@ export default {
   },
   methods: {
     /**
-    * @script  Initialize when chat history scroll reached at bottom
-    * */
+     * @script  For Close Handler
+     * */
+
+    dataCloseHandler() {
+      console.log("Working Close Handler");
+    },
+
+    /**
+     * @script  For Check Handler
+     * */
+    dataCheckHandler() {
+      console.log("Working Check Handler");
+    },
+
+    /**
+     * @script  Initialize when chat history scroll reached at bottom
+     * */
     scrollAtBottom(event) {
       const element = event.target
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
         // do something when scrolled to the bottom
-       alert('Im at bottom');
+        alert('Im at bottom');
       }
     },
     /**
-    * @script  Initialize when chat history scroll reached at bottom
-    * */
+     * @script  Initialize when chat history scroll reached at bottom
+     * */
     scrollCustomBottom(event) {
       const element = event.target
       if (element.scrollHeight - element.scrollTop === element.clientHeight) {
@@ -1134,19 +1164,18 @@ export default {
               this.openData = result;
             }
           })
-          .catch(function (error) {
-            console.log(error.response);
-          });
+              .catch(function (error) {
+                console.log(error.response);
+              });
         }
       }
     },
 
 
-
     /**
      * @script  Initialize when chat history scroll reached at top
      * */
-    scrollAtTop(){
+    scrollAtTop() {
       console.log('I am at top');
     },
 
@@ -1215,7 +1244,7 @@ export default {
             this.openData = result;
             // console.log(this.openData);
             let newResult = res.data.openChat;
-            $.each(newResult, function(index, value) {
+            $.each(newResult, function (index, value) {
               self.openData[index] = value;
             });
           }
@@ -1329,12 +1358,12 @@ export default {
     },
 
     // bind data to use on modal
-    bindDispositionData(clientNumber,clientCallid) {
+    bindDispositionData(clientNumber, clientCallid) {
       console.log(clientNumber);
       console.log(clientCallid);
       this.dispositionData = {
-        clientNumber : clientNumber,
-        clientCallid : clientCallid
+        clientNumber: clientNumber,
+        clientCallid: clientCallid
       };
       console.log(this.modalData);
     },
