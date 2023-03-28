@@ -66,10 +66,10 @@
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
                           </div>
-                          <div class="g-close-box btn btn-sm btn-success" @click="dataCloseHandler">
+                          <div class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
                             <i class="bi bi-x-lg"></i>
                           </div>
-                          <div class="g-close-box btn btn-sm btn-success" @click="dataCheckHandler">
+                          <div class="g-check-box btn btn-sm btn-success" @click="dataCheckHandler">
                             <i class="bi bi-check2"></i>
                           </div>
 
@@ -982,6 +982,17 @@
   }
 }
 
+/*============================
+         CheckBox
+  ============================*/
+.g-check-box, .g-close-box {
+  display: none;
+}
+
+.g-close-box.active {
+  display: block;
+}
+
 </style>
 
 <script>
@@ -1049,6 +1060,8 @@ export default {
     const closeBtn = document.getElementById("close-btn");
     const openChat = document.getElementById("open-chat");
     const closeChat = document.getElementById("close-chat");
+    const closeBox = document.querySelector(".g-close-box");
+    const checkBox = document.querySelector(".g-check-box");
     const selectTemplate = document.getElementById("template");
 
 
@@ -1104,6 +1117,8 @@ export default {
       closeChat.style.display = "none";
       openBtn.style.backgroundColor = "#329e8c";
       closeBtn.style.backgroundColor = "#5a5e6d";
+      checkBox.style.display = "none";
+      closeBox.style.display = "block";
     });
 
     closeBtn.addEventListener("click", () => {
@@ -1111,6 +1126,8 @@ export default {
       closeChat.style.display = "block";
       closeBtn.style.backgroundColor = "#329e8c";
       openBtn.style.backgroundColor = "#5a5e6d";
+      closeBox.style.display = "none";
+      checkBox.style.display = "block";
     });
 
 
