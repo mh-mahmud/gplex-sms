@@ -72,10 +72,6 @@ const CustomPluginLib = {
             }
             
         };
-        Vue.prototype.$getLength = () =>{
-            $("input.vs__search").attr('val',"");  
-            
-        };
         /**
          * get current date
          * @param {*} format

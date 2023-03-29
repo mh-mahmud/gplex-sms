@@ -16,7 +16,6 @@
                     <div class="col-md-5 m--margin-bottom-10-tablet-and-mobile">
                       <label>Disposition Type:</label>
                       <select data-vv-as="Disposition Type" name="disposition_id" v-model="formData.disposition_id" class="form-control m-input">
-                        <option value="">All</option>
                         <option v-for="(item, index) in modalData.DispositionType" :value="index" :key="index">{{item}}</option>
                       </select>
                     </div>
@@ -32,6 +31,24 @@
                 </div>
               </form>
             </div>
+          </div>
+          <div v-if="tableData.length > 0" class="table-responsive my-3 floating-scroll">
+            <table class="table table-bordered" style="width: 1880px !important;">
+              <thead>
+                <tr role="row" style="text-align: center">
+                  <th>Date</th>
+                  <th>Disposition Type</th>
+                  <th>Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(item, index) in modalData.data" v-bind:key="index" style="text-align: center">
+                  <td>{{item.tstamp}}</td>
+                  <td>{{item.title}}</td>
+                  <td >{{item.note}}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -53,6 +70,7 @@ export default {
       disposition: "",
       validationErrors: {},
       modalData:{},
+      tableData:{},
       modalPagination:{},
     }
   },
@@ -73,6 +91,7 @@ export default {
         {
           console.log(res.data);
           self.modalData = res.data;
+          self.tableData = res.data.data;
           if(blockUI.show == true && typeof commonLib != 'undefined'){
             commonLib.unblockUI(targetElm);
           }

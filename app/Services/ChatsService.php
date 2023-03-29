@@ -24,7 +24,7 @@ class ChatsService extends AppService {
 //        die();
 
 		//		$data = DB::select("select c.id, c.first_name,c.last_name, c.company, ls.log_time, ls.client_number as phone, SUBSTRING(ls.sms_text, 1, 15) AS txt, ls.status FROM log_sms ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' and ls.log_time = (select MAX(ls2.log_time) from log_sms ls2 where ls2.client_number = ls.client_number) GROUP BY ls.client_number ORDER BY log_time DESC LIMIT 15");
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND c.lead_status!=0 OR c.lead_status IS NULL ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
 
 
         $allData = [];
@@ -48,7 +48,7 @@ class ChatsService extends AppService {
 //        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE c.lead_status=1 AND ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
 
 
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND c.lead_status!=0 OR c.lead_status IS NULL and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.log_time > '{$date}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
 
         $allData = [];
         foreach ($data as $datum){
@@ -156,8 +156,19 @@ class ChatsService extends AppService {
     }
 
     public function getClientDisposition($clientNumber){
-        $data = Disposition::where('cli', '=', $clientNumber)->orderBy('tstamp','DESC')->limit(10)->get();
-        return $data->toArray();
+        $account_id = $this->getAccountId();
+//        $data = Disposition::where('cli', '=', $clientNumber)->orderBy('tstamp','DESC')->limit(10)->get();
+        $sql = 'SELECT lsd.tstamp,sdc.title,lsd.note FROM `log_sms_disposition` as lsd LEFT JOIN sms_disposition_code as sdc ON lsd.disposition_id=sdc.disposition_id ';
+        $sql .= 'where lsd.account_id = :account_id AND lsd.cli = :cli ORDER BY lsd.tstamp DESC LIMIT 10';
+        $selectConditions = [
+            'account_id'  => $account_id,
+            'cli'         => $clientNumber
+        ];
+        $data = DB::select($sql, $selectConditions);
+        foreach($data as $key => $value){
+            $value->tstamp = date('d/m/Y',$value->tstamp);
+        }
+        return $data;
     }
 
 }

@@ -66,12 +66,12 @@
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
                           </div>
-                          <div class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
-                            <i class="bi bi-x-lg"></i>
-                          </div>
-                          <div class="g-check-box btn btn-sm btn-success" @click="dataCheckHandler">
-                            <i class="bi bi-check2"></i>
-                          </div>
+<!--                          <div v-if="chatHeadPhone" class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">-->
+<!--                            <i class="bi bi-x-lg"></i>-->
+<!--                          </div>-->
+<!--                          <div class="g-check-box btn btn-sm btn-success" @click="dataCheckHandler">-->
+<!--                            <i class="bi bi-check2"></i>-->
+<!--                          </div>-->
 
                         </div>
 
@@ -1117,8 +1117,8 @@ export default {
       closeChat.style.display = "none";
       openBtn.style.backgroundColor = "#329e8c";
       closeBtn.style.backgroundColor = "#5a5e6d";
-      checkBox.style.display = "none";
-      closeBox.style.display = "block";
+      // checkBox.style.display = "none";
+      // closeBox.style.display = "block";
     });
 
     closeBtn.addEventListener("click", () => {
@@ -1126,8 +1126,8 @@ export default {
       closeChat.style.display = "block";
       closeBtn.style.backgroundColor = "#329e8c";
       openBtn.style.backgroundColor = "#5a5e6d";
-      closeBox.style.display = "none";
-      checkBox.style.display = "block";
+      // closeBox.style.display = "none";
+      // checkBox.style.display = "block";
     });
 
 

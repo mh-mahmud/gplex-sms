@@ -111,7 +111,16 @@ export default {
                 s%60    //SECONDS
             ];
             return $.map(fm,function(v,i) { return ( (v < 10) ? '0' : '' ) + v; }).join( ':' );
-        }
+        },
+        /**
+         * format date from timestamp value
+         */
+        formatTimestampDate(timestamp, format){
+            if (timestamp && timestamp != "0" ) {
+                let dateStr = new Date(timestamp*1000);
+                return moment(String(dateStr)).format(format)
+            }
+        },
     }
 }
 </script>
