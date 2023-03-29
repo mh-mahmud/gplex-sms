@@ -13,15 +13,13 @@
               <form class="m-form" @submit.prevent="addDisposition" autocomplete="off">
                 <div class="form-group">
                   <div class="row">
-                    <div class="col-md-5 m--margin-bottom-10-tablet-and-mobile">
+                    <div class="g-disposition-type mb-3">
                       <label>Disposition Type:</label>
                       <select data-vv-as="Disposition Type" name="disposition_id" v-model="formData.disposition_id" class="form-control m-input">
                         <option value="">All</option>
                         <option v-for="(item, index) in modalData.DispositionType" :value="index" :key="index">{{item}}</option>
                       </select>
                     </div>
-                  </div>
-                  <div class="row">
                     <textarea name="disposition" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
                     <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
                      {{ errors.first('disposition') || validationErrors.disposition[0] }}

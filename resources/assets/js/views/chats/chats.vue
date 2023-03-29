@@ -478,6 +478,7 @@
   ============================*/
 .g-chat-body {
   display: flex;
+  height: calc(65vh - 30px);
 }
 
 .g-chat-left {
@@ -485,6 +486,8 @@
   background-color: #444753;
   flex-basis: 20%;
   position: relative;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 
   ul {
     margin: 0;
@@ -674,7 +677,7 @@
   background-color: #444753;
   flex-basis: 20%;
   position: relative;
-  height: 66vh;
+  height: calc(65vh - 30px);
 
   ul {
     margin: 0;
@@ -794,7 +797,7 @@
 .g-chat-history {
   width: auto;
   margin: auto auto 0.5rem;
-  height: 44vh;
+  height: calc(65vh - 230px);
   overflow-y: auto;
   padding: 1rem;
 }
@@ -865,7 +868,6 @@
   background-color: #f8f8f8;
   padding: 0.5rem;
   border-radius: 5px;
-  top: 0.5rem;
   position: relative;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
@@ -876,7 +878,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
 }
 
 .g-chat-attachment {
@@ -926,12 +927,12 @@
 
 #open-chat {
   display: block;
-  height: calc(100% - 5px);
+  height: 100%;
   overflow-y: auto;
 }
 
 #close-chat {
-  height: calc(100% - 5px);
+  height: 100%;
   overflow-y: auto;
 }
 
