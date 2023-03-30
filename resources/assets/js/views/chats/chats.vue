@@ -55,7 +55,7 @@
                             </div>
                             <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)"
                                  class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
-                              <small v-if="chatHeadPhone">set Disposition</small>
+                              <small v-if="chatHeadPhone">Note</small>
                             </div>
                           </div>
                         </div>
@@ -66,12 +66,12 @@
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
                           </div>
-<!--                          <div v-if="chatHeadPhone" class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">-->
-<!--                            <i class="bi bi-x-lg"></i>-->
-<!--                          </div>-->
-<!--                          <div class="g-check-box btn btn-sm btn-success" @click="dataCheckHandler">-->
-<!--                            <i class="bi bi-check2"></i>-->
-<!--                          </div>-->
+                          <div v-if="chatHeadPhone && chatFlag == 'open'" class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
+                            <i class="bi bi-x-lg"></i>
+                          </div>
+                          <div v-if="chatHeadPhone && chatFlag == 'close'" class="g-close-box active btn btn-sm btn-success" @click="dataCheckHandler">
+                            <i  class="bi bi-check2"></i>
+                          </div>
 
                         </div>
 
@@ -1041,7 +1041,8 @@ export default {
       imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
       interval: null,
       lastUpdate: "",
-      currentDate: ""
+      currentDate: "",
+      chatFlag: "open"
     };
   },
   mounted() {
@@ -1118,6 +1119,7 @@ export default {
       closeChat.style.display = "none";
       openBtn.style.backgroundColor = "#329e8c";
       closeBtn.style.backgroundColor = "#5a5e6d";
+      this.chatFlag = "open";
       // checkBox.style.display = "none";
       // closeBox.style.display = "block";
     });
@@ -1127,6 +1129,7 @@ export default {
       closeChat.style.display = "block";
       closeBtn.style.backgroundColor = "#329e8c";
       openBtn.style.backgroundColor = "#5a5e6d";
+      this.chatFlag = "close";
       // closeBox.style.display = "none";
       // checkBox.style.display = "block";
     });
@@ -1142,14 +1145,17 @@ export default {
      * */
 
     dataCloseHandler() {
-      console.log("Working Close Handler");
+
+      console.log("Working Close Handler = " + this.chatHeadPhone);
+      this.$delete(this.openData,this.chatHeadPhone);
     },
 
     /**
      * @script  For Check Handler
      * */
     dataCheckHandler() {
-      console.log("Working Check Handler");
+      console.log("Working Check Handler = " + this.chatHeadPhone);
+      this.$delete(this.closeData,this.chatHeadPhone);
     },
 
     /**
