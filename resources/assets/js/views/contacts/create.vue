@@ -94,6 +94,53 @@
                                         </span>
                                     </div>    
                                 </div>
+
+                                <!-- new fields added -->
+                                <div class="form-group m-form__group row" :class="errors.has('city') || validationErrors.city ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label"  for="city">City:</label>
+                                    <div class="col-lg-6">
+                                        <input data-vv-as="city" name="city" v-validate="'max:30'"  v-model="contact.city" type="text" class="form-control m-input" placeholder="Enter city">
+                                        <span class="m-form__help" v-if="errors.has('city') || validationErrors.city">
+                                            {{ errors.first('city') || validationErrors.city[0] }}
+                                        </span>
+                                    </div>    
+                                </div>
+                                <div class="form-group m-form__group row" :class="errors.has('state') || validationErrors.state ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label"  for="state">State:</label>
+                                    <div class="col-lg-6">
+                                        <input data-vv-as="state" name="state" v-validate="'max:30'"  v-model="contact.state" type="text" class="form-control m-input" placeholder="Enter state">
+                                        <span class="m-form__help" v-if="errors.has('state') || validationErrors.state">
+                                            {{ errors.first('state') || validationErrors.state[0] }}
+                                        </span>
+                                    </div>    
+                                </div>
+                                <div class="form-group m-form__group row" :class="errors.has('street') || validationErrors.street ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label"  for="street">Street:</label>
+                                    <div class="col-lg-6">
+                                        <input data-vv-as="street" name="street" v-validate="'max:30'"  v-model="contact.street" type="text" class="form-control m-input" placeholder="Enter street">
+                                        <span class="m-form__help" v-if="errors.has('street') || validationErrors.street">
+                                            {{ errors.first('street') || validationErrors.street[0] }}
+                                        </span>
+                                    </div>    
+                                </div>
+                                <div class="form-group m-form__group row" :class="errors.has('suite') || validationErrors.suite ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label"  for="suite">Suite:</label>
+                                    <div class="col-lg-6">
+                                        <input data-vv-as="suite" name="suite" v-validate="'max:30'"  v-model="contact.suite" type="text" class="form-control m-input" placeholder="Enter suite">
+                                        <span class="m-form__help" v-if="errors.has('suite') || validationErrors.suite">
+                                            {{ errors.first('suite') || validationErrors.suite[0] }}
+                                        </span>
+                                    </div>    
+                                </div>
+                                <div class="form-group m-form__group row" :class="errors.has('zip') || validationErrors.zip ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label"  for="zip">Zip:</label>
+                                    <div class="col-lg-6">
+                                        <input data-vv-as="zip" name="zip" v-validate="'max:30'"  v-model="contact.zip" type="text" class="form-control m-input" placeholder="Enter zip">
+                                        <span class="m-form__help" v-if="errors.has('zip') || validationErrors.zip">
+                                            {{ errors.first('zip') || validationErrors.zip[0] }}
+                                        </span>
+                                    </div>    
+                                </div>
                             </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit">

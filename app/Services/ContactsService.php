@@ -205,7 +205,7 @@ class ContactsService extends AppService
     public function save($request){
 
         $validator = Validator::make($request->all(),[                                    
-            'account_id' => 'required|max:13',
+            // 'account_id' => 'required|max:13',
             'country' => 'required',
             'phone_type' => 'required',
             //'group' => 'required',
@@ -258,6 +258,13 @@ class ContactsService extends AppService
         //$dataObj->status = config('dashboard_constant.PENDING');
         $dataObj->contact_type = 'S';
         $dataObj->phone_type = $request->input('phone_type');
+
+        // new contact field added
+        $dataObj->street = $request->input('street');
+        $dataObj->suite = $request->input('suite');
+        $dataObj->city = $request->input('city');
+        $dataObj->state = $request->input('state');
+        $dataObj->zip = $request->input('zip');
 
         if($dataObj->save()) {
             //$this->DidService->save($request);
@@ -414,6 +421,14 @@ class ContactsService extends AppService
             $dataObj->company = '';
         }
         $dataObj->phone_type = $request->input('phone_type');
+
+        // new contact field added
+        $dataObj->street = $request->input('street');
+        $dataObj->suite = $request->input('suite');
+        $dataObj->city = $request->input('city');
+        $dataObj->state = $request->input('state');
+        $dataObj->zip = $request->input('zip');
+
         $dataObjU = $dataObj->getDirty();
 
         if($dataObj->save()) {
