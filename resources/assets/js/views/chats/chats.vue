@@ -37,7 +37,7 @@
 
                   <div class="g-chat-header">
                     <div class="new-chat-open">
-                      <i class="bi bi-chat-right-text-fill"></i> <strong>New Chat</strong>
+                      <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
                       <div class="search-container">
                         <i class="bi bi-search search-icon"></i>
                         <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">
