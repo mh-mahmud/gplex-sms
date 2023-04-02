@@ -66,11 +66,13 @@
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
                           </div>
-                          <div v-if="chatHeadPhone && chatFlag == 'open'" class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
+                          <div v-if="chatHeadPhone && chatFlag == 'open'"
+                               class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
                             <i class="bi bi-x-lg"></i>
                           </div>
-                          <div v-if="chatHeadPhone && chatFlag == 'close'" class="g-close-box active btn btn-sm btn-success" @click="dataCheckHandler">
-                            <i  class="bi bi-check2"></i>
+                          <div v-if="chatHeadPhone && chatFlag == 'close'"
+                               class="g-close-box active btn btn-sm btn-success" @click="dataCheckHandler">
+                            <i class="bi bi-check2"></i>
                           </div>
 
                         </div>
@@ -200,13 +202,16 @@
 
                             <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal"
                                data-target="#template-modal" class="btn btn-sm btn-default" title="Insert Template"><i
-                                class="m-menu__link-icon flaticon-list"></i></a>
+                                class="bi bi-file-earmark-text-fill"></i></a>
 
                             <div class="g-date-picker">
-                              <date-picker v-model="currentDate"
-                                           :config="{format: 'DD-MM-YYYY'}">
 
-                              </date-picker>
+                              <input type="date" name="" id="">
+
+                              <!--                              <date-picker v-model="currentDate"-->
+                              <!--                                           :config="{format: 'DD-MM-YYYY'}">-->
+
+                              <!--                              </date-picker>-->
                             </div>
 
                           </div>
@@ -898,7 +903,8 @@
     color: #329e8c;
     font-weight: bold;
     display: inline-block;
-    padding: 0.2rem;
+    padding: 0.1rem;
+    font-size: 1.3rem;
   }
 
   a {
@@ -938,50 +944,84 @@
 
 .g-date-picker {
   position: relative;
-  width: 37px;
-  height: 37px;
-  border: 1px solid #ebedf2;
-  cursor: pointer;
-  border-radius: 4px;
-
-  &::after {
-    font-family: 'bootstrap-icons', sans-serif;
-    position: absolute;
-    content: "\F1F3";
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    color: #329e8c;
-    z-index: 2;
-    border-radius: 4px;
-    padding: 10px;
-  }
 
   &::before {
     content: "";
-    background-color: #ffffff;
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    border-radius: 4px;
-    transition: all 0.4s ease-in-out;
-    z-index: 1;
+    background-color: #ffffff;
+    width: 15px;
+    height: 30px;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
   }
 
-  &:hover::before {
-    background-color: darken(#ffffff, 5%);
-    border-radius: 4px;
-  }
-
-  > input {
+  input {
     width: 35px;
     height: 35px;
+    appearance: none;
+    border: 1px solid #dddddd;
     border-radius: 4px;
+
+    &::-webkit-calendar-picker-indicator {
+      position: relative;
+      right: 8px;
+      color: green;
+      cursor: pointer;
+    }
+
+    &:hover, &:focus {
+      outline: none;
+    }
   }
 }
+
+//.g-date-picker {
+//  position: relative;
+//  width: 37px;
+//  height: 37px;
+//  border: 1px solid #ebedf2;
+//  cursor: pointer;
+//  border-radius: 4px;
+
+//&::after {
+//  font-family: 'bootstrap-icons', sans-serif;
+//  position: absolute;
+//  content: "\F1F3";
+//  left: 50%;
+//  top: 50%;
+//  transform: translate(-50%, -50%);
+//  cursor: pointer;
+//  color: #329e8c;
+//  z-index: 2;
+//  border-radius: 4px;
+//  padding: 10px;
+//}
+//
+//&::before {
+//  content: "";
+//  background-color: #ffffff;
+//  position: absolute;
+//  left: 0;
+//  right: 0;
+//  bottom: 0;
+//  top: 0;
+//  border-radius: 4px;
+//  transition: all 0.4s ease-in-out;
+//  z-index: 1;
+//}
+
+//  &:hover::before {
+//    background-color: darken(#ffffff, 5%);
+//    border-radius: 4px;
+//  }
+//
+//  > input {
+//    width: 35px;
+//    height: 35px;
+//    border-radius: 4px;
+//  }
+//}
 
 /*============================
          CheckBox
@@ -1148,10 +1188,10 @@ export default {
       console.log("Working Close Handler = " + this.chatHeadPhone);
       let number = this.chatHeadPhone;
       let result = this.closeData;
-      let openResult = {number : this.openData[this.chatHeadPhone]};
-      result = {...this.closeData,...openResult};
+      let openResult = {number: this.openData[this.chatHeadPhone]};
+      result = {...this.closeData, ...openResult};
       this.closeData = result;
-      this.$delete(this.openData,this.chatHeadPhone);
+      this.$delete(this.openData, this.chatHeadPhone);
     },
 
     /**
@@ -1161,10 +1201,10 @@ export default {
       console.log("Working Check Handler = " + this.chatHeadPhone);
       let number = this.chatHeadPhone;
       let result = this.openChat;
-      let closeResult = {number : this.closeData[this.chatHeadPhone]};
-      result = {...this.openData,...closeResult};
+      let closeResult = {number: this.closeData[this.chatHeadPhone]};
+      result = {...this.openData, ...closeResult};
       this.openData = result;
-      this.$delete(this.closeData,this.chatHeadPhone);
+      this.$delete(this.closeData, this.chatHeadPhone);
     },
 
     /**
