@@ -28,61 +28,61 @@
 
                                 <!-- start copy from here -->
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_0_name">Custom Name:</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_0_name">Custom Field 1:</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name" name="custom_0_name" v-validate="'max:30'"  v-model="contact.custom_0_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_1_name">Custom Name 1 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_1_name">Custom Field 2 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 1" name="custom_1_name" v-validate="'max:30'"  v-model="contact.custom_1_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_2_name">Custom Name 2 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_2_name">Custom Field 3 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 2" name="custom_2_name" v-validate="'max:30'"  v-model="contact.custom_2_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_3_name">Custom Name 3 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_3_name">Custom Field 4 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 3" name="custom_3_name" v-validate="'max:30'"  v-model="contact.custom_3_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_4_name">Custom Name 4 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_4_name">Custom Field 5 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 4" name="custom_4_name" v-validate="'max:30'"  v-model="contact.custom_4_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_5_name">Custom Name 5 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_5_name">Custom Field 6 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 5" name="custom_5_name" v-validate="'max:30'"  v-model="contact.custom_5_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_6_name">Custom Name 6 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_6_name">Custom Field 7 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 6" name="custom_6_name" v-validate="'max:30'"  v-model="contact.custom_6_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_7_name">Custom Name 7 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_7_name">Custom Field 8 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 7" name="custom_7_name" v-validate="'max:30'"  v-model="contact.custom_7_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_8_name">Custom Name 8 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_8_name">Custom Field 9 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 8" name="custom_8_name" v-validate="'max:30'"  v-model="contact.custom_8_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="custom_9_name">Custom Name 9 :</label>
+                                    <label class="col-lg-3 col-form-label"  for="custom_9_name">Custom Field 10 :</label>
                                     <div class="col-lg-6">
                                         <input data-vv-as="Custom Name 9" name="custom_9_name" v-validate="'max:30'"  v-model="contact.custom_9_name" type="text" class="form-control m-input" placeholder="">
                                     </div>    
