@@ -1146,10 +1146,8 @@ export default {
 
     dataCloseHandler() {
       console.log("Working Close Handler = " + this.chatHeadPhone);
-      let number = this.chatHeadPhone;
-      let result = this.closeData;
-      let openResult = {number : this.openData[this.chatHeadPhone]};
-      result = {...this.closeData,...openResult};
+      let openResult = {[this.chatHeadPhone] : this.openData[this.chatHeadPhone]};
+      let result = {...this.closeData,...openResult};
       this.closeData = result;
       this.$delete(this.openData,this.chatHeadPhone);
     },
@@ -1159,10 +1157,8 @@ export default {
      * */
     dataCheckHandler() {
       console.log("Working Check Handler = " + this.chatHeadPhone);
-      let number = this.chatHeadPhone;
-      let result = this.openChat;
-      let closeResult = {number : this.closeData[this.chatHeadPhone]};
-      result = {...this.openData,...closeResult};
+      let closeResult = {[this.chatHeadPhone] : this.closeData[this.chatHeadPhone]};
+      let result = {...this.openData,...closeResult};
       this.openData = result;
       this.$delete(this.closeData,this.chatHeadPhone);
     },
