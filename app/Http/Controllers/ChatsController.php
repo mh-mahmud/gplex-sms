@@ -144,6 +144,30 @@ class ChatsController extends AppController
     }
 
     /**
+     * Contact close leads.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function closeLeads($clientNumber)
+    {
+        $data = $this->ChatsService->closeLeads($clientNumber);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);
+    }
+
+    /**
+     * Contact close leads.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function openLeads($clientNumber)
+    {
+        $data = $this->ChatsService->openLeads($clientNumber);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);
+    }
+
+    /**
      * Check for store Disposition.
      *
      * @return \Illuminate\Http\Response

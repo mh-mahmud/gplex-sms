@@ -90,4 +90,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
     Route::post('/add-disposition', 'ChatsController@storeDisposition');
     Route::get('/all-dispositions/{clientNumber}', 'ChatsController@allDispositions');
+    Route::get('/close-leads/{clientNumber}', 'ChatsController@closeLeads');
+    Route::get('/open-leads/{clientNumber}', 'ChatsController@openLeads');
 });
