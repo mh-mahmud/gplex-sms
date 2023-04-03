@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Contact;
 use App\Models\Disposition;
 use App\Models\DispositionCode;
 use Illuminate\Http\Request;
@@ -106,6 +107,28 @@ class ChatsService extends AppService {
         return $this->processServiceResponse(false, "Disposition Added Failed!",$dataObj);
     }
 
+    public function closeLeads($clientNumber) {
+//        DB::enableQueryLog();
+        $dataObj = $this->getContactDetails($clientNumber);
+        $dataObj->lead_status = '0';
+//        dd(DB::getQueryLog());
+        if($dataObj->save()) {
+            return $this->processServiceResponse(true, "Chat Close Successfully!",$dataObj);
+        }
+        return $this->processServiceResponse(false, "Chat Close Failed!",$dataObj);
+    }
+
+    public function openLeads($clientNumber) {
+//        DB::enableQueryLog();
+        $dataObj = $this->getContactDetails($clientNumber);
+        $dataObj->lead_status = '1';
+//        dd(DB::getQueryLog());
+        if($dataObj->save()) {
+            return $this->processServiceResponse(true, "Chat Open Successfully!",$dataObj);
+        }
+        return $this->processServiceResponse(false, "Chat Open Failed!",$dataObj);
+    }
+
     public function getChatHistoryByNumber($account_id, $to, $from){
         // Get list
         $sms_from = $from;
@@ -169,6 +192,12 @@ class ChatsService extends AppService {
             $value->tstamp = date('d/m/Y',$value->tstamp);
         }
         return $data;
+    }
+
+    public function getContactDetails($clientNumber){
+        //Get detail
+        return Contact::where('phone','=',$clientNumber)->firstOrFail();
+
     }
 
 }

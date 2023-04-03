@@ -150,7 +150,7 @@
                             <div class=""
                                  :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
                               <div class="chat-msg">
-                                {{ msg.sms_text }}
+                                {{ msg.sms_text }}this area
                                 <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
                                 <div style="font-size:10px" v-if="msg.direction=='O'"><i>{{ msg.account_id }}</i></div>
                               </div>
@@ -976,52 +976,6 @@
   }
 }
 
-//.g-date-picker {
-//  position: relative;
-//  width: 37px;
-//  height: 37px;
-//  border: 1px solid #ebedf2;
-//  cursor: pointer;
-//  border-radius: 4px;
-
-//&::after {
-//  font-family: 'bootstrap-icons', sans-serif;
-//  position: absolute;
-//  content: "\F1F3";
-//  left: 50%;
-//  top: 50%;
-//  transform: translate(-50%, -50%);
-//  cursor: pointer;
-//  color: #329e8c;
-//  z-index: 2;
-//  border-radius: 4px;
-//  padding: 10px;
-//}
-//
-//&::before {
-//  content: "";
-//  background-color: #ffffff;
-//  position: absolute;
-//  left: 0;
-//  right: 0;
-//  bottom: 0;
-//  top: 0;
-//  border-radius: 4px;
-//  transition: all 0.4s ease-in-out;
-//  z-index: 1;
-//}
-
-//  &:hover::before {
-//    background-color: darken(#ffffff, 5%);
-//    border-radius: 4px;
-//  }
-//
-//  > input {
-//    width: 35px;
-//    height: 35px;
-//    border-radius: 4px;
-//  }
-//}
 
 /*============================
          CheckBox
@@ -1160,6 +1114,7 @@ export default {
       openBtn.style.backgroundColor = "#329e8c";
       closeBtn.style.backgroundColor = "#5a5e6d";
       this.chatFlag = "open";
+      this.clearCurrentCaht();
       // checkBox.style.display = "none";
       // closeBox.style.display = "block";
     });
@@ -1170,6 +1125,7 @@ export default {
       closeBtn.style.backgroundColor = "#329e8c";
       openBtn.style.backgroundColor = "#5a5e6d";
       this.chatFlag = "close";
+      this.clearCurrentCaht();
       // closeBox.style.display = "none";
       // checkBox.style.display = "block";
     });
@@ -1186,25 +1142,51 @@ export default {
 
     dataCloseHandler() {
       console.log("Working Close Handler = " + this.chatHeadPhone);
-      let number = this.chatHeadPhone;
-      let result = this.closeData;
-      let openResult = {number: this.openData[this.chatHeadPhone]};
-      result = {...this.closeData, ...openResult};
-      this.closeData = result;
-      this.$delete(this.openData, this.chatHeadPhone);
-    },
 
+      let url = `api/close-leads/${this.chatHeadPhone}`;
+      if (this.chatHeadPhone) {
+        commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top:'45%'});
+        axios.get(url).then((res) => {
+          // console.log(this.openData);
+            let openResult = {[this.chatHeadPhone] : this.openData[this.chatHeadPhone]};
+            let result = {...this.closeData,...openResult};
+            this.closeData = result;
+            this.$delete(this.openData,this.chatHeadPhone);
+            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+            commonLib.unblockUI(".m-content");
+            this.clearCurrentCaht();
+
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+      }
+
+    },
     /**
      * @script  For Check Handler
      * */
     dataCheckHandler() {
       console.log("Working Check Handler = " + this.chatHeadPhone);
-      let number = this.chatHeadPhone;
-      let result = this.openChat;
-      let closeResult = {number: this.closeData[this.chatHeadPhone]};
-      result = {...this.openData, ...closeResult};
-      this.openData = result;
-      this.$delete(this.closeData, this.chatHeadPhone);
+      let url = `api/open-leads/${this.chatHeadPhone}`;
+      if (this.chatHeadPhone) {
+        commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top:'45%'});
+        axios.get(url).then((res) => {
+          // console.log(this.openData);
+            let closeResult = {[this.chatHeadPhone] : this.closeData[this.chatHeadPhone]};
+            let result = {...this.openData,...closeResult};
+            this.openData = result;
+            this.$delete(this.closeData,this.chatHeadPhone);
+            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+            commonLib.unblockUI(".m-content");
+            this.clearCurrentCaht();
+
+        })
+        .catch(function (error) {
+          console.log(error.response);
+        });
+      }
+
     },
 
     /**
@@ -1335,6 +1317,17 @@ export default {
       const chatBox = document.getElementById("s-msg");
       chatBox.value = this.selectedValue;
       // this.chatBoxMessage = this.selectedValue;
+    },
+
+    /**
+     * @script clear current chat
+     * */
+
+    clearCurrentCaht(){
+      this.chatInfo={};
+      this.chatHeadPhone = null;
+      this.chatHeadFirstName = null;
+      this.chatHeadLastName = null;
     },
 
 
