@@ -266,6 +266,18 @@ class ContactsService extends AppService
         $dataObj->state = $request->input('state');
         $dataObj->zip = $request->input('zip');
 
+        // for custom fields
+        $dataObj->custom_0 = !empty($request->custom_0_name) ? $request->custom_0_name : '';
+        $dataObj->custom_1 = !empty($request->custom_1_name) ? $request->custom_1_name : '';
+        $dataObj->custom_2 = !empty($request->custom_2_name) ? $request->custom_2_name : '';
+        $dataObj->custom_3 = !empty($request->custom_3_name) ? $request->custom_3_name : '';
+        $dataObj->custom_4 = !empty($request->custom_4_name) ? $request->custom_4_name : '';
+        $dataObj->custom_5 = !empty($request->custom_5_name) ? $request->custom_5_name : '';
+        $dataObj->custom_6 = !empty($request->custom_6_name) ? $request->custom_6_name : '';
+        $dataObj->custom_7 = !empty($request->custom_7_name) ? $request->custom_7_name : '';
+        $dataObj->custom_8 = !empty($request->custom_8_name) ? $request->custom_8_name : '';
+        $dataObj->custom_9 = !empty($request->custom_9_name) ? $request->custom_9_name : '';
+
         if($dataObj->save()) {
             //$this->DidService->save($request);
             $this->AuditLogService->createLog($dataObj, 'A');
@@ -1106,6 +1118,14 @@ class ContactsService extends AppService
             return $this->processServiceResponse(true, "Contact Added Successfully!",$dataObj);
         }
         return $this->processServiceResponse(false, "Contact Added Failed!",$dataObj);
+    }
+
+    public function getAllSettings() {
+        $data = ContactSettings::where('account_id', $this->account_id)->first();
+        if(!empty($data)) {
+            return $data->toArray();
+        }
+        return null;
     }
 
 }
