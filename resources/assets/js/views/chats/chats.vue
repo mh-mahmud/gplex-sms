@@ -66,11 +66,11 @@
                             <i class="bi bi-search search-icon"></i>
                             <input type="text" placeholder="Search...">
                           </div>
-                          <div v-if="chatHeadPhone && chatFlag == 'open'"
+                          <div v-if="chatHeadFirstName && chatFlag == 'open'"
                                class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
                             <i class="bi bi-x-lg"></i>
                           </div>
-                          <div v-if="chatHeadPhone && chatFlag == 'close'"
+                          <div v-if="chatHeadFirstName && chatFlag == 'close'"
                                class="g-close-box active btn btn-sm btn-success" @click="dataCheckHandler">
                             <i class="bi bi-check2"></i>
                           </div>
@@ -99,7 +99,7 @@
                                   {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
                               </div>
-                              <div v-if="item.status == 'U'" class=""><span class="text-right"><i
+                              <div v-if="item.status == 'U'" :id="'alert-' + key" class=""><span class="text-right"><i
                                   class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
                             </div>
                           </li>
@@ -1328,6 +1328,7 @@ export default {
       this.chatHeadPhone = null;
       this.chatHeadFirstName = null;
       this.chatHeadLastName = null;
+      this.activeIndex = -1;
     },
 
 
@@ -1339,7 +1340,7 @@ export default {
       this.chatHeadCompany = itemInfo.company;
       this.chatHeadSmsText = itemInfo.sms_text;
       this.callid = itemInfo.callid;
-
+      $('#'+'alert-'+itemInfo.phone).hide();
       var url = `api/chat-info/${itemInfo.phone}`;
       axios.get(url).then((res) => {
         this.chatInfo = res.data;
