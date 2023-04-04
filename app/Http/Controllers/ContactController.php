@@ -256,6 +256,7 @@ class ContactController extends Controller
         $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
         $layoutData['title'] = 'Add Contact | '.config("app.name");
         $layoutData['groups'] = $this->GroupService->getAllGroups();
+        $layoutData['settings'] = $this->Service->getAllSettings();
         $layoutData['breadcrumb'] = [
             "links" => [
                 [
@@ -282,6 +283,7 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $data = $this->Service->save($request);
         $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
         return response()->json($responseMsg);  
@@ -312,6 +314,7 @@ class ContactController extends Controller
         $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
         $layoutData['title'] = 'Edit Contact | '.config("app.name");
         $layoutData['groupList'] = $this->GroupService->getAllGroups();
+        $layoutData['settings'] = $this->Service->getAllSettings();
         $layoutData['breadcrumb'] = [
             "links" => [
                 [

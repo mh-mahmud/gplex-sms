@@ -141,6 +141,69 @@
                                         </span>
                                     </div>    
                                 </div>
+
+
+                                <div v-if="(data.settings.custom_0_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_0_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_0_name" name="custom_0_name" v-validate="'max:30'"  v-model="contact.custom_0_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_1_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_1_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_1_name" name="custom_1_name" v-validate="'max:30'"  v-model="contact.custom_1_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_2_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_2_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_2_name" name="custom_2_name" v-validate="'max:30'"  v-model="contact.custom_2_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_3_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_3_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_3_name" name="custom_3_name" v-validate="'max:30'"  v-model="contact.custom_3_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_4_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_4_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_4_name" name="custom_4_name" v-validate="'max:30'"  v-model="contact.custom_4_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_5_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_5_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_5_name" name="custom_5_name" v-validate="'max:30'"  v-model="contact.custom_5_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_6_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_6_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_6_name" name="custom_6_name" v-validate="'max:30'"  v-model="contact.custom_6_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_7_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_7_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_7_name" name="custom_7_name" v-validate="'max:30'"  v-model="contact.custom_7_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_8_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_8_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_8_name" name="custom_8_name" v-validate="'max:30'"  v-model="contact.custom_8_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+                                <div v-if="(data.settings.custom_9_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_9_name}}:</label>
+                                    <div class="col-lg-6">
+                                        <input :data-vv-as="data.settings.custom_9_name" name="custom_9_name" v-validate="'max:30'"  v-model="contact.custom_9_name" type="text" class="form-control m-input">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit">
