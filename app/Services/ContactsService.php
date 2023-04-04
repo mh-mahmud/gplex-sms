@@ -441,6 +441,18 @@ class ContactsService extends AppService
         $dataObj->state = $request->input('state');
         $dataObj->zip = $request->input('zip');
 
+        // for custom fields
+        $dataObj->custom_0 = !empty($request->custom_0) ? $request->custom_0 : '';
+        $dataObj->custom_1 = !empty($request->custom_1) ? $request->custom_1 : '';
+        $dataObj->custom_2 = !empty($request->custom_2) ? $request->custom_2 : '';
+        $dataObj->custom_3 = !empty($request->custom_3) ? $request->custom_3 : '';
+        $dataObj->custom_4 = !empty($request->custom_4) ? $request->custom_4 : '';
+        $dataObj->custom_5 = !empty($request->custom_5) ? $request->custom_5 : '';
+        $dataObj->custom_6 = !empty($request->custom_6) ? $request->custom_6 : '';
+        $dataObj->custom_7 = !empty($request->custom_7) ? $request->custom_7 : '';
+        $dataObj->custom_8 = !empty($request->custom_8) ? $request->custom_8 : '';
+        $dataObj->custom_9 = !empty($request->custom_9) ? $request->custom_9 : '';
+
         $dataObjU = $dataObj->getDirty();
 
         if($dataObj->save()) {
