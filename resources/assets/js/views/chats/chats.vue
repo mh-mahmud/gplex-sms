@@ -98,7 +98,7 @@
                                 <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone }}
                                   {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
-                                <small :id="'serving-' + key" class="serving" style="display: none"><span class="text-right" style="color: #3cffed;">Serving...</span></small>
+                                <small :id="'serving-' + key" class="serving" style="display: none"><span class="g-serving">Serving...</span></small>
                               </div>
                               <div v-if="item.status == 'U'" :id="'alert-' + key" class=""><span class="text-right"><i
                                   class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
@@ -987,6 +987,19 @@
 
 .g-close-box.active {
   display: block;
+}
+
+/*============================
+         Others
+  ============================*/
+.g-serving{
+  background-color: #ffffff;
+  color: #b2913f;
+  border-radius: 0.2rem;
+  padding: 2px;
+  font-size:10px;
+  display:inline-block;
+  margin-top:2px;
 }
 
 </style>
