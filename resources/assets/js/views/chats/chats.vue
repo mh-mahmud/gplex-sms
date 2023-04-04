@@ -993,8 +993,8 @@
          Others
   ============================*/
 .g-serving{
-  background-color: #ffffff;
-  color: #b2913f;
+  background-color: #444753;
+  color: #ffffff;
   border-radius: 0.2rem;
   padding: 2px;
   font-size:10px;
