@@ -242,22 +242,46 @@
                           <tr>
                             <td><small>First Name</small></td>
                             <td><small>{{ chatHeadFirstName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Last Name</small></td>
                             <td><small>{{ chatHeadLastName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Phone</small></td>
                             <td><small>{{ chatHeadPhone }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Company</small></td>
-                            <td><small>{{ chatHeadCompany }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <td><small>{{ contactData.company }}</small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
+                          </tr>
+                          <tr>
+                            <td><small>Street</small></td>
+                            <td><small>{{ contactData.street }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Suite</small></td>
+                            <td><small>{{ contactData.suite }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>City</small></td>
+                            <td><small>{{ contactData.city }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>State</small></td>
+                            <td><small>{{ contactData.state }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Zip</small></td>
+                            <td><small>{{ contactData.zip }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>&nbsp;</small></td>
+                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>
                           </tr>
                           </tbody>
                         </table>
@@ -1041,6 +1065,7 @@ export default {
       chatHeadLastName: null,
       chatHeadPhone: null,
       chatHeadCompany: null,
+      comtactData: null,
       chatHeadSmsText: null,
       chatBoxMessage: "",
       isActive: false,
@@ -1292,8 +1317,8 @@ export default {
         this.openDataForSearch = res.data.openChat;
         this.closeData = res.data.closeChat;
         this.lastUpdate = res.data.lastUpdate;
-        console.log(this.openData);
-        console.log(this.closeData);
+        //console.log(this.openData);
+        //console.log(this.closeData);
         this.$setDocumentTitle(this.data.title);
       })
           .catch(function (error) {
@@ -1305,7 +1330,7 @@ export default {
       let self = this;
       if (this.lastUpdate) {
         axios.get(url).then((res) => {
-          // console.log(this.openData);
+          console.log(this.openData);
           if (typeof res.data.lastUpdate !== 'undefined') {
             let result = res.data.openChat;
             result = {...result, ...this.openData};
@@ -1354,6 +1379,17 @@ export default {
       this.chatHeadCompany = itemInfo.company;
       this.chatHeadSmsText = itemInfo.sms_text;
       this.callid = itemInfo.callid;
+
+      this.contactData = {
+        company: itemInfo.company,
+        street: itemInfo.street,
+        zip: itemInfo.zip,
+        suite: itemInfo.suite,
+        city: itemInfo.city,
+        state: itemInfo.state,
+
+      };
+
       $('#'+'alert-'+itemInfo.phone).hide();
       $('.serving').hide();
       $('#'+'serving-'+itemInfo.phone).show();

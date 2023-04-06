@@ -247,10 +247,10 @@ export default {
     },
     // Update Contact
     updateContact() {
-        console.log("Hello mama");
+
         // Update
         this.$validator.validateAll().then((result) => {
-            console.log(result);
+
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
