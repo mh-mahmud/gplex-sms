@@ -128,7 +128,7 @@
 
                                                     <li class="chat-box" v-for="(item2, key2) in closeData"
                                                         :data-target="'content-'+key2"
-                                                        v-on:click="greet(item2)">
+                                                        v-on:click="greet(item2); selectCloseItem(key2)" :class="{active: activeIndex === key2}">
                                                         <div class="g-left-u-profile">
                                                             <div class="g-chat-left-u-image">
                                                                 <img :src="imageUrl" alt="">
@@ -1311,6 +1311,16 @@ export default {
 
             // toggle active state of clicked item
             this.$set(this.openData[index], 'isActive', !this.openData[index].isActive);
+            this.activeIndex = index;
+        },
+        selectCloseItem: function (index) {
+            // remove active state from previously active item
+            if (this.activeIndex !== -1) {
+                this.$set(this.closeData[this.activeIndex], 'isActive', false);
+            }
+
+            // toggle active state of clicked item
+            this.$set(this.closeData[index], 'isActive', !this.closeData[index].isActive);
             this.activeIndex = index;
         },
         chatsView() {
