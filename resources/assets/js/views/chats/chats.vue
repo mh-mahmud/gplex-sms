@@ -1,294 +1,324 @@
 <template>
-  <div class="m-grid__item m-grid__item--fluid m-wrapper">
-    <js-plugin :js-plugin="data.js_plugin"></js-plugin>
-    <!-- BreadCrumb -->
-    <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
-    <div class="m-content" ref="fullscreen">
-      <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-          <div class="m-portlet__head-caption">
-            <div class="m-portlet__head-title">
+    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+        <js-plugin :js-plugin="data.js_plugin"></js-plugin>
+        <!-- BreadCrumb -->
+        <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
+        <div class="m-content" ref="fullscreen">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
 
-              <div class="g-chattop-header">
-                <h3 class="m-portlet__head-text mb-0">
-                  Chats: New Window
-                </h3>
-                <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i
-                    class="bi bi-arrows-fullscreen"></i>
-                </button>
-              </div>
-
-
-            </div>
-          </div>
-
-        </div>
-        <div class="m-portlet__body">
-          <!--begin: Datatable -->
-          <div id="m_table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
-
-            <!--**********************************
-                          New Chat Window
-             ***********************************-->
-
-            <div class="row">
-              <div class="col-md-12">
-                <div class="g-chat-area">
-
-                  <div class="g-chat-header">
-                    <div class="new-chat-open">
-                      <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
-                      <div class="search-container">
-                        <i class="bi bi-search search-icon"></i>
-                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">
-                      </div>
-                    </div>
-
-                    <div class="g-open-chat-header">
-                      <div class="g-open-chat-h-main">
-                        <div class="g-chat-user-profile">
-                          <img :src="imageUrl" alt="">
-                          <div class="g-chat-u-name">
-                            <div class="g-chat-u-meta">
-                              <strong class="mb-0">{{ chatHeadFirstName }} {{ chatHeadLastName }}</strong>
-                              <small>{{ chatHeadPhone }}</small>
+                            <div class="g-chattop-header">
+                                <h3 class="m-portlet__head-text mb-0">
+                                    Chats: New Window
+                                </h3>
+                                <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i
+                                        class="bi bi-arrows-fullscreen"></i>
+                                </button>
                             </div>
-                            <div v-if="chatHeadPhone" @click.prevent="bindDispositionData(chatHeadPhone, callid)"
-                                 class="g-chat-notes" data-toggle="modal" data-target="#disposition-modal">
-                              <small v-if="chatHeadPhone">Note</small>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="g-chat-user-property">
-
-                          <div class="search-container">
-                            <i class="bi bi-search search-icon"></i>
-                            <input type="text" placeholder="Search...">
-                          </div>
-                          <div v-if="chatHeadFirstName && chatFlag == 'open'"
-                               class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
-                            <i class="bi bi-x-lg"></i>
-                          </div>
-                          <div v-if="chatHeadFirstName && chatFlag == 'close'"
-                               class="g-close-box active btn btn-sm btn-success" @click="dataCheckHandler">
-                            <i class="bi bi-check2"></i>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="g-chat-body">
-
-                    <!--      Left List Item-->
-                    <div class="g-chat-left">
-                      <div id="open-chat">
-                        <ul @scroll="scrollCustomBottom">
-                          <li class="chat-box" v-for="(item, key) in openData" :data-target="'content-'+key"
-                              v-on:click="greet(item); selectItem(key)" :class="{active: activeIndex === key}">
-                            <div class="g-left-u-profile">
-                              <div class="g-chat-left-u-image">
-                                <img :src="imageUrl" alt="">
-                              </div>
-                              <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone }}
-                                  {{ item.last_name }} </strong>
-                                <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
-                                <small :id="'serving-' + key" class="serving" style="display: none"><span class="g-serving">Serving...</span></small>
-                              </div>
-                              <div v-if="item.status == 'U'" :id="'alert-' + key" class=""><span class="text-right"><i
-                                  class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-
-
-                      <div id="close-chat">
-                        <ul>
-
-                          <li class="chat-box" v-for="(item2, key2) in closeData" :data-target="'content-'+key2"
-                              v-on:click="greet(item2)">
-                            <div class="g-left-u-profile">
-                              <div class="g-chat-left-u-image">
-                                <img :src="imageUrl" alt="">
-                              </div>
-                              <div class="g-chat-left-u-meta">
-                                <strong class="mb-0">{{ item2.first_name }} {{ item2.last_name }}</strong>
-                                <small v-if="item2.sms_text">{{ item2.sms_text.substr(0, 15) }}</small>
-                              </div>
-                            </div>
-                          </li>
-
-
-                        </ul>
-                      </div>
-
-
-                      <div class="g-button-group">
-                        <button id="open-btn" class="btn btn-sm">Open</button>
-                        <button id="close-btn" class="btn btn-sm">Close</button>
-                      </div>
-                    </div>
-
-                    <!--Right Chat Area-->
-                    <div class="g-chat">
-
-                      <div class="g-chat-history" id="g-chat-history"
-                           v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
-
-                        <div id="content-1" class="content active" v-for="msg in chatInfo.data">
-                          <div class="g-chat-main">
-                            <!-- <div class="text-center">
-                              <small class="text-white">
-                                Feb 22, 2023
-                              </small>
-                            </div> -->
-                            <div class=""
-                                 :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
-                              <div class="chat-msg">
-                                {{ msg.sms_text }}this area
-                                <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
-                                <div style="font-size:10px" v-if="msg.direction=='O'"><i>{{ msg.account_id }}</i></div>
-                              </div>
-                              <div class="chat-msg-image">
-                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'" alt="">
-                              </div>
-                            </div>
-                          </div>
 
 
                         </div>
-
-                        <!-- show user this instant message -->
-                        <div id="content-2" class="content active">
-                          <div class="g-chat-main" v-if="instantSmsData.text">
-                            <div class="chat-msg-content">
-                              <div class="chat-msg">
-                                {{ instantSmsData.text }}
-                                <time datetime="6:00">{{ instantSmsData.timesend }}</time>
-                              </div>
-                              <div class="chat-msg-image">
-                                <img :src="imageUrl" alt="">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-
-
-                      <div class="g-chat-message">
-                        <!-- <form action=""> -->
-                        <label for="s-msg" class="w-100">
-                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
-                                    rows="5" placeholder="Write...." id="s-msg"></textarea>
-                        </label>
-
-                        <div class="g-chat-message-bottom">
-                          <div class="g-chat-attachment">
-                            <!-- <select v-model="selectedValue" id="template" name="template"
-                                    class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
-                              <option value="" selected>-- Choose Template --</option>
-                              <option v-for="(value,key) in templateData"
-                                      :value="value.message">
-                                {{ value.name }}
-                              </option>
-                            </select> -->
-
-
-                            <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal"
-                               data-target="#template-modal" class="btn btn-sm btn-default" title="Insert Template"><i
-                                class="bi bi-file-earmark-text-fill"></i></a>
-
-                            <div class="g-date-picker">
-
-                              <input type="date" name="" id="">
-
-                              <!--                              <date-picker v-model="currentDate"-->
-                              <!--                                           :config="{format: 'DD-MM-YYYY'}">-->
-
-                              <!--                              </date-picker>-->
-                            </div>
-
-                          </div>
-
-
-                          <button @click="sendMessage()" class="btn btn-primary btn-sm">SEND</button>
-
-
-                        </div>
-                        <!-- </form> -->
-
-                      </div>
-
-
                     </div>
-
-
-                    <div v-if="chatHeadPhone" class="g-chat-right">
-                      <div class="table-responsive">
-                        <table class="table table-bordered table-sm table-striped">
-                          <thead>
-                          <tr class="text-center">
-                            <th colspan="3">Contact Details</th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr>
-                            <td><small>First Name</small></td>
-                            <td><small>{{ chatHeadFirstName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
-                          </tr>
-                          <tr>
-                            <td><small>Last Name</small></td>
-                            <td><small>{{ chatHeadLastName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
-                          </tr>
-                          <tr>
-                            <td><small>Phone</small></td>
-                            <td><small>{{ chatHeadPhone }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
-                          </tr>
-                          <tr>
-                            <td><small>Company</small></td>
-                            <td><small>{{ chatHeadCompany }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                  </div>
-
 
                 </div>
+                <div class="m-portlet__body">
+                    <!--begin: Datatable -->
+                    <div id="m_table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
 
-              </div>
+                        <!--**********************************
+                                      New Chat Window
+                         ***********************************-->
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="g-chat-area">
+
+                                    <div class="g-chat-header">
+                                        <div class="new-chat-open">
+                                            <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
+                                            <div class="search-container">
+                                                <i class="bi bi-search search-icon"></i>
+                                                <input type="text" v-model="search" v-on:keyup="onSearch"
+                                                       placeholder="Search...">
+                                            </div>
+                                        </div>
+
+                                        <div class="g-open-chat-header">
+                                            <div class="g-open-chat-h-main">
+                                                <div class="g-chat-user-profile">
+                                                    <img :src="imageUrl" alt="">
+                                                    <div class="g-chat-u-name">
+                                                        <div class="g-chat-u-meta">
+                                                            <strong class="mb-0">{{ chatHeadFirstName }}
+                                                                {{ chatHeadLastName }}</strong>
+                                                            <small>{{ chatHeadPhone }}</small>
+                                                        </div>
+                                                        <div v-if="chatHeadPhone"
+                                                             @click.prevent="bindDispositionData(chatHeadPhone, callid)"
+                                                             class="g-chat-notes" data-toggle="modal"
+                                                             data-target="#disposition-modal">
+                                                            <small v-if="chatHeadPhone">Note</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="g-chat-user-property">
+                                                    <!-- TODO: Search Container Kept Off-->
+                                                    <div class="search-container d-none">
+                                                        <i class="bi bi-search search-icon"></i>
+                                                        <input type="text" placeholder="Search...">
+                                                    </div>
+                                                    <div v-if="chatHeadFirstName && chatFlag == 'open'"
+                                                         class="g-close-box active btn btn-sm btn-success"
+                                                         @click="dataCloseHandler">
+                                                        <i class="bi bi-x-lg"></i>
+                                                    </div>
+                                                    <div v-if="chatHeadFirstName && chatFlag == 'close'"
+                                                         class="g-close-box active btn btn-sm btn-success"
+                                                         @click="dataCheckHandler">
+                                                        <i class="bi bi-check2"></i>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="g-chat-body">
+
+                                        <!--      Left List Item-->
+                                        <div class="g-chat-left">
+                                            <div id="open-chat">
+                                                <ul @scroll="scrollCustomBottom">
+                                                    <li class="chat-box" v-for="(item, key) in openData"
+                                                        :data-target="'content-'+key"
+                                                        v-on:click="greet(item); selectItem(key)"
+                                                        :class="{active: activeIndex === key}">
+                                                        <div class="g-left-u-profile">
+                                                            <div class="g-chat-left-u-image">
+                                                                <img :src="imageUrl" alt="">
+                                                            </div>
+                                                            <div class="g-chat-left-u-meta">
+                                                                <strong class="mb-0">{{
+                                                                    item.first_name ? item.first_name : item.phone
+                                                                    }}
+                                                                    {{ item.last_name }} </strong>
+                                                                <small v-if="item.sms_text">{{
+                                                                    item.sms_text.substr(0, 15)
+                                                                    }}</small>
+                                                                <small :id="'serving-' + key" class="serving"
+                                                                       style="display: none"><span class="g-serving">Serving...</span></small>
+                                                            </div>
+                                                            <div v-if="item.status == 'U'" :id="'alert-' + key"
+                                                                 class=""><span class="text-right"><i
+                                                                    class="bi bi-bell-fill" style="color: #f70606;"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div id="close-chat">
+                                                <ul>
+
+                                                    <li class="chat-box" v-for="(item2, key2) in closeData"
+                                                        :data-target="'content-'+key2"
+                                                        v-on:click="greet(item2)">
+                                                        <div class="g-left-u-profile">
+                                                            <div class="g-chat-left-u-image">
+                                                                <img :src="imageUrl" alt="">
+                                                            </div>
+                                                            <div class="g-chat-left-u-meta">
+                                                                <strong class="mb-0">{{ item2.first_name }}
+                                                                    {{ item2.last_name }}</strong>
+                                                                <small v-if="item2.sms_text">{{
+                                                                    item2.sms_text.substr(0, 15)
+                                                                    }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="g-button-group">
+                                                <button id="open-btn" class="btn btn-sm">Open</button>
+                                                <button id="close-btn" class="btn btn-sm">Close</button>
+                                            </div>
+                                        </div>
+
+                                        <!--Right Chat Area-->
+                                        <div class="g-chat">
+
+                                            <div class="g-chat-history" id="g-chat-history"
+                                                 v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
+
+                                                <div id="content-1" class="content active" v-for="msg in chatInfo.data">
+                                                    <div class="g-chat-main">
+                                                        <!-- <div class="text-center">
+                                                          <small class="text-white">
+                                                            Feb 22, 2023
+                                                          </small>
+                                                        </div> -->
+                                                        <div class=""
+                                                             :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
+                                                            <div class="chat-msg">
+                                                                {{ msg.sms_text }}this area
+                                                                <time datetime="6:00">{{
+                                                                    msg.log_time | formatDate("ddd, MMM YY HH:mm A")
+                                                                    }}
+                                                                </time>
+                                                                <div style="font-size:10px" v-if="msg.direction=='O'">
+                                                                    <i>{{ msg.account_id }}</i></div>
+                                                            </div>
+                                                            <div class="chat-msg-image">
+                                                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'"
+                                                                     alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <!-- show user this instant message -->
+                                                <div id="content-2" class="content active">
+                                                    <div class="g-chat-main" v-if="instantSmsData.text">
+                                                        <div class="chat-msg-content">
+                                                            <div class="chat-msg">
+                                                                {{ instantSmsData.text }}
+                                                                <time datetime="6:00">{{
+                                                                    instantSmsData.timesend
+                                                                    }}
+                                                                </time>
+                                                            </div>
+                                                            <div class="chat-msg-image">
+                                                                <img :src="imageUrl" alt="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="g-chat-message">
+                                                <!-- <form action=""> -->
+                                                <label for="s-msg" class="w-100">
+                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
+                                    rows="5" placeholder="Write...." id="s-msg"></textarea>
+                                                </label>
+
+                                                <div class="g-chat-message-bottom">
+                                                    <div class="g-chat-attachment">
+                                                        <!-- <select v-model="selectedValue" id="template" name="template"
+                                                                class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
+                                                          <option value="" selected>-- Choose Template --</option>
+                                                          <option v-for="(value,key) in templateData"
+                                                                  :value="value.message">
+                                                            {{ value.name }}
+                                                          </option>
+                                                        </select> -->
+
+
+                                                        <a href="javascript:void(0)"
+                                                           @click.prevent="bindModalData(data)" data-toggle="modal"
+                                                           data-target="#template-modal" class="btn btn-sm btn-default"
+                                                           title="Insert Template"><i
+                                                                class="bi bi-file-earmark-text-fill"></i></a>
+
+                                                        <div class="g-date-picker">
+
+                                                            <input type="date" name="" id="">
+
+                                                            <!--                              <date-picker v-model="currentDate"-->
+                                                            <!--                                           :config="{format: 'DD-MM-YYYY'}">-->
+
+                                                            <!--                              </date-picker>-->
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <button @click="sendMessage()" class="btn btn-primary btn-sm">SEND
+                                                    </button>
+
+
+                                                </div>
+                                                <!-- </form> -->
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div v-if="chatHeadPhone" class="g-chat-right">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-sm table-striped">
+                                                    <thead>
+                                                    <tr class="text-center">
+                                                        <th colspan="3">Contact Details</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><small>First Name</small></td>
+                                                        <td><small>{{ chatHeadFirstName }}</small></td>
+                                                        <td><small class="bi bi-pencil-square"></small></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><small>Last Name</small></td>
+                                                        <td><small>{{ chatHeadLastName }}</small></td>
+                                                        <td><small class="bi bi-pencil-square"></small></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><small>Phone</small></td>
+                                                        <td><small>{{ chatHeadPhone }}</small></td>
+                                                        <td><small class="bi bi-pencil-square"></small></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><small>Company</small></td>
+                                                        <td><small>{{ chatHeadCompany }}</small></td>
+                                                        <td><small class="bi bi-pencil-square"></small></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <!--            End Chat Window-->
+
+                        <!-- template modal -->
+                        <template-modal v-bind:modal-data="modalData"></template-modal>
+
+
+                        <!--            Disposition Modal-->
+                        <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
+
+
+                    </div>
+                </div>
             </div>
-
-
-            <!--            End Chat Window-->
-
-            <!-- template modal -->
-            <template-modal v-bind:modal-data="modalData"></template-modal>
-
-
-            <!--            Disposition Modal-->
-            <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
-
-
-          </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
         </div>
-      </div>
-      <!-- END EXAMPLE TABLE PORTLET-->
     </div>
-  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -992,14 +1022,14 @@
 /*============================
          Others
   ============================*/
-.g-serving{
+.g-serving {
   background-color: #444753;
   color: #ffffff;
   border-radius: 0.2rem;
   padding: 2px;
-  font-size:10px;
-  display:inline-block;
-  margin-top:2px;
+  font-size: 10px;
+  display: inline-block;
+  margin-top: 2px;
 }
 
 </style>
@@ -1016,443 +1046,443 @@ import DispositionModal from "../compose/disposition_modal.vue";
 
 
 export default {
-  extends: AppComponent,
-  components: {
-    DispositionModal,
-    TemplateModal
-  },
-  data() {
-    return {
-      data: {},
-      modalData: {},
-      dispositionData: {},
-      chatInfo: {},
-      prevSmsData: {},
-      selectedValue: {}, // First option will be selected by default
-      templateData: {},
-      openData: {},
-      openDataForSearch: {},
-      closeData: {},
-      message: "",
-      instantSmsData: {},
-      scheduleShow: false,
-      compose: {to: []},
-      chatHeadFirstName: null,
-      chatHeadLastName: null,
-      chatHeadPhone: null,
-      chatHeadCompany: null,
-      chatHeadSmsText: null,
-      chatBoxMessage: "",
-      isActive: false,
-      activeIndex: -1,
-      search: "",
-      imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
-      interval: null,
-      lastUpdate: "",
-      currentDate: "",
-      chatFlag: "open"
-    };
-  },
-  mounted() {
-    this.fullScreen = this.$refs.fullscreen;
-    this.chatsView();
-    this.bindCurrentRoute("Chats");
-    this.interval = setInterval(() => this.openChatsView(), 9000);
-
-    const leftItems = document.querySelectorAll('.g-chat-left li');
-    const contentItems = document.querySelectorAll('.g-chat .content');
-    // Get all the td elements
-    const tds = document.querySelectorAll('td');
-    const searchIcons = document.querySelectorAll('.search-icon');
-    // For Toggle Hide And Show
-    // Get the button and div elements
-    const openBtn = document.getElementById("open-btn");
-    const closeBtn = document.getElementById("close-btn");
-    const openChat = document.getElementById("open-chat");
-    const closeChat = document.getElementById("close-chat");
-    const closeBox = document.querySelector(".g-close-box");
-    const checkBox = document.querySelector(".g-check-box");
-    const selectTemplate = document.getElementById("template");
-
-
-    leftItems.forEach(item => {
-      item.addEventListener('click', () => {
-        // Remove active class from all list items
-        leftItems.forEach(item => item.classList.remove('active'));
-
-        // Add active class to clicked item
-        item.classList.add('active');
-
-        // Show corresponding content item and hide others
-        contentItems.forEach(content => {
-          if (content.id === item.dataset.target) {
-            content.classList.add('active');
-            console.log("Hi bro");
-          } else {
-            content.classList.remove('active');
-            console.log("papana");
-          }
-        });
-      });
-    });
-
-    tds.forEach((td) => {
-      // Check if it's the last or third td
-      if (td === td.parentNode.lastElementChild || td === td.parentNode.children[2]) {
-        //Cursor Pointer Style
-        td.style.cursor = 'pointer'
-
-        // Add a click event listener
-        td.addEventListener('click', () => {
-          // Get the second td element
-          const secondTd = td.parentNode.children[1];
-
-          // Make it contenteditable
-          secondTd.contentEditable = true;
-          secondTd.focus();
-        });
-      }
-    });
-
-    searchIcons.forEach(function (searchIcon) {
-      searchIcon.addEventListener('click', function () {
-        const searchContainer = searchIcon.parentElement;
-        searchContainer.classList.toggle('active');
-      });
-    });
-
-    // Add click event listeners to the buttons
-    openBtn.addEventListener("click", () => {
-      openChat.style.display = "block";
-      closeChat.style.display = "none";
-      openBtn.style.backgroundColor = "#329e8c";
-      closeBtn.style.backgroundColor = "#5a5e6d";
-      this.chatFlag = "open";
-      this.clearCurrentCaht();
-      // checkBox.style.display = "none";
-      // closeBox.style.display = "block";
-    });
-
-    closeBtn.addEventListener("click", () => {
-      openChat.style.display = "none";
-      closeChat.style.display = "block";
-      closeBtn.style.backgroundColor = "#329e8c";
-      openBtn.style.backgroundColor = "#5a5e6d";
-      this.chatFlag = "close";
-      this.clearCurrentCaht();
-      // closeBox.style.display = "none";
-      // checkBox.style.display = "block";
-    });
-
-
-  },
-  destroyed() {
-    clearInterval(this.interval)
-  },
-  methods: {
-    /**
-     * @script  For Close Handler
-     * */
-
-    dataCloseHandler() {
-      console.log("Working Close Handler = " + this.chatHeadPhone);
-
-      let url = `api/close-leads/${this.chatHeadPhone}`;
-      if (this.chatHeadPhone) {
-        commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top:'45%'});
-        axios.get(url).then((res) => {
-          // console.log(this.openData);
-            let openResult = {[this.chatHeadPhone] : this.openData[this.chatHeadPhone]};
-            let result = {...this.closeData,...openResult};
-            this.closeData = result;
-            this.$delete(this.openData,this.chatHeadPhone);
-            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
-            commonLib.unblockUI(".m-content");
-            this.clearCurrentCaht();
-
-        })
-        .catch(function (error) {
-          console.log(error.response);
-        });
-      }
-
+    extends: AppComponent,
+    components: {
+        DispositionModal,
+        TemplateModal
     },
-    /**
-     * @script  For Check Handler
-     * */
-    dataCheckHandler() {
-      console.log("Working Check Handler = " + this.chatHeadPhone);
-      let url = `api/open-leads/${this.chatHeadPhone}`;
-      if (this.chatHeadPhone) {
-        commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top:'45%'});
-        axios.get(url).then((res) => {
-          // console.log(this.openData);
-            let closeResult = {[this.chatHeadPhone] : this.closeData[this.chatHeadPhone]};
-            let result = {...this.openData,...closeResult};
-            this.openData = result;
-            this.$delete(this.closeData,this.chatHeadPhone);
-            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
-            commonLib.unblockUI(".m-content");
-            this.clearCurrentCaht();
+    data() {
+        return {
+            data: {},
+            modalData: {},
+            dispositionData: {},
+            chatInfo: {},
+            prevSmsData: {},
+            selectedValue: {}, // First option will be selected by default
+            templateData: {},
+            openData: {},
+            openDataForSearch: {},
+            closeData: {},
+            message: "",
+            instantSmsData: {},
+            scheduleShow: false,
+            compose: {to: []},
+            chatHeadFirstName: null,
+            chatHeadLastName: null,
+            chatHeadPhone: null,
+            chatHeadCompany: null,
+            chatHeadSmsText: null,
+            chatBoxMessage: "",
+            isActive: false,
+            activeIndex: -1,
+            search: "",
+            imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
+            interval: null,
+            lastUpdate: "",
+            currentDate: "",
+            chatFlag: "open"
+        };
+    },
+    mounted() {
+        this.fullScreen = this.$refs.fullscreen;
+        this.chatsView();
+        this.bindCurrentRoute("Chats");
+        this.interval = setInterval(() => this.openChatsView(), 9000);
 
-        })
-        .catch(function (error) {
-          console.log(error.response);
+        const leftItems = document.querySelectorAll('.g-chat-left li');
+        const contentItems = document.querySelectorAll('.g-chat .content');
+        // Get all the td elements
+        const tds = document.querySelectorAll('td');
+        const searchIcons = document.querySelectorAll('.search-icon');
+        // For Toggle Hide And Show
+        // Get the button and div elements
+        const openBtn = document.getElementById("open-btn");
+        const closeBtn = document.getElementById("close-btn");
+        const openChat = document.getElementById("open-chat");
+        const closeChat = document.getElementById("close-chat");
+        const closeBox = document.querySelector(".g-close-box");
+        const checkBox = document.querySelector(".g-check-box");
+        const selectTemplate = document.getElementById("template");
+
+
+        leftItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active class from all list items
+                leftItems.forEach(item => item.classList.remove('active'));
+
+                // Add active class to clicked item
+                item.classList.add('active');
+
+                // Show corresponding content item and hide others
+                contentItems.forEach(content => {
+                    if (content.id === item.dataset.target) {
+                        content.classList.add('active');
+                        console.log("Hi bro");
+                    } else {
+                        content.classList.remove('active');
+                        console.log("papana");
+                    }
+                });
+            });
         });
-      }
 
-    },
+        tds.forEach((td) => {
+            // Check if it's the last or third td
+            if (td === td.parentNode.lastElementChild || td === td.parentNode.children[2]) {
+                //Cursor Pointer Style
+                td.style.cursor = 'pointer'
 
-    /**
-     * @script  Initialize when chat history scroll reached at bottom
-     * */
-    scrollAtBottom(event) {
-      const element = event.target
-      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-        // do something when scrolled to the bottom
-        alert('Im at bottom');
-      }
-    },
-    /**
-     * @script  Initialize when chat history scroll reached at bottom
-     * */
-    scrollCustomBottom(event) {
-      const element = event.target
-      if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-        // do something when scrolled to the bottom
-        let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
-        // console.log(lastValue);
-        let url = `api/previous-chats/${lastValue}`;
-        if (this.lastUpdate) {
-          axios.get(url).then((res) => {
-            // console.log(this.openData);
-            if (typeof res.data.lastUpdate !== 'undefined') {
-              let result = res.data.openChat;
-              result = {...this.openData, ...result};
-              this.lastUpdate = res.data.lastUpdate;
-              this.openData = result;
+                // Add a click event listener
+                td.addEventListener('click', () => {
+                    // Get the second td element
+                    const secondTd = td.parentNode.children[1];
+
+                    // Make it contenteditable
+                    secondTd.contentEditable = true;
+                    secondTd.focus();
+                });
             }
-          })
-              .catch(function (error) {
+        });
+
+        searchIcons.forEach(function (searchIcon) {
+            searchIcon.addEventListener('click', function () {
+                const searchContainer = searchIcon.parentElement;
+                searchContainer.classList.toggle('active');
+            });
+        });
+
+        // Add click event listeners to the buttons
+        openBtn.addEventListener("click", () => {
+            openChat.style.display = "block";
+            closeChat.style.display = "none";
+            openBtn.style.backgroundColor = "#329e8c";
+            closeBtn.style.backgroundColor = "#5a5e6d";
+            this.chatFlag = "open";
+            this.clearCurrentCaht();
+            // checkBox.style.display = "none";
+            // closeBox.style.display = "block";
+        });
+
+        closeBtn.addEventListener("click", () => {
+            openChat.style.display = "none";
+            closeChat.style.display = "block";
+            closeBtn.style.backgroundColor = "#329e8c";
+            openBtn.style.backgroundColor = "#5a5e6d";
+            this.chatFlag = "close";
+            this.clearCurrentCaht();
+            // closeBox.style.display = "none";
+            // checkBox.style.display = "block";
+        });
+
+
+    },
+    destroyed() {
+        clearInterval(this.interval)
+    },
+    methods: {
+        /**
+         * @script  For Close Handler
+         * */
+
+        dataCloseHandler() {
+            console.log("Working Close Handler = " + this.chatHeadPhone);
+
+            let url = `api/close-leads/${this.chatHeadPhone}`;
+            if (this.chatHeadPhone) {
+                commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top: '45%'});
+                axios.get(url).then((res) => {
+                    // console.log(this.openData);
+                    let openResult = {[this.chatHeadPhone]: this.openData[this.chatHeadPhone]};
+                    let result = {...this.closeData, ...openResult};
+                    this.closeData = result;
+                    this.$delete(this.openData, this.chatHeadPhone);
+                    commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                    commonLib.unblockUI(".m-content");
+                    this.clearCurrentCaht();
+
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+
+        },
+        /**
+         * @script  For Check Handler
+         * */
+        dataCheckHandler() {
+            console.log("Working Check Handler = " + this.chatHeadPhone);
+            let url = `api/open-leads/${this.chatHeadPhone}`;
+            if (this.chatHeadPhone) {
+                commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top: '45%'});
+                axios.get(url).then((res) => {
+                    // console.log(this.openData);
+                    let closeResult = {[this.chatHeadPhone]: this.closeData[this.chatHeadPhone]};
+                    let result = {...this.openData, ...closeResult};
+                    this.openData = result;
+                    this.$delete(this.closeData, this.chatHeadPhone);
+                    commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                    commonLib.unblockUI(".m-content");
+                    this.clearCurrentCaht();
+
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+
+        },
+
+        /**
+         * @script  Initialize when chat history scroll reached at bottom
+         * */
+        scrollAtBottom(event) {
+            const element = event.target
+            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                // do something when scrolled to the bottom
+                alert('Im at bottom');
+            }
+        },
+        /**
+         * @script  Initialize when chat history scroll reached at bottom
+         * */
+        scrollCustomBottom(event) {
+            const element = event.target
+            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                // do something when scrolled to the bottom
+                let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
+                // console.log(lastValue);
+                let url = `api/previous-chats/${lastValue}`;
+                if (this.lastUpdate) {
+                    axios.get(url).then((res) => {
+                        // console.log(this.openData);
+                        if (typeof res.data.lastUpdate !== 'undefined') {
+                            let result = res.data.openChat;
+                            result = {...this.openData, ...result};
+                            this.lastUpdate = res.data.lastUpdate;
+                            this.openData = result;
+                        }
+                    })
+                        .catch(function (error) {
+                            console.log(error.response);
+                        });
+                }
+            }
+        },
+
+
+        /**
+         * @script  Initialize when chat history scroll reached at top
+         * */
+        scrollAtTop() {
+            console.log('I am at top');
+        },
+
+
+        /**
+         * @script array object based search
+         * */
+        onSearch() {
+            if (this.search && this.search !== '') {
+                this.openData = this.openData.filter((item) => {
+                    if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
+                        return item
+                    }
+                })
+
+            } else {
+                this.openData = this.openDataForSearch;
+            }
+        },
+
+        toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                this.fullScreen.requestFullscreen();
+                this.fullscreen.style.height = '100vh';
+            } else {
+                document.exitFullscreen();
+            }
+        },
+        selectItem: function (index) {
+            // remove active state from previously active item
+            if (this.activeIndex !== -1) {
+                this.$set(this.openData[this.activeIndex], 'isActive', false);
+            }
+
+            // toggle active state of clicked item
+            this.$set(this.openData[index], 'isActive', !this.openData[index].isActive);
+            this.activeIndex = index;
+        },
+        chatsView() {
+            var url = 'api/chats';
+            axios.get(url).then((res) => {
+                this.data = res.data;
+                this.templateData = res.data.templateInfoNew;
+                this.openData = res.data.openChat;
+                this.openDataForSearch = res.data.openChat;
+                this.closeData = res.data.closeChat;
+                this.lastUpdate = res.data.lastUpdate;
+                console.log(this.openData);
+                console.log(this.closeData);
+                this.$setDocumentTitle(this.data.title);
+            })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
+        },
+        openChatsView() {
+            let url = `api/open-chats/${this.lastUpdate}`;
+            let self = this;
+            if (this.lastUpdate) {
+                axios.get(url).then((res) => {
+                    // console.log(this.openData);
+                    if (typeof res.data.lastUpdate !== 'undefined') {
+                        let result = res.data.openChat;
+                        result = {...result, ...this.openData};
+                        this.lastUpdate = res.data.lastUpdate;
+                        this.openData = result;
+                        // console.log(this.openData);
+                        let newResult = res.data.openChat;
+                        $.each(newResult, function (index, value) {
+                            self.openData[index] = value;
+                        });
+                    }
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+
+        },
+
+
+        onChangeTemplate(event) {
+            // console.log(this.selectedValue);
+            const chatBox = document.getElementById("s-msg");
+            chatBox.value = this.selectedValue;
+            // this.chatBoxMessage = this.selectedValue;
+        },
+
+        /**
+         * @script clear current chat
+         * */
+
+        clearCurrentCaht() {
+            this.chatInfo = {};
+            this.chatHeadPhone = null;
+            this.chatHeadFirstName = null;
+            this.chatHeadLastName = null;
+            this.activeIndex = -1;
+        },
+
+
+        greet: function (itemInfo) {
+            console.log(itemInfo);
+            this.chatHeadFirstName = itemInfo.first_name;
+            this.chatHeadLastName = itemInfo.last_name;
+            this.chatHeadPhone = itemInfo.phone;
+            this.chatHeadCompany = itemInfo.company;
+            this.chatHeadSmsText = itemInfo.sms_text;
+            this.callid = itemInfo.callid;
+            $('#' + 'alert-' + itemInfo.phone).hide();
+            $('.serving').hide();
+            $('#' + 'serving-' + itemInfo.phone).show();
+            var url = `api/chat-info/${itemInfo.phone}`;
+            axios.get(url).then((res) => {
+                this.chatInfo = res.data;
+                this.prevSmsData = res.data;
+                this.instantSmsData = {};
+                this.message = "";
+
+            }).catch(function (error) {
                 console.log(error.response);
-              });
-        }
-      }
-    },
-
-
-    /**
-     * @script  Initialize when chat history scroll reached at top
-     * */
-    scrollAtTop() {
-      console.log('I am at top');
-    },
-
-
-    /**
-     * @script array object based search
-     * */
-    onSearch() {
-      if (this.search && this.search !== '') {
-        this.openData = this.openData.filter((item) => {
-          if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
-            return item
-          }
-        })
-
-      } else {
-        this.openData = this.openDataForSearch;
-      }
-    },
-
-    toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        this.fullScreen.requestFullscreen();
-        this.fullscreen.style.height = '100vh';
-      } else {
-        document.exitFullscreen();
-      }
-    },
-    selectItem: function (index) {
-      // remove active state from previously active item
-      if (this.activeIndex !== -1) {
-        this.$set(this.openData[this.activeIndex], 'isActive', false);
-      }
-
-      // toggle active state of clicked item
-      this.$set(this.openData[index], 'isActive', !this.openData[index].isActive);
-      this.activeIndex = index;
-    },
-    chatsView() {
-      var url = 'api/chats';
-      axios.get(url).then((res) => {
-        this.data = res.data;
-        this.templateData = res.data.templateInfoNew;
-        this.openData = res.data.openChat;
-        this.openDataForSearch = res.data.openChat;
-        this.closeData = res.data.closeChat;
-        this.lastUpdate = res.data.lastUpdate;
-        console.log(this.openData);
-        console.log(this.closeData);
-        this.$setDocumentTitle(this.data.title);
-      })
-          .catch(function (error) {
-            console.log(error.response);
-          });
-    },
-    openChatsView() {
-      let url = `api/open-chats/${this.lastUpdate}`;
-      let self = this;
-      if (this.lastUpdate) {
-        axios.get(url).then((res) => {
-          // console.log(this.openData);
-          if (typeof res.data.lastUpdate !== 'undefined') {
-            let result = res.data.openChat;
-            result = {...result, ...this.openData};
-            this.lastUpdate = res.data.lastUpdate;
-            this.openData = result;
-            // console.log(this.openData);
-            let newResult = res.data.openChat;
-            $.each(newResult, function (index, value) {
-              self.openData[index] = value;
             });
-          }
-        })
-            .catch(function (error) {
-              console.log(error.response);
-            });
-      }
 
-    },
+        },
 
+        /*pushMessage(log_time){
+            this.data.data.push({log_time: log_time, did:this.from,client:this.to,sms_text: this.message,status:'P',direction:'O'});
+        },*/
 
-    onChangeTemplate(event) {
-      // console.log(this.selectedValue);
-      const chatBox = document.getElementById("s-msg");
-      chatBox.value = this.selectedValue;
-      // this.chatBoxMessage = this.selectedValue;
-    },
+        sendMessage() {
+            let phoneValue;
+            let didValue;
+            // var localTime = new Date().toLocaleString("en-US", {timeZone: this.data.timezone});
+            var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});
+            const smsBoxData = document.getElementById("s-msg").value;
 
-    /**
-     * @script clear current chat
-     * */
+            if (smsBoxData.length <= 0) {
+                return;
+            }
 
-    clearCurrentCaht(){
-      this.chatInfo={};
-      this.chatHeadPhone = null;
-      this.chatHeadFirstName = null;
-      this.chatHeadLastName = null;
-      this.activeIndex = -1;
-    },
+            if (!this.chatHeadPhone) {
+                alert("Please select a contact from sidebar");
+                return;
+            }
 
+            if (this.prevSmsData.data[0]) {
+                phoneValue = this.prevSmsData.data[0].client_number;
+                didValue = this.prevSmsData.data[0].did;
+            } else {
+                phoneValue = this.chatHeadPhone;
+                didValue = "19723182200";
+            }
 
-    greet: function (itemInfo) {
-      console.log(itemInfo);
-      this.chatHeadFirstName = itemInfo.first_name;
-      this.chatHeadLastName = itemInfo.last_name;
-      this.chatHeadPhone = itemInfo.phone;
-      this.chatHeadCompany = itemInfo.company;
-      this.chatHeadSmsText = itemInfo.sms_text;
-      this.callid = itemInfo.callid;
-      $('#'+'alert-'+itemInfo.phone).hide();
-      $('.serving').hide();
-      $('#'+'serving-'+itemInfo.phone).show();
-      var url = `api/chat-info/${itemInfo.phone}`;
-      axios.get(url).then((res) => {
-        this.chatInfo = res.data;
-        this.prevSmsData = res.data;
-        this.instantSmsData = {};
-        this.message = "";
-
-      }).catch(function (error) {
-        console.log(error.response);
-      });
-
-    },
-
-    /*pushMessage(log_time){
-        this.data.data.push({log_time: log_time, did:this.from,client:this.to,sms_text: this.message,status:'P',direction:'O'});
-    },*/
-
-    sendMessage() {
-      let phoneValue;
-      let didValue;
-      // var localTime = new Date().toLocaleString("en-US", {timeZone: this.data.timezone});
-      var localTime = new Date().toLocaleString("en-US", {timeZone: 'America/Los_Angeles'});
-      const smsBoxData = document.getElementById("s-msg").value;
-
-      if (smsBoxData.length <= 0) {
-        return;
-      }
-
-      if (!this.chatHeadPhone) {
-        alert("Please select a contact from sidebar");
-        return;
-      }
-
-      if (this.prevSmsData.data[0]) {
-        phoneValue = this.prevSmsData.data[0].client_number;
-        didValue = this.prevSmsData.data[0].did;
-      } else {
-        phoneValue = this.chatHeadPhone;
-        didValue = "19723182200";
-      }
-
-      // SEND SMS DATA
-      this.instantSmsData = {
-        text: smsBoxData,
-        timesend: localTime
-      };
+            // SEND SMS DATA
+            this.instantSmsData = {
+                text: smsBoxData,
+                timesend: localTime
+            };
 
 
-      /*if(this.message.length > this.data.sms_text_size){
-          return;
-      }*/
-      var vm = this;
-      this.compose.to = phoneValue;
-      this.compose.from = didValue;
-      this.compose.message = smsBoxData;
-      this.compose.scheduleShow = this.scheduleShow;
-      axios.post('api/reply-create', this.compose).then((res) => {
+            /*if(this.message.length > this.data.sms_text_size){
+                return;
+            }*/
+            var vm = this;
+            this.compose.to = phoneValue;
+            this.compose.from = didValue;
+            this.compose.message = smsBoxData;
+            this.compose.scheduleShow = this.scheduleShow;
+            axios.post('api/reply-create', this.compose).then((res) => {
 
-        commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
-        console.log(res.data.response_msg);
-        if (res.data.response_msg.type == 'success') {
+                commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                console.log(res.data.response_msg);
+                if (res.data.response_msg.type == 'success') {
 
-          this.selectedValue = {};
-          const chatBox = document.getElementById("s-msg");
-          chatBox.value = "";
+                    this.selectedValue = {};
+                    const chatBox = document.getElementById("s-msg");
+                    chatBox.value = "";
 
-          this.message = "";
-          console.log("All done from now");
-        }
-        commonLib.unblockUI(".m-content");
-      })
-          .catch(function (error) {
-            console.log("All end from now");
-            /*vm.validationErrors = error.response.data;
-            commonLib.unblockUI(".m-content");*/
-          });
-    },
+                    this.message = "";
+                    console.log("All done from now");
+                }
+                commonLib.unblockUI(".m-content");
+            })
+                .catch(function (error) {
+                    console.log("All end from now");
+                    /*vm.validationErrors = error.response.data;
+                    commonLib.unblockUI(".m-content");*/
+                });
+        },
 
-    // bind data to use on modal
-    bindModalData(data) {
-      this.modalData = data;
-    },
+        // bind data to use on modal
+        bindModalData(data) {
+            this.modalData = data;
+        },
 
-    // bind data to use on modal
-    bindDispositionData(clientNumber, clientCallid) {
-      console.log(clientNumber);
-      console.log(clientCallid);
-      this.dispositionData = {
-        clientNumber: clientNumber,
-        clientCallid: clientCallid
-      };
-      console.log(this.modalData);
-    },
+        // bind data to use on modal
+        bindDispositionData(clientNumber, clientCallid) {
+            console.log(clientNumber);
+            console.log(clientCallid);
+            this.dispositionData = {
+                clientNumber: clientNumber,
+                clientCallid: clientCallid
+            };
+            console.log(this.modalData);
+        },
 
 
-  }
+    }
 };
 
 
