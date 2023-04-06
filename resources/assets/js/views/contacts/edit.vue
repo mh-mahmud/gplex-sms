@@ -32,30 +32,8 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group m-form__group row" :class="errors.has('country') || validationErrors.phone ? 'has-error' : ''" style="display: none">
-                                    <label class="col-lg-3 col-form-label"  for="country">Country:<span class="required">*</span></label>
-                                    <div class="col-lg-6">
-                                        <select data-vv-as="Country" name="country" v-validate="'required'" v-model="contact.country" class="form-control m-input">
-                                            <option v-for="(item, index) in countries" :value="index" :key="index">{{item}}</option>
-                                        </select>
-                                        <!-- <input data-vv-as="Country" name="country" v-validate="'required|max:20'"  v-model="contact.country" type="text" class="form-control m-input" placeholder="Enter Country"> -->
-                                        <span class="m-form__help" v-if="errors.has('country') || validationErrors.country">
-                                            {{ errors.first('country') || validationErrors.country[0] }}
-                                        </span>
-                                    </div>
-                                </div>
-                                 <div class="form-group m-form__group row" :class="errors.has('phone_type') || validationErrors.last_name ? 'has-error' : ''" style="display: none">
-                                    <label class="col-lg-3 col-form-label" for="phone_type">Phone Type:<span class="required">*</span></label>
-                                    <div class="col-lg-6">
-                                        <select data-vv-as="Phone Type" name="phone_type" v-validate="'required'"  v-model="contact.phone_type" class="form-control m-input">
-                                            <option value="L">Landline</option>
-                                            <option value="M">Mobile</option>
-                                        </select>                                        
-                                        <span class="m-form__help" v-if="errors.has('phone_type') || validationErrors.phone_type">
-                                            {{ errors.first('phone_type') || validationErrors.phone_type[0] }}
-                                        </span>
-                                    </div>    
-                                </div>
+                                
+                                 
                                 <div style="display: none;" class="form-group m-form__group row" :class="errors.has('group') || validationErrors.group ? 'has-error' : ''">
                                     <label class="col-lg-3 col-form-label"  for="group">Group:<span class="required">*</span></label>
                                     <div class="col-lg-6">
@@ -144,64 +122,64 @@
                                 </div>
 
                                 <!-- custom fields -->
-                                <div v-if="(data.settings.custom_0_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_0_name}}:</label>
+                                <div v-if="(settings.custom_0_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_0_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_0_name" name="custom_0_name" v-validate="'max:30'"  v-model="contact.custom_0" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_0_name" name="custom_0_name" v-validate="'max:30'"  v-model="contact.custom_0" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_1_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_1_name}}:</label>
+                                <div v-if="(settings.custom_1_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_1_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_1_name" name="custom_1_name" v-validate="'max:30'"  v-model="contact.custom_1" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_1_name" name="custom_1_name" v-validate="'max:30'"  v-model="contact.custom_1" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_2_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_2_name}}:</label>
+                                <div v-if="(settings.custom_2_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_2_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_2_name" name="custom_2_name" v-validate="'max:30'"  v-model="contact.custom_2" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_2_name" name="custom_2_name" v-validate="'max:30'"  v-model="contact.custom_2" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_3_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_3_name}}:</label>
+                                <div v-if="(settings.custom_3_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_3_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_3_name" name="custom_3_name" v-validate="'max:30'"  v-model="contact.custom_3" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_3_name" name="custom_3_name" v-validate="'max:30'"  v-model="contact.custom_3" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_4_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_4_name}}:</label>
+                                <div v-if="(settings.custom_4_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_4_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_4_name" name="custom_4_name" v-validate="'max:30'"  v-model="contact.custom_4" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_4_name" name="custom_4_name" v-validate="'max:30'"  v-model="contact.custom_4" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_5_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_5_name}}:</label>
+                                <div v-if="(settings.custom_5_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_5_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_5_name" name="custom_5_name" v-validate="'max:30'"  v-model="contact.custom_5" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_5_name" name="custom_5_name" v-validate="'max:30'"  v-model="contact.custom_5" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_6_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_6_name}}:</label>
+                                <div v-if="(settings.custom_6_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_6_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_6_name" name="custom_6_name" v-validate="'max:30'"  v-model="contact.custom_6" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_6_name" name="custom_6_name" v-validate="'max:30'"  v-model="contact.custom_6" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_7_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_7_name}}:</label>
+                                <div v-if="(settings.custom_7_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_7_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_7_name" name="custom_7_name" v-validate="'max:30'"  v-model="contact.custom_7" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_7_name" name="custom_7_name" v-validate="'max:30'"  v-model="contact.custom_7" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_8_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_8_name}}:</label>
+                                <div v-if="(settings.custom_8_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_8_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_8_name" name="custom_8_name" v-validate="'max:30'"  v-model="contact.custom_8" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_8_name" name="custom_8_name" v-validate="'max:30'"  v-model="contact.custom_8" type="text" class="form-control m-input">
                                     </div>
                                 </div>
-                                <div v-if="(data.settings.custom_9_name !='')" class="form-group m-form__group row">
-                                    <label class="col-lg-3 col-form-label"  for="_1">{{data.settings.custom_9_name}}:</label>
+                                <div v-if="(settings.custom_9_name !='')" class="form-group m-form__group row">
+                                    <label class="col-lg-3 col-form-label"  for="_1">{{settings.custom_9_name}}:</label>
                                     <div class="col-lg-6">
-                                        <input :data-vv-as="data.settings.custom_9_name" name="custom_9_name" v-validate="'max:30'"  v-model="contact.custom_9" type="text" class="form-control m-input">
+                                        <input :data-vv-as="settings.custom_9_name" name="custom_9_name" v-validate="'max:30'"  v-model="contact.custom_9" type="text" class="form-control m-input">
                                     </div>
                                 </div>
                                 
@@ -269,8 +247,10 @@ export default {
     },
     // Update Contact
     updateContact() {
+        console.log("Hello mama");
         // Update
-        this.$validator.validateAll().then((result) => { 
+        this.$validator.validateAll().then((result) => {
+            console.log(result);
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
@@ -305,11 +285,13 @@ export default {
         axios.get(refUrl).then((res) => 
         {
             this.contact = res.data.data.contact;
-            console.log(this.contact);
+            
             //this.contact.group = {'label': res.data.data.groups[0].name, 'code': res.data.data.groups[0].id};            
             this.options = this.$processVselectData(res.data.groupList,'name','id');            
             this.contact.group = this.$processVselectData(res.data.data.groups,'name','id');
             this.data = res.data;
+            this.settings = this.data.settings;
+            console.log(this.data.settings);
             this.$setDocumentTitle(this.data.title);
             commonLib.unblockUI(".m-content");
         })

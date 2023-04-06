@@ -11,5 +11,6 @@ class Contact extends Model
     
     public function group() {
         return $this->belongsTo('App\Models\Group', 'group_id', 'id');
+        // return $this->belongsTo('App\Models\Group');
     }
 }

@@ -52,7 +52,8 @@ class ContactsService extends AppService
         $per_page = (isset($queryParam['per_page']) && !empty($queryParam['per_page']) && $queryParam['per_page']!='undefined') ? $queryParam['per_page'] : config('dashboard_constant.PAGINATION_LIMIT');
 
 
-        $query = $query->orderBy('created_at', 'DESC')->paginate($per_page); 
+        $query = $query->orderBy('created_at', 'DESC')->paginate($per_page);
+        //dd($query->toArray());
         return $this->paginationDataFormat($query->toArray());
     }
 
@@ -345,7 +346,7 @@ class ContactsService extends AppService
     public function getContactDetail($id){
         //Get detail
         $data = array();
-        $contact = Contact::findOrFail($id); 
+        $contact = Contact::findOrFail($id);
         if($contact){
             $groups = \DB::table('sms_contact_group')
                             ->join('contact_group', 'sms_contact_group.id', '=', 'contact_group.group_id')
@@ -384,8 +385,8 @@ class ContactsService extends AppService
             //'phone' => 'required|digits:11',
             'phone' => 'required|max:13',
             //'company' => 'required',
-            'country' => 'required',
-            'phone_type' => 'required',
+            // 'country' => 'required',
+            // 'phone_type' => 'required',
 
         ]);
 
