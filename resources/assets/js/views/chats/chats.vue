@@ -38,10 +38,10 @@
                   <div class="g-chat-header">
                     <div class="new-chat-open">
                       <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
-                      <div class="search-container">
-                        <i class="bi bi-search search-icon"></i>
-                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">
-                      </div>
+<!--                      <div class="search-container">-->
+<!--                        <i class="bi bi-search search-icon"></i>-->
+<!--                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">-->
+<!--                      </div>-->
                     </div>
 
                     <div class="g-open-chat-header">
@@ -62,10 +62,10 @@
 
                         <div class="g-chat-user-property">
 
-                          <div class="search-container">
-                            <i class="bi bi-search search-icon"></i>
-                            <input type="text" placeholder="Search...">
-                          </div>
+<!--                          <div class="search-container">-->
+<!--                            <i class="bi bi-search search-icon"></i>-->
+<!--                            <input type="text" placeholder="Search...">-->
+<!--                          </div>-->
                           <div v-if="chatHeadFirstName && chatFlag == 'open'"
                                class="g-close-box active btn btn-sm btn-success" @click="dataCloseHandler">
                             <i class="bi bi-x-lg"></i>

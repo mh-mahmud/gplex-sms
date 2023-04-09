@@ -65,7 +65,7 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'administrator',
+        'name' => 'history',
         'title' => 'History',
         'icon' => 'flaticon-clock',
         'url' => '#/history-list',
@@ -74,7 +74,16 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'administrator',
+        'name' => 'DispositionLog',
+        'title' => 'Disposition Log',
+        'icon' => 'flaticon-list',
+        'sidebar_menu_active' => 'DispositionLog',
+        'vue_route_name' => 'DispositionLog',
+        'url' => '#/disposition-log',
+        'model_list' => []
+    ],
+    [
+        'name' => 'contacts',
         'title' => 'Contacts',
         'icon' => 'flaticon-book',
         'sidebar_menu_active' => 'contacts',
@@ -83,7 +92,7 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'administrator',
+        'name' => 'ContactSettings',
         'title' => 'Contact Settings',
         'icon' => 'flaticon-book',
         'sidebar_menu_active' => 'contact-settings',
