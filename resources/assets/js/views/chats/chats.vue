@@ -98,7 +98,7 @@
                                 <strong class="mb-0">{{ item.first_name ? item.first_name : item.phone }}
                                   {{ item.last_name }} </strong>
                                 <small v-if="item.sms_text">{{ item.sms_text.substr(0, 15) }}</small>
-                                <small :id="'serving-' + key" class="serving" style="display: none"><span class="g-serving">Serving...</span></small>
+                                <small :id="'serving-' + key" class="serving" style="display: none"><span class="text-right" style="color: #3cffed;">Serving...</span></small>
                               </div>
                               <div v-if="item.status == 'U'" :id="'alert-' + key" class=""><span class="text-right"><i
                                   class="bi bi-bell-fill" style="color: #f70606;"></i></span></div>
@@ -242,22 +242,46 @@
                           <tr>
                             <td><small>First Name</small></td>
                             <td><small>{{ chatHeadFirstName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Last Name</small></td>
                             <td><small>{{ chatHeadLastName }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Phone</small></td>
                             <td><small>{{ chatHeadPhone }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Company</small></td>
-                            <td><small>{{ chatHeadCompany }}</small></td>
-                            <td><small class="bi bi-pencil-square"></small></td>
+                            <td><small>{{ contactData.company }}</small></td>
+                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
+                          </tr>
+                          <tr>
+                            <td><small>Street</small></td>
+                            <td><small>{{ contactData.street }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Suite</small></td>
+                            <td><small>{{ contactData.suite }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>City</small></td>
+                            <td><small>{{ contactData.city }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>State</small></td>
+                            <td><small>{{ contactData.state }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>Zip</small></td>
+                            <td><small>{{ contactData.zip }}</small></td>
+                          </tr>
+                          <tr>
+                            <td><small>&nbsp;</small></td>
+                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>
                           </tr>
                           </tbody>
                         </table>
@@ -989,19 +1013,6 @@
   display: block;
 }
 
-/*============================
-         Others
-  ============================*/
-.g-serving{
-  background-color: #444753;
-  color: #ffffff;
-  border-radius: 0.2rem;
-  padding: 2px;
-  font-size:10px;
-  display:inline-block;
-  margin-top:2px;
-}
-
 </style>
 
 <script>
@@ -1347,13 +1358,25 @@ export default {
 
 
     greet: function (itemInfo) {
-      console.log(itemInfo);
+
       this.chatHeadFirstName = itemInfo.first_name;
       this.chatHeadLastName = itemInfo.last_name;
       this.chatHeadPhone = itemInfo.phone;
       this.chatHeadCompany = itemInfo.company;
       this.chatHeadSmsText = itemInfo.sms_text;
       this.callid = itemInfo.callid;
+
+      // contact data
+      this.contactData = {
+        company: itemInfo.company,
+        street: itemInfo.street,
+        zip: itemInfo.zip,
+        suite: itemInfo.suite,
+        city: itemInfo.city,
+        state: itemInfo.state,
+
+      };
+
       $('#'+'alert-'+itemInfo.phone).hide();
       $('.serving').hide();
       $('#'+'serving-'+itemInfo.phone).show();

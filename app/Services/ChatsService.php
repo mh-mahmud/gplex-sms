@@ -19,13 +19,7 @@ class ChatsService extends AppService {
     }
 
     public function getOpenChats($account_id) {
-//		$data = DB::select("select c.id, c.first_name,c.last_name, c.company, ls.log_time, ls.client_number as phone, SUBSTRING(ls.sms_text, 1, 15) AS txt, ls.status FROM log_sms ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' and ls.log_time = (select MAX(ls2.log_time) from log_sms ls2 where ls2.client_number = ls.client_number) GROUP BY ls.client_number ORDER BY log_time DESC LIMIT 15");
-//        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' ORDER BY log_time DESC limit 50 ");
-//        var_dump($data);
-//        die();
-
-		//		$data = DB::select("select c.id, c.first_name,c.last_name, c.company, ls.log_time, ls.client_number as phone, SUBSTRING(ls.sms_text, 1, 15) AS txt, ls.status FROM log_sms ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' and ls.log_time = (select MAX(ls2.log_time) from log_sms ls2 where ls2.client_number = ls.client_number) GROUP BY ls.client_number ORDER BY log_time DESC LIMIT 15");
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
 
 
         $allData = [];
@@ -45,10 +39,6 @@ class ChatsService extends AppService {
     public function getLatestChats($account_id,$date) {
 
 
-//        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit  50 ");
-//        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE c.lead_status=1 AND ls.account_id='{$account_id}' and ls.log_time > '{$date}' ORDER BY log_time DESC limit 15 ");
-
-
         $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.log_time > '{$date}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
 
         $allData = [];
@@ -65,8 +55,6 @@ class ChatsService extends AppService {
     }
 
     public function getCloseChats($account_id) {
-        /*$data = DB::select("SELECT c.first_name, c.phone, c.last_name, c.company, c.lead_status, ls.log_time, ls.account_id, ls.client_number, ls.sms_text, ls.status, ls.did FROM contacts AS c LEFT JOIN log_sms AS ls ON c.phone=ls.client_number WHERE c.lead_status=0 AND c.account_id='{$account_id}' GROUP BY c.phone ORDER BY ls.log_time DESC");
-        return $data;*/
 
         $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND c.lead_status=0 ORDER BY log_time DESC limit 15 ");
 
