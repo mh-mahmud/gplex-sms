@@ -48,6 +48,7 @@
               </tbody>
             </table>
           </div>
+          <div v-if="tableData.length > 0" class="row pull-right"><a @click.prevent="removeBackdrop()" href="#"><span class="breadcrumb-title">More</span></a></div>
         </div>
       </div>
 
@@ -140,6 +141,13 @@ export default {
     hideModal(refid){
       $(refid).modal('hide');
       $(".modal-backdrop").remove();
+    },
+    removeBackdrop(){
+      $("#disposition-modal").modal('hide');
+      $(".modal-backdrop").remove();
+      this.$router.push('disposition-log');
+
+      console.log('calling');
     }
   }
 }

@@ -92,4 +92,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/all-dispositions/{clientNumber}', 'ChatsController@allDispositions');
     Route::get('/close-leads/{clientNumber}', 'ChatsController@closeLeads');
     Route::get('/open-leads/{clientNumber}', 'ChatsController@openLeads');
+    Route::get('/disposition-log', 'ChatsController@getDispositionLog');
 });

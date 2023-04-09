@@ -194,6 +194,34 @@ class ChatsService extends AppService {
         return $data;
     }
 
+    public function getDispositionLog($request){
+        $queryParam = $request->query();
+//        dump($queryParam);
+        $account_id = $this->getAccountId();
+//        $data = Disposition::where('cli', '=', $clientNumber)->orderBy('tstamp','DESC')->limit(10)-
+//        DB::enableQueryLog();
+        $query = DB::table("log_sms_disposition as lsd")
+            ->leftJoin("sms_disposition_code as sdc","lsd.disposition_id","=","sdc.disposition_id");
+
+        $stdate = isset($queryParam['start_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['start_time']) : false;
+        $endate = isset($queryParam['end_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['end_time']): false;
+        if($stdate !== false && $endate !== false){
+            $from = $stdate->getTimestamp();
+            $to = $endate->getTimestamp();
+            $query->whereBetween("lsd.tstamp",[$from,$to]);
+        }
+        $query->where("lsd.account_id",$account_id);
+        if(isset($queryParam['cli']) && !empty($queryParam['cli']) ){
+            $query->where("lsd.cli",$queryParam['cli']);
+        }
+        if(isset($queryParam['disposition_type']) && !empty($queryParam['disposition_type']) ){
+            $query->where("lsd.disposition_id",$queryParam['disposition_type']);
+        }
+        $data = $query->orderBy("lsd.tstamp","DESC")->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
+//        dd(DB::getQueryLog());
+        return $this->paginationDataFormat($data->toArray());
+    }
+
     public function getContactDetails($clientNumber){
         //Get detail
         return Contact::where('phone','=',$clientNumber)->firstOrFail();

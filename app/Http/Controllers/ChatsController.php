@@ -181,4 +181,48 @@ class ChatsController extends AppController
         return response()->json($layoutData);
     }
 
+    /**
+     * Check for store Disposition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getDispositionLog(Request $request)
+    {
+        $authUser = \Session::get('loginUser');
+        $data = $this->ChatsService->getDispositionLog($request);
+        $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_BOOTBOX","JSP_SORTABLE"]);
+        $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
+        $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
+        $layoutData['directions'] = config("dashboard_constant.LOG_SMS_STATUS");
+        $layoutData['dispositionType'] = $this->ChatsService->getAllDisposition();
+        $layoutData['userTimeZone'] = $authUser['timezone'];
+        $layoutData['title'] = 'Disposition Log | '.config("app.name");
+        $layoutData['breadcrumb'] = [
+            "links" => [
+                [
+                    "name" => "Disposition Log",
+                    "url" => url("#/disposition-log"),
+                    "icon" => "flaticon-list-1"
+                ]
+            ],
+            "reloadButton" =>[
+                [
+                    "name" => "Reload",
+                    "url" => url("#/disposition-log"),
+                    "icon" => "la la-refresh",
+                    "class" => "m-btn--air btn-accent"
+                ]
+            ]
+        ];
+        $layoutData['data'] = $data['data'];
+        // pagination meta value
+        $layoutData['meta'] = $data['meta'];
+        // pagination links
+        $layoutData['links'] = $data['links'];
+        // mas date difference
+        $layoutData['maxDateDiff'] = config("dashboard_constant.REPORT_MAX_DATE_DIFF");
+        // Return collection of list as a reosurce
+        return response()->json($layoutData);
+    }
+
 }
