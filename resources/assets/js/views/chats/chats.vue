@@ -151,9 +151,15 @@
                             <div class=""
                                  :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
                               <div class="chat-msg">
-                                {{ msg.sms_text }}this area
-                                <time datetime="6:00">{{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}</time>
-                                <div style="font-size:10px" v-if="msg.direction=='O'"><i>{{ msg.account_id }}</i></div>
+                                {{ msg.sms_text }}
+                                
+                                
+                                <time>
+                                  <span style="font-size:10px" v-if="msg.direction=='O'">
+                                    <i v-if="msg.userid">{{ msg.userid }} - </i>
+                                  </span>
+                                  {{ msg.log_time | formatDate("ddd, MMM YY HH:mm A") }}
+                                </time>
                               </div>
                               <div class="chat-msg-image">
                                 <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'" alt="">
@@ -279,10 +285,10 @@
                             <td><small>Zip</small></td>
                             <td><small>{{ contactData.zip }}</small></td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <td><small>&nbsp;</small></td>
                             <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>
-                          </tr>
+                          </tr> -->
                           </tbody>
                         </table>
                       </div>
