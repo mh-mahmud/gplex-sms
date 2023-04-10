@@ -37,7 +37,7 @@
 
                   <div class="g-chat-header">
                     <div class="new-chat-open">
-                      <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
+<!--                      <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>-->
 <!--                      <div class="search-container">-->
 <!--                        <i class="bi bi-search search-icon"></i>-->
 <!--                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">-->
@@ -281,7 +281,7 @@
                           </tr>
                           <tr>
                             <td><small>&nbsp;</small></td>
-                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>
+<!--                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>-->
                           </tr>
                           </tbody>
                         </table>
@@ -1265,15 +1265,16 @@ export default {
      * */
     onSearch() {
       if (this.search && this.search !== '') {
-        this.openData = this.openData.filter((item) => {
+        let chatData = this.openData;
+        console.log(chatData);
+        let result = chatData.filter((item) => {
           if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
             return item
           }
         })
-
-      } else {
-        this.openData = this.openDataForSearch;
+        console.log(result);
       }
+
     },
 
     toggleFullScreen() {

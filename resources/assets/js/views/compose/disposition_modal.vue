@@ -42,6 +42,7 @@
               <tbody>
                 <tr v-for="(item, index) in modalData.data" v-bind:key="index" style="text-align: center">
                   <td>{{item.tstamp}}</td>
+<!--                  <td>{{item.tstamp   | formatTimestampDate('MM/DD/YYYY hh:mm A') }}</td>-->
                   <td>{{item.title}}</td>
                   <td >{{item.note}}</td>
                 </tr>
