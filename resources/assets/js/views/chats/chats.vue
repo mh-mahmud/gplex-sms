@@ -246,80 +246,118 @@
                           </thead>
                           <tbody>
                           <tr>
-                            <td><small>First Name</small></td>
-                            <td><small>{{ chatHeadFirstName }}</small></td>
+                            <td>First Name</td>
+                            <td>
+                                <input :data-vv-as="chatHeadFirstName" name="first_name" v-model="contactData.first_name" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Last Name</small></td>
-                            <td><small>{{ chatHeadLastName }}</small></td>
+                            <td>Last Name</td>
+                            <td>
+                              <input :data-vv-as="chatHeadLastName" name="last_name" v-model="contactData.last_name" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Phone</small></td>
-                            <td><small>{{ chatHeadPhone }}</small></td>
+                            <td>Phone</td>
+                            <td>
+                              <input :data-vv-as="chatHeadPhone" name="phone" v-model="contactData.phone" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Company</small></td>
-                            <td><small>{{ contactData.company }}</small></td>
+                            <td>Company</td>
+                            <td>
+                              <input :data-vv-as="contactData.company" name="company" v-model="contactData.company" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Street</small></td>
-                            <td><small>{{ contactData.street }}</small></td>
+                            <td>Street</td>
+                            <td>
+                              <input :data-vv-as="contactData.street" name="street" v-model="contactData.street" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Suite</small></td>
-                            <td><small>{{ contactData.suite }}</small></td>
+                            <td>Suite</td>
+                            <td>
+                              <input :data-vv-as="contactData.suite" name="suite" v-model="contactData.suite" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>City</small></td>
-                            <td><small>{{ contactData.city }}</small></td>
+                            <td>City</td>
+                            <td>
+                              <input :data-vv-as="contactData.city" name="city" v-model="contactData.city" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>State</small></td>
-                            <td><small>{{ contactData.state }}</small></td>
+                            <td>State</td>
+                            <td>
+                              <input :data-vv-as="contactData.state" name="state" v-model="contactData.state" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr>
-                            <td><small>Zip</small></td>
-                            <td><small>{{ contactData.zip }}</small></td>
+                            <td>Zip</td>
+                            <td>
+                              <input :data-vv-as="contactData.zip" name="zip" v-model="contactData.zip" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_0_name !='')">
-                            <td><small>{{settings.custom_0_name}}</small></td>
-                            <td><small>{{ contactData.custom_0 }}</small></td>
+                            <td>{{settings.custom_0_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_0" name="custom_0" v-model="contactData.custom_0" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_1_name !='')">
-                            <td><small>{{settings.custom_1_name}}</small></td>
-                            <td><small>{{ contactData.custom_1 }}</small></td>
+                            <td>{{settings.custom_1_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_1" name="custom_1" v-model="contactData.custom_1" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_2_name !='')">
-                            <td><small>{{settings.custom_2_name}}</small></td>
-                            <td><small>{{ contactData.custom_2 }}</small></td>
+                            <td>{{settings.custom_2_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_2" name="custom_2" v-model="contactData.custom_2" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_3_name !='')">
-                            <td><small>{{settings.custom_3_name}}</small></td>
-                            <td><small>{{ contactData.custom_3 }}</small></td>
+                            <td>{{settings.custom_3_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_3" name="custom_3" v-model="contactData.custom_3" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_4_name !='')">
-                            <td><small>{{settings.custom_4_name}}</small></td>
-                            <td><small>{{ contactData.custom_4 }}</small></td>
+                            <td>{{settings.custom_4_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_4" name="custom_4" v-model="contactData.custom_4" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_5_name !='')">
-                            <td><small>{{settings.custom_5_name}}</small></td>
-                            <td><small>{{ contactData.custom_5 }}</small></td>
+                            <td>{{settings.custom_5_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_5" name="custom_5" v-model="contactData.custom_5" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_6_name !='')">
-                            <td><small>{{settings.custom_6_name}}</small></td>
-                            <td><small>{{ contactData.custom_6 }}</small></td>
+                            <td>{{settings.custom_6_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_6" name="custom_6" v-model="contactData.custom_6" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_7_name !='')">
-                            <td><small>{{settings.custom_7_name}}</small></td>
-                            <td><small>{{ contactData.custom_7 }}</small></td>
+                            <td>{{settings.custom_7_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_7" name="custom_7" v-model="contactData.custom_7" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_8_name !='')">
-                            <td><small>{{settings.custom_8_name}}</small></td>
-                            <td><small>{{ contactData.custom_8 }}</small></td>
+                            <td>{{settings.custom_8_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_8" name="custom_8" v-model="contactData.custom_8" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <tr v-if="(settings.custom_9_name !='')">
-                            <td><small>{{settings.custom_9_name}}</small></td>
-                            <td><small>{{ contactData.custom_9 }}</small></td>
+                            <td>{{settings.custom_9_name}}</td>
+                            <td>
+                              <input :data-vv-as="contactData.custom_9" name="custom_9" v-model="contactData.custom_9" type="text" class="form-control m-input">
+                            </td>
                           </tr>
                           <!-- <tr>
                             <td><small>&nbsp;</small></td>
@@ -381,7 +419,10 @@
     border-radius: 30px;
   }
 
-
+  .m-input {
+    height: 25px;
+    font-size: 12px;
+  }
   /*============================
            New Chat Area
     ============================*/
@@ -1414,6 +1455,9 @@ console.log("kaka world");
       // contact data
       this.contactData = {
         custom_data: false,
+        first_name: itemInfo.first_name,
+        last_name: itemInfo.last_name,
+        phone: itemInfo.phone,
         company: itemInfo.company,
         street: itemInfo.street,
         zip: itemInfo.zip,
