@@ -248,22 +248,18 @@
                           <tr>
                             <td><small>First Name</small></td>
                             <td><small>{{ chatHeadFirstName }}</small></td>
-                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Last Name</small></td>
                             <td><small>{{ chatHeadLastName }}</small></td>
-                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Phone</small></td>
                             <td><small>{{ chatHeadPhone }}</small></td>
-                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Company</small></td>
                             <td><small>{{ contactData.company }}</small></td>
-                            <!-- <td><small class="bi bi-pencil-square"></small></td> -->
                           </tr>
                           <tr>
                             <td><small>Street</small></td>
