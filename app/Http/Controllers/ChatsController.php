@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Services\UsersService;
 use App\Services\LogService;
 use App\Services\ChatsService;
+use App\Services\ContactsService;
 use Auth;
 use Session;
 
@@ -16,6 +17,7 @@ class ChatsController extends AppController
 {
     public $Service;
     public $ChatsService;
+    public $ContactsService;
     /**
      * Create a new controller instance.
      *
@@ -26,6 +28,7 @@ class ChatsController extends AppController
         $this->Service = new UsersService();
         $this->LogService = new LogService();
         $this->ChatsService = new ChatsService();
+        $this->ContactsService = new ContactsService();
     }
 
     /**
@@ -81,7 +84,8 @@ class ChatsController extends AppController
 //        die();
         $layoutData['lastUpdate'] = $layoutData['openChat'][$firstKey]->log_time;
         $layoutData['closeChat'] = $this->ChatsService->getCloseChats($this->account_id);
-        
+        $layoutData['settings'] = $this->ContactsService->getAllSettings();
+
         // Return collection of list as a reosurce
         return response()->json($layoutData);   
     }

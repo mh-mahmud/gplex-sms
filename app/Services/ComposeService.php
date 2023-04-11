@@ -148,6 +148,7 @@ class ComposeService extends AppService
         $schedule->is_schedule = '0';    
         $schedule->is_repeat = '0';
         $schedule->status = config('dashboard_constant.PENDING');
+        $schedule->userid = \Auth::user()->userid;
         $schedule->created_by = \Auth::user()->userid;
         $schedule->updated_by = \Auth::user()->userid;
         if($schedule->save()){
