@@ -19,7 +19,7 @@ class ChatsService extends AppService {
     }
 
     public function getOpenChats($account_id) {
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
 
 
         $allData = [];
