@@ -115,6 +115,7 @@ export default {
     };
   },
   mounted(){
+    console.log(this.responseData);
       this.create();
       this.bindCurrentRoute("ContactImport");
   },
@@ -190,7 +191,7 @@ export default {
                     'excludeFirstRow': $('#excludeFirstRow').is(":checked"),
                     'matchColumns': $('#matchColumns').is(":checked"),
                 };
-                //console.log(formData);
+                console.log(formData);
 
                 axios.post("api/contact-import-create",formData)
                 .then((res) => 
@@ -233,6 +234,7 @@ export default {
                     if(res.data.response_msg.type=='success'){
                         this.contact = res.data.response_msg.data.contacts;
                         this.responseData = res.data.response_msg.data;
+                        console.log(this.responseData);
                         this.setUserPreference(res.data.response_msg.data.importJsonData);
                         this.tableShow = true;
                     }else{
