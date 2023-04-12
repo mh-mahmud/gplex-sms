@@ -212,13 +212,34 @@
                                 class="bi bi-file-earmark-text-fill"></i></a>
 
                             <div class="g-date-picker">
+                              <input type="date">
+                            </div>
 
-                              <input type="date" name="" id="">
+                            <div v-if="chatHeadPhone" data-toggle="tooltip" data-placement="top" title="Insert tag" class="" data-original-title="Insert tag">
+                              <button @click="showTag()" id="btn-insert-tag" title="Insert tag" type="button" class="btn btn-sm btn-default">
+                                <i class="bi bi-tags-fill"></i>
+                              </button>
+                                <ul id="tag-list" class="list-group tag-list" style="display: none">
+                                  <li  v-if="contactData.first_name" class="list-group-item"><a @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
+                                  <li  v-if="contactData.last_name" class="list-group-item"><a @click.prevent="addContactItem('last_name')"  href="#">Last name</a></li>
+                                  <li  v-if="contactData.company" class="list-group-item"><a @click.prevent="addContactItem('company')"  href="#">Company</a></li>
+                                  <li  v-if="contactData.street" class="list-group-item"><a @click.prevent="addContactItem('street')"  href="#">Street</a></li>
+                                  <li  v-if="contactData.suite" class="list-group-item"><a @click.prevent="addContactItem('suite')"  href="#">Suite</a></li>
+                                  <li  v-if="contactData.city" class="list-group-item"><a @click.prevent="addContactItem('city')"  href="#">City</a></li>
+                                  <li  v-if="contactData.state" class="list-group-item"><a @click.prevent="addContactItem('state')"  href="#">State</a></li>
+                                  <li  v-if="contactData.zip" class="list-group-item"><a @click.prevent="addContactItem('zip')"  href="#">zip</a></li>
 
-                              <!--                              <date-picker v-model="currentDate"-->
-                              <!--                                           :config="{format: 'DD-MM-YYYY'}">-->
-
-                              <!--                              </date-picker>-->
+                                  <li  v-if="contactData.custom_0" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_0)"  href="#">{{settings.custom_0_name}}</a></li>
+                                  <li  v-if="contactData.custom_1" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_1)"  href="#">{{settings.custom_1_name}}</a></li>
+                                  <li  v-if="contactData.custom_2" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_2)"  href="#">{{settings.custom_2_name}}</a></li>
+                                  <li  v-if="contactData.custom_3" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_3)"  href="#">{{settings.custom_3_name}}</a></li>
+                                  <li  v-if="contactData.custom_4" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_4)"  href="#">{{settings.custom_4_name}}</a></li>
+                                  <li  v-if="contactData.custom_5" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_5)"  href="#">{{settings.custom_5_name}}</a></li>
+                                  <li  v-if="contactData.custom_6" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_6)"  href="#">{{settings.custom_6_name}}</a></li>
+                                  <li  v-if="contactData.custom_7" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_7)"  href="#">{{settings.custom_7_name}}</a></li>
+                                  <li  v-if="contactData.custom_8" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_8)"  href="#">{{settings.custom_8_name}}</a></li>
+                                  <li  v-if="contactData.custom_9" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_9)"  href="#">{{settings.custom_9_name}}</a></li>
+                                </ul>
                             </div>
 
                           </div>
@@ -1097,6 +1118,27 @@
     display: block;
   }
 
+  /*============================
+           For Tag list
+    ============================*/
+  .tag-list {
+      line-height: 0.1;
+      position: absolute;
+      top: auto;
+      transform: translateY(-113%);
+      height: 250px;
+      overflow-y: scroll;
+  }
+  .tag-list > li > a {
+    font-size: 13px;
+    font-weight: 600;
+    color: #015d85;
+    text-decoration: none;
+  }
+  .tag-list > li:hover {
+    background-color: #04d6f966;
+  }
+
 </style>
 
 <script>
@@ -1122,6 +1164,7 @@ export default {
       modalData: {},
       dispositionData: {},
       chatInfo: {},
+      contactData: {},
       prevSmsData: {},
       selectedValue: {}, // First option will be selected by default
       templateData: {},
@@ -1441,6 +1484,9 @@ export default {
       this.chatHeadFirstName = null;
       this.chatHeadLastName = null;
       this.activeIndex = -1;
+      if($('#tag-list').css('display') != 'none'){
+        $('#tag-list').hide();
+      }
     },
 
 
@@ -1574,6 +1620,25 @@ console.log("kaka world");
         clientCallid: clientCallid
       };
       console.log(this.modalData);
+    },
+
+    showTag(){
+      if($('#tag-list').css('display') == 'none'){
+        $('#tag-list').show();
+      }else {
+        $('#tag-list').hide();
+      }
+
+    },
+
+    addContactItem(item){
+      console.log(item);
+      let currentMessage = $('textarea#s-msg').val();
+      console.log(currentMessage);
+      currentMessage += ' {'+item+'} ';
+      console.log(currentMessage);
+      $('textarea#s-msg').val(currentMessage);
+      $('#tag-list').hide();
     },
 
 
