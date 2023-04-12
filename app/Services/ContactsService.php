@@ -207,8 +207,8 @@ class ContactsService extends AppService
 
         $validator = Validator::make($request->all(),[                                    
             // 'account_id' => 'required|max:13',
-            'country' => 'required',
-            'phone_type' => 'required',
+            //'country' => 'required',
+            'phone' => 'required',
             //'group' => 'required',
 
         ]);
@@ -261,11 +261,11 @@ class ContactsService extends AppService
         $dataObj->phone_type = $request->input('phone_type');
 
         // new contact field added
-        $dataObj->street = $request->input('street');
-        $dataObj->suite = $request->input('suite');
-        $dataObj->city = $request->input('city');
-        $dataObj->state = $request->input('state');
-        $dataObj->zip = $request->input('zip');
+        $dataObj->street = !empty($request->input('street')) ? $request->input('street') : '';
+        $dataObj->suite = !empty($request->input('suite')) ? $request->input('suite') : '';
+        $dataObj->city = !empty($request->input('city')) ? $request->input('city') : '';
+        $dataObj->state = !empty($request->input('state')) ? $request->input('state') : '';
+        $dataObj->zip = !empty($request->input('zip')) ? $request->input('zip') : '';
 
         // for custom fields
         $dataObj->custom_0 = !empty($request->custom_0_name) ? $request->custom_0_name : '';

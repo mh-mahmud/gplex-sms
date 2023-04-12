@@ -380,10 +380,17 @@
                               <input :data-vv-as="contactData.custom_9" name="custom_9" v-model="contactData.custom_9" type="text" class="form-control m-input">
                             </td>
                           </tr>
+
 <!--                          </tr>-->
 
 <!--                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>-->
 <!--                          </tr>-->
+
+
+                          <tr>
+                            <td><small>&nbsp;</small></td>
+                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>
+                          </tr>
 
                           </tbody>
                         </table>
@@ -1491,8 +1498,7 @@ export default {
 
 
     greet: function (itemInfo) {
-console.log(itemInfo);
-console.log("kaka world");
+
       this.chatHeadFirstName = itemInfo.first_name;
       this.chatHeadLastName = itemInfo.last_name;
       this.chatHeadPhone = itemInfo.phone;
@@ -1502,7 +1508,8 @@ console.log("kaka world");
 
       // contact data
       this.contactData = {
-        custom_data: false,
+        custom_data: true,
+        id: itemInfo.id,
         first_name: itemInfo.first_name,
         last_name: itemInfo.last_name,
         phone: itemInfo.phone,
@@ -1512,6 +1519,7 @@ console.log("kaka world");
         suite: itemInfo.suite,
         city: itemInfo.city,
         state: itemInfo.state,
+        phone_type: 'M',
         custom_0: itemInfo.custom_0,
         custom_1: itemInfo.custom_1,
         custom_2: itemInfo.custom_2,
@@ -1541,9 +1549,67 @@ console.log("kaka world");
 
     },
 
-    /*pushMessage(log_time){
-        this.data.data.push({log_time: log_time, did:this.from,client:this.to,sms_text: this.message,status:'P',direction:'O'});
-    },*/
+    updateContact() {
+
+        var contact = this.contactData;
+        var contact_id = contact.id;
+        if(contact.first_name==''||contact.first_name==null) {
+          alert("First name is required");return;
+        }
+        console.log(this.contactData);
+        //return;
+
+        // Update
+        this.$validator.validateAll().then((result) => {
+
+            if(result == true){
+                if(typeof commonLib != 'undefined'){
+                    commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
+                }
+                let vm = this;
+
+
+                if(contact_id===null) {
+
+                  axios.post('api/contacts', this.contactData).then((res) => 
+                  {
+                      commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                      if(res.data.response_msg.type == 'success'){
+                          //this.$router.push({name:'Chats'});
+                          //alert("Contact saved successfully");
+                      }
+                      commonLib.unblockUI(".m-content");
+                  })
+                  .catch(function (error) {
+                      vm.validationErrors = error.response.data;
+                      commonLib.unblockUI(".m-content");
+                  });
+                }
+                else {
+                  this.contactData._method = 'PUT';
+                  axios.post("api/contacts/"+contact_id, this.contactData).then((res) => 
+                  {                    
+                      commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                      if(res.data.response_msg.type == 'success'){
+                          //this.$router.push({name:'Chats'});
+                          //alert("Contact updated successfully");
+                      }
+                      commonLib.unblockUI(".m-content");
+                  })
+                  .catch(function (error) { 
+                      vm.validationErrors = error.response.data;
+                      commonLib.unblockUI(".m-content");
+                  });
+                }
+
+
+
+
+            }
+
+        });  
+      
+    },
 
     sendMessage() {
       let phoneValue;
