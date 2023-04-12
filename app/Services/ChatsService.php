@@ -177,7 +177,7 @@ class ChatsService extends AppService {
         ];
         $data = DB::select($sql, $selectConditions);
         foreach($data as $key => $value){
-            $value->tstamp = date('d/m/Y',$value->tstamp);
+            $value->tstamp = date('m/d/Y h:m A',$value->tstamp);
         }
         return $data;
     }
