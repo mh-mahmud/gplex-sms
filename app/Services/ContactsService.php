@@ -532,7 +532,30 @@ class ContactsService extends AppService
             $data['importJsonData'] = $this->getUserImportJsonFile(); 
             $data['fileName'] = $filename;
             $data['originalFilename'] = $originalFilename;
-            $data['fieldName'] = array("noimport" => "Do not import","first_name" => "First Name", "last_name" => "Last Name", "phone" => "Phone", "company" => "Company");
+            $data['fieldName'] = array(
+                "noimport" => "Do not import",
+                "first_name" => "First Name",
+                "last_name" => "Last Name",
+                "phone" => "Phone",
+                "company" => "Company",
+                "street" => "Street",
+                "suite" => "Suite",
+                "city" => "City",
+                "zip" => "Zip",
+            );
+
+            $settings = $this->getAllSettings();
+            if(!empty($settings)) {
+                unset($settings['account_id']);
+                $final_settings = [];
+                foreach($settings as $key=>$value) {
+                    if($settings[$key] != "") {
+                        $key = str_replace("_name", "", $key);
+                        $final_settings[$key] = $value;
+                    }
+                }
+                $data['fieldName'] = array_merge($data['fieldName'], $final_settings);
+            }
             $data['contacts'] = $ListArray;
             $data['maxColumns'] = $maxColumns;
 
@@ -572,7 +595,6 @@ class ContactsService extends AppService
             $originalFilename = $request->input('originalFilename');
             $excludeFirstRow = $request->input('excludeFirstRow');
             $matchColumns = $request->input('matchColumns');                               
-            
             array_shift($fieldName);            
 
             if(empty($fieldName)){                
@@ -606,7 +628,7 @@ class ContactsService extends AppService
             $groupId = $this->insertGroup($originalFilename);
 
             foreach($contactArray as $key => $value){
-                if(count($fieldName) == count($value)){                                       
+                if(count($fieldName) == count($value)){
                     if($this->validatePhone(array_combine($fieldName, $value))){                        
                         $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
                         unset($insertArray[$key]['noimport']);                        
@@ -614,6 +636,7 @@ class ContactsService extends AppService
                     }
                 }
             }
+
             $totalCount = count($contactArray)-1;
             // remove duplicate phone number
             $insertArray = $this->unique_multidim_array($insertArray,'phone');
@@ -626,7 +649,8 @@ class ContactsService extends AppService
             // write josn log file
             $josnLogArray['fieldName'] = $fieldName;
             $josnLogArray['excludeFirstRow'] = $excludeFirstRow;
-            $josnLogArray['matchColumns'] = $matchColumns;              
+            $josnLogArray['matchColumns'] = $matchColumns;
+
             \Storage::disk('local')->put('files/'.$jsonLogPath, json_encode($josnLogArray));
             
             // var_dump($insertArray);

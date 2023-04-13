@@ -189,7 +189,6 @@ class ContactController extends Controller
                 ]
             ]
         ];        
-        
         return response()->json($layoutData);  
     }
 
