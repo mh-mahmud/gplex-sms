@@ -1860,10 +1860,10 @@ export default {
             $('#tag-list').toggle();
         },
 
-        
-        hideTag(event) {
+
+        hideTag(e) {
             // Get the element that was clicked
-            const clickedElement = event.target;
+            const clickedElement = e.target;
 
             // Get the element that contains the #tag-list element
             const tagListContainer = $('#btn-insert-tag').parent();
