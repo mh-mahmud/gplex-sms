@@ -2,7 +2,7 @@
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
         <js-plugin :js-plugin="data.js_plugin"></js-plugin>
         <!-- BreadCrumb -->
-        <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb>
+        <!-- <breadcrumb :breadcrumb-data="data.breadcrumb"></breadcrumb> -->
         <div class="m-content" ref="fullscreen">
             <div class="m-portlet m-portlet--mobile">
                 <div class="m-portlet__head">
