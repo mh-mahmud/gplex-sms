@@ -1188,6 +1188,7 @@
     }
 
 
+
     /*============================
             Chat Right Parts
       ============================*/
@@ -1241,10 +1242,12 @@
                 cursor: pointer;
             }
 
-            &:hover, &:focus {
-                outline: none;
-            }
+            /**
+         * @script clear current chat
+         * */
         }
+
+
     }
 
     .list-group-item:last-child {
