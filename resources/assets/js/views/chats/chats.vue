@@ -1859,18 +1859,20 @@ export default {
         showTag() {
             $('#tag-list').toggle();
         },
-        // hideTag(event) {
-        //     // Get the element that was clicked
-        //     const clickedElement = event.target;
-        //
-        //     // Get the element that contains the #tag-list element
-        //     const tagListContainer = $('#btn-insert-tag').parent();
-        //
-        //     // Check if the clicked element is outside the tag list container
-        //     if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
-        //         $('#tag-list').hide();
-        //     }
-        // },
+
+        
+        hideTag(event) {
+            // Get the element that was clicked
+            const clickedElement = event.target;
+
+            // Get the element that contains the #tag-list element
+            const tagListContainer = $('#btn-insert-tag').parent();
+
+            // Check if the clicked element is outside the tag list container
+            if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
+                $('#tag-list').hide();
+            }
+        },
 
 
         addContactItem(item) {
