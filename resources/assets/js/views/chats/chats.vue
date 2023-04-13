@@ -220,7 +220,10 @@
                                                 <!--                                    rows="5" placeholder="Write...." id="s-msg"></textarea>-->
                                                 <!--                                                </label>-->
 
+
+                                                <!--New Contenteditable TextArea-->
                                                 <div class="text-editable" contenteditable="true">
+                                                <!--End New Contenteditable TextArea-->
 
                                                 </div>
 
