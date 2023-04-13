@@ -214,11 +214,21 @@
 
 
                                             <div class="g-chat-message">
-                                                <!-- <form action=""> -->
-                                                <label for="s-msg" class="w-100">
-                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
-                                    rows="5" placeholder="Write...." id="s-msg"></textarea>
-                                                </label>
+                                            <!-- <form action=""> -->
+
+<!--                                                <label for="s-msg" class="w-100">-->
+<!--                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"-->
+<!--                                    rows="5" placeholder="Write...." id="s-msg"></textarea>-->
+<!--                                                </label>-->
+
+
+
+                                                <!--New Contenteditable TextArea-->
+                                                <div id="s-msg" class="text-editable" v-model="message" contenteditable="true">
+                                                <!--End New Contenteditable TextArea-->
+
+                                                </div>
+
 
                                                 <div class="g-chat-message-bottom">
                                                     <div class="g-chat-attachment">
@@ -526,8 +536,16 @@
                         <template-modal v-bind:modal-data="modalData"></template-modal>
 
 
+
                         <!--            Disposition Modal-->
                         <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
+
+
+
+
+                        <!--            Disposition Modal-->
+                        <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
+
 
 
                     </div>
@@ -1268,6 +1286,28 @@
   bottom: 35px;
 }
 
+.tag-item {
+    padding: 1px 5px;
+    height: 22px;
+    margin: 0 2px;
+    font-size: 13px;
+    line-height: 14px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 98%;
+    overflow: hidden;
+    border: 2px solid #d8e6f5;
+    border-radius: 13px;
+    background-color: #fff;
+    color: #025d86;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: default;
+    text-overflow: ellipsis;
+}
+
 .tag-list > li > a {
   font-size: 13px;
   font-weight: 600;
@@ -1291,6 +1331,23 @@
   margin-bottom: -1px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, .125);
+}
+
+
+/*============================
+      New Content Editable
+  ============================*/
+.text-editable {
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  min-height: 100px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
+  &:focus-visible {
+    outline: 1px solid #329d8b;
+  }
 }
 
 </style>
@@ -1493,6 +1550,7 @@ export default {
                         console.log(error.response);
                     });
             }
+
 
         },
 
@@ -1842,9 +1900,15 @@ export default {
 
         addContactItem(item) {
             console.log(item);
-            let currentMessage = $('textarea#s-msg').val();
+            let currentElement = document.getElementById('s-msg');
+            let currentMessage = currentElement.innerText || currentElement.textContent;
+            // let currentMessage = $('textarea#s-msg').val();
             console.log(currentMessage);
-            currentMessage += ' {' + item + '} ';
+            let mySpan = document.createElement("span");
+            mySpan.innerHTML = item;
+            mySpan.className = "tag-item";
+            currentElement.appendChild(mySpan);
+
             console.log(currentMessage);
             $('textarea#s-msg').val(currentMessage);
             $('#tag-list').hide();
