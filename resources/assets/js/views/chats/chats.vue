@@ -215,10 +215,14 @@
 
                                             <div class="g-chat-message">
                                                 <!-- <form action=""> -->
-                                                <label for="s-msg" class="w-100">
-                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
-                                    rows="5" placeholder="Write...." id="s-msg"></textarea>
-                                                </label>
+                                                <!--                                                <label for="s-msg" class="w-100">-->
+                                                <!--                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"-->
+                                                <!--                                    rows="5" placeholder="Write...." id="s-msg"></textarea>-->
+                                                <!--                                                </label>-->
+
+                                                <div class="text-editable" contenteditable="true">
+
+                                                </div>
 
                                                 <div class="g-chat-message-bottom">
                                                     <div class="g-chat-attachment">
@@ -1293,6 +1297,21 @@
   border: 1px solid rgba(0, 0, 0, .125);
 }
 
+/*============================
+      New Content Editable
+  ============================*/
+.text-editable {
+  background-color: #ffffff;
+  margin-bottom: 1rem;
+  min-height: 100px;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
+  &:focus-visible {
+    outline: 1px solid #329d8b;
+  }
+}
 </style>
 
 <script>
