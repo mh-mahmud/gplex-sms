@@ -331,7 +331,7 @@
 
                                         <div v-if="chatHeadPhone" class="g-chat-right">
                                             <div class="table-responsive">
-                                                <table class="table table-bordered table-sm table-striped">
+                                                <table class="table table-bordered table-sm table-striped mb-0">
                                                     <thead>
                                                     <tr class="text-center">
                                                         <th colspan="3">Contact Details</th>
@@ -1054,7 +1054,7 @@
 .g-chat-history {
   width: auto;
   margin: auto auto 0.5rem;
-  height: calc(65vh - 230px);
+  height: calc(65vh - 215px);
   overflow-y: auto;
   padding: 1rem;
 }
@@ -1176,6 +1176,7 @@
 .g-chat-right {
   background-color: #eaeaea;
   flex-basis: 20%;
+  overflow-y: auto;
 }
 
 
@@ -1275,7 +1276,11 @@
 }
 
 .tag-list > li:hover {
-  background-color: #04d6f966;
+  background-color: #329d8b;
+
+  & a {
+    color: #ffffff;
+  }
 }
 
 //overwrite rule
