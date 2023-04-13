@@ -223,7 +223,7 @@
 
                                                 <!--New Contenteditable TextArea-->
                                                 <div class="text-editable" contenteditable="true">
-                                                <!--End New Contenteditable TextArea-->
+                                                    <!--End New Contenteditable TextArea-->
 
                                                 </div>
 
@@ -1389,6 +1389,9 @@ export default {
         const checkBox = document.querySelector(".g-check-box");
         const selectTemplate = document.getElementById("template");
 
+        // Add event listener to the document object
+        document.addEventListener('click', this.hideTag);
+
 
         leftItems.forEach(item => {
             item.addEventListener('click', () => {
@@ -1854,13 +1857,21 @@ export default {
         },
 
         showTag() {
-            if ($('#tag-list').css('display') == 'none') {
-                $('#tag-list').show();
-            } else {
-                $('#tag-list').hide();
-            }
-
+            $('#tag-list').toggle();
         },
+        // hideTag(event) {
+        //     // Get the element that was clicked
+        //     const clickedElement = event.target;
+        //
+        //     // Get the element that contains the #tag-list element
+        //     const tagListContainer = $('#btn-insert-tag').parent();
+        //
+        //     // Check if the clicked element is outside the tag list container
+        //     if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
+        //         $('#tag-list').hide();
+        //     }
+        // },
+
 
         addContactItem(item) {
             console.log(item);
@@ -1873,6 +1884,11 @@ export default {
         },
 
 
+    },
+
+    beforeDestroy() {
+        // Remove event listener from the document object
+        document.removeEventListener('click', this.hideTag);
     }
 };
 
