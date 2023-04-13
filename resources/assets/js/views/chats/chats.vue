@@ -1663,7 +1663,7 @@ export default {
             this.chatHeadFirstName = null;
             this.chatHeadLastName = null;
             this.activeIndex = -1;
-            if ($('#tag-list').css('display') != 'none') {
+            if ($('#tag-list').css('display') !== 'none') {
                 $('#tag-list').hide();
             }
         },
