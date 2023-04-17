@@ -213,21 +213,21 @@
                                             </div>
 
 
-                                            <div class="g-chat-message">
-                                                <!-- <form action=""> -->
+                                            <div  v-if="chatHeadPhone" class="g-chat-message">
+<!--                                                 <form action="">-->
 
-                                                <!--                                                <label for="s-msg" class="w-100">-->
-                                                <!--                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"-->
-                                                <!--                                    rows="5" placeholder="Write...." id="s-msg"></textarea>-->
-                                                <!--                                                </label>-->
+                                                    <label for="s-msg" class="w-100">
+                                                      <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
+                                                                rows="5" placeholder="Write...." id="s-msg"></textarea>
+                                                    </label>
 
 
 
                                                 <!--New Contenteditable TextArea-->
 
-                                                <div id="s-msg" class="text-editable" v-model="message" contenteditable="true">
-                                                    <span class="tag-item">first_name</span>
-                                                </div>
+<!--                                                <div id="s-msg" class="text-editable tag-item" v-model="message" contenteditable="true">-->
+
+<!--                                                </div>-->
 
 
                                                 <div class="g-chat-message-bottom">
@@ -1289,7 +1289,7 @@
         bottom: 35px;
     }
 
-    .tag-item {
+    .tag-item > span{
         padding: 1px 5px;
         height: 22px;
         margin: 0 2px;
@@ -1917,19 +1917,18 @@
 
             addContactItem(item) {
                 console.log(item);
-                let currentElement = document.getElementById('s-msg');
-                let currentMessage = currentElement.innerText || currentElement.textContent;
-                // let currentMessage = $('textarea#s-msg').val();
+                // let currentMessage = currentElement.innerText || currentElement.textContent;
+                let cursorPosition = $("textarea#s-msg").prop('selectionStart');
+                let currentMessage = $('textarea#s-msg').val();
                 console.log(currentMessage);
-                let mySpan = document.createElement("span");
-                mySpan.innerHTML = item;
-                mySpan.className = "tag-item";
-                currentElement.appendChild(mySpan);
-
+                console.log(cursorPosition);
+                currentMessage = currentMessage.substring(0,cursorPosition) + ' {'+item+'} ' + currentMessage.substring(cursorPosition);
                 console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
             },
+
+
 
 
         },

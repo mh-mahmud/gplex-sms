@@ -484,6 +484,56 @@ tr {
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__heading .m-menu__link-text, .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav>.m-menu__item.m-menu__item--active>.m-menu__link .m-menu__link-text {
   color: #34bfa3 !important;
 }
+
+.tag-list {
+  line-height: 1;
+  position: absolute;
+  max-height: 250px;
+  height: auto;
+  overflow-y: auto;
+  left: auto;
+  top: auto;
+  bottom: 35px;
+  min-width: 125px;
+  text-align: center;
+}
+
+.tag-item > span{
+  padding: 1px 5px;
+  height: 22px;
+  margin: 0 2px;
+  font-size: 13px;
+  line-height: 14px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 98%;
+  overflow: hidden;
+  border: 2px solid #d8e6f5;
+  border-radius: 13px;
+  background-color: #fff;
+  color: #025d86;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: default;
+  text-overflow: ellipsis;
+}
+
+.tag-list > li > a {
+  font-size: 13px;
+  font-weight: 600;
+  color: #015d85;
+  text-decoration: none;
+}
+
+.tag-list > li:hover {
+  background-color: #329d8b;
+}
+
+.g-tooltip-area {
+  position: relative;
+}
 /* .m-messenger__wrapper{
   line-height: 1px;
   height: auto;
