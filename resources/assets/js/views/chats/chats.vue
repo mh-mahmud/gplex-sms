@@ -193,22 +193,22 @@
                                                 </div>
 
                                                 <!-- show user this instant message -->
-                                                <div id="content-2" class="content active">
-                                                    <div class="g-chat-main" v-if="instantSmsData.text">
-                                                        <div class="chat-msg-content">
-                                                            <div class="chat-msg">
-                                                                {{ instantSmsData.text }}
-                                                                <time datetime="6:00">{{
-                                                                    instantSmsData.timesend
-                                                                    }}
-                                                                </time>
-                                                            </div>
-                                                            <div class="chat-msg-image">
-                                                                <img :src="imageUrl" alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+<!--                                                <div id="content-2" class="content active">-->
+<!--                                                    <div class="g-chat-main" v-if="instantSmsData.text">-->
+<!--                                                        <div class="chat-msg-content">-->
+<!--                                                            <div class="chat-msg">-->
+<!--                                                                {{ instantSmsData.text }}-->
+<!--                                                                <time datetime="6:00">{{-->
+<!--                                                                    instantSmsData.timesend-->
+<!--                                                                    }}-->
+<!--                                                                </time>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="chat-msg-image">-->
+<!--                                                                <img :src="imageUrl" alt="">-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
 
                                             </div>
 
@@ -216,10 +216,10 @@
                                             <div  v-if="chatHeadPhone" class="g-chat-message">
 <!--                                                 <form action="">-->
 
-                                                    <label for="s-msg" class="w-100">
-                                                      <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
-                                                                rows="5" placeholder="Write...." id="s-msg"></textarea>
-                                                    </label>
+                                                <label for="s-msg" class="w-100">
+                                                  <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
+                                                            rows="5" placeholder="Write...." id="s-msg"></textarea>
+                                                </label>
 
 
 
@@ -1843,10 +1843,12 @@
                 }
 
                 // SEND SMS DATA
-                this.instantSmsData = {
-                    text: smsBoxData,
-                    timesend: localTime
-                };
+                // this.instantSmsData = {
+                //     text: smsBoxData,
+                //     timesend: localTime
+                // };
+
+
 
 
                 /*if(this.message.length > this.data.sms_text_size){
@@ -1866,9 +1868,71 @@
                         this.selectedValue = {};
                         const chatBox = document.getElementById("s-msg");
                         chatBox.value = "";
-
                         this.message = "";
-                        console.log("All done from now");
+
+
+                        if (this.prevSmsData.data[0]) {
+                            phoneValue = this.prevSmsData.data[0].client_number;
+                            didValue = this.prevSmsData.data[0].did;
+                            let allchatinfo = this.chatInfo.data;
+                            let lastKey = Object.keys(this.chatInfo.data).length;
+                            let currentArrayChat = [];
+                            let currenObjChat = {
+                                "id":this.prevSmsData.data[0].id,
+                                "log_time":localTime,
+                                "delivery_time":this.prevSmsData.data[0].delivery_time,
+                                "account_id":this.prevSmsData.data[0].account_id,
+                                "userid":this.prevSmsData.data[0].userid,
+                                "schedule_id":this.prevSmsData.data[0].schedule_id,
+                                "callid":this.prevSmsData.data[0].callid,
+                                "did":this.prevSmsData.data[0].did,
+                                "client_number":this.prevSmsData.data[0].client_number,
+                                "sms_text":smsBoxData,
+                                "num_parts":this.prevSmsData.data[0].num_parts,
+                                "status":this.prevSmsData.data[0].status,
+                                "ob_status":this.prevSmsData.data[0].ob_status,
+                                "direction":this.prevSmsData.data[0].direction,
+                                "rate":this.prevSmsData.data[0].rate,
+                                "bill":this.prevSmsData.data[0].bill
+                            };
+                            currentArrayChat[lastKey] = currenObjChat;
+                            let result = {...this.chatInfo.data, ...currentArrayChat};
+                            this.chatInfo.data = result;
+                            // console.log(lastKey);
+                            // console.log(currentArrayChat);
+                        } else {
+                            let currentArrayChat = [];
+                            let currenObjChat = {
+                                "id":0,
+                                "log_time":localTime,
+                                "delivery_time":"0000-00-0000:00:00",
+                                "account_id":"",
+                                "userid":"",
+                                "schedule_id":"",
+                                "callid":"",
+                                "did":"19723182200",
+                                "client_number":this.chatHeadPhone,
+                                "sms_text":smsBoxData,
+                                "num_parts":"",
+                                "status":"",
+                                "ob_status":"",
+                                "direction":"",
+                                "rate":"",
+                                "bill":""
+                            };
+                            currentArrayChat[0] = currenObjChat;
+                            this.chatInfo.data = currentArrayChat;
+                        }
+
+                        // const currentLenth = Object.keys(this.chatInfo.data).length;
+                        // let lastKey = Object.keys(this.chatInfo.data).pop();
+                        // lastKey++;
+                        // this.chatInfo.data[lastKey] = Object.keys(this.chatInfo.data)[Object.keys(this.chatInfo.data).length-1];;
+                        // this.chatInfo.data[lastKey].sms_text = smsBoxData;
+                        // this.chatInfo.data[currentLenth].log_time = localTime;
+                        // // console.log(allchatinfo);
+                        // // console.log(localTime);
+                        // console.log(currentLenth);
                     }
                     commonLib.unblockUI(".m-content");
                 })
@@ -1927,6 +1991,22 @@
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
             },
+
+            // addContactItem(item) {
+            //     let currentElement = document.getElementById('s-msg');
+            //     let mySpan = document.createElement("span");
+            //     mySpan.innerHTML = item;
+            //     mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
+            //     currentElement.appendChild(mySpan);
+            //     // currentElement.appendChild(document.createElement("br")); // add a non-editable line break
+            //     let range = document.createRange();
+            //     range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
+            //     range.collapse(true); // collapse the range to the end
+            //     let sel = window.getSelection();
+            //     sel.removeAllRanges();
+            //     sel.addRange(range); // set the focus to the end of the range
+            //     $('#tag-list').hide();
+            // },
 
 
 

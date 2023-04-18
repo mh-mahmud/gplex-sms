@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Facades\File;
 use Validator;
+use DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +17,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//        var_dump(env('APP_DEBUG','false'));
+//        if(env('APP_DEBUG')){
+//        DB::listen(function(QueryExecuted $query) {
+//            File::append(
+//                storage_path('/logs/query.log'),
+//                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
+//            );
+//        });
+//        }
+
         //
         Validator::extend('test', function ($attribute, $value, $parameters, $validator) {
             return false;
