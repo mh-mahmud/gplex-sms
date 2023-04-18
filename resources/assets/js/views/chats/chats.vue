@@ -1294,6 +1294,7 @@
   font-size: 13px;
   line-height: 14px;
   position: relative;
+  top: 4px;
   display: inline-block;
   vertical-align: middle;
   max-width: 98%;
