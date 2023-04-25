@@ -13,8 +13,8 @@
                                 <h3 class="m-portlet__head-text mb-0">
                                     Chats: New Window
                                 </h3>
-                                <button class="btn btn-sm btn-default" @click="toggleFullScreen"><i
-                                        class="bi bi-arrows-fullscreen"></i>
+                                <button class="btn btn-sm btn-default" @click="toggleFullScreen">
+                                    <i :class="fullScreenIconClass"></i>
                                 </button>
                             </div>
 
@@ -593,7 +593,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  button i {
+    font-size: 1rem;
+    color: #329e8c;
+
+  }
 }
+
 
 .g-chat-area {
   min-height: 65vh;
@@ -1398,7 +1405,8 @@ export default {
             interval: null,
             lastUpdate: "",
             currentDate: "",
-            chatFlag: "open"
+            chatFlag: "open",
+            isFullScreen: false,
         };
     },
     mounted() {
@@ -1619,6 +1627,7 @@ export default {
         },
 
         toggleFullScreen() {
+            this.isFullScreen = !this.isFullScreen;
             const chatArea = document.querySelector('.g-chat-area');
             const chatBody = document.querySelector('.g-chat-body');
             const chatLeft = document.querySelector('.g-chat-left');
@@ -2035,6 +2044,12 @@ export default {
     beforeDestroy() {
         // Remove event listener from the document object
         document.removeEventListener('click', this.hideTag);
+    },
+
+    computed: {
+        fullScreenIconClass() {
+            return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
+        },
     }
 };
 
