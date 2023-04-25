@@ -183,7 +183,7 @@
                                                                 </time>
                                                             </div>
                                                             <div class="chat-msg-image">
-                                                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'"
+                                                                <img :src="msg.direction == 'O' ? agentImage : imageUrl"
                                                                      alt="">
                                                             </div>
                                                         </div>
@@ -261,68 +261,28 @@
                                                                     class="btn btn-sm btn-default">
                                                                 <i class="bi bi-tags-fill"></i>
                                                             </button>
-                                                            <ul id="tag-list" class="list-group tag-list"
-                                                                style="display: none">
-                                                                <li v-if="contactData.first_name"
-                                                                    class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('first_name')"
-                                                                        href="#">First name</a></li>
-                                                                <li v-if="contactData.last_name"
-                                                                    class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('last_name')"
-                                                                        href="#">Last name</a></li>
-                                                                <li v-if="contactData.company" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem('company')"
-                                                                       href="#">Company</a></li>
-                                                                <li v-if="contactData.street" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('street')"
-                                                                        href="#">Street</a></li>
-                                                                <li v-if="contactData.suite" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('suite')"
-                                                                        href="#">Suite</a></li>
-                                                                <li v-if="contactData.city" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('city')"
-                                                                        href="#">City</a></li>
-                                                                <li v-if="contactData.state" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('state')"
-                                                                        href="#">State</a></li>
-                                                                <li v-if="contactData.zip" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('zip')" href="#">zip</a>
-                                                                </li>
+                                                            <ul id="tag-list" class="list-group tag-list" style="display: none">
+                                                                <li v-if="contactData.first_name" class="list-group-item"><a @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
+                                                                <li v-if="contactData.last_name" class="list-group-item"><a @click.prevent="addContactItem('last_name')" href="#">Last name</a></li>
+                                                                <li v-if="contactData.company" class="list-group-item"><a @click.prevent="addContactItem('company')" href="#">Company</a></li>
+                                                                <li v-if="contactData.street" class="list-group-item"><a @click.prevent="addContactItem('street')" href="#">Street</a></li>
+                                                                <li v-if="contactData.suite" class="list-group-item"><a @click.prevent="addContactItem('suite')" href="#">Suite</a></li>
+                                                                <li v-if="contactData.city" class="list-group-item"><a @click.prevent="addContactItem('city')" href="#">City</a></li>
+                                                                <li v-if="contactData.state" class="list-group-item"><a @click.prevent="addContactItem('state')" href="#">State</a></li>
+                                                                <li v-if="contactData.zip" class="list-group-item"><a @click.prevent="addContactItem('zip')" href="#">zip</a></li>
 
-                                                                <li v-if="contactData.custom_0" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_0)"
-                                                                       href="#">{{ settings.custom_0_name }}</a></li>
-                                                                <li v-if="contactData.custom_1" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_1)"
-                                                                       href="#">{{ settings.custom_1_name }}</a></li>
-                                                                <li v-if="contactData.custom_2" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_2)"
-                                                                       href="#">{{ settings.custom_2_name }}</a></li>
-                                                                <li v-if="contactData.custom_3" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_3)"
-                                                                       href="#">{{ settings.custom_3_name }}</a></li>
-                                                                <li v-if="contactData.custom_4" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_4)"
-                                                                       href="#">{{ settings.custom_4_name }}</a></li>
-                                                                <li v-if="contactData.custom_5" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_5)"
-                                                                       href="#">{{ settings.custom_5_name }}</a></li>
-                                                                <li v-if="contactData.custom_6" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_6)"
-                                                                       href="#">{{ settings.custom_6_name }}</a></li>
-                                                                <li v-if="contactData.custom_7" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_7)"
-                                                                       href="#">{{ settings.custom_7_name }}</a></li>
-                                                                <li v-if="contactData.custom_8" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_8)"
-                                                                       href="#">{{ settings.custom_8_name }}</a></li>
-                                                                <li v-if="contactData.custom_9" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_9)"
-                                                                       href="#">{{ settings.custom_9_name }}</a></li>
+                                                                <li v-if="contactData.custom_0" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_0)" href="#">{{ settings.custom_0_name }}</a></li>
+                                                                <li v-if="contactData.custom_1" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_1)" href="#">{{ settings.custom_1_name }}</a></li>
+                                                                <li v-if="contactData.custom_2" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_2)" href="#">{{ settings.custom_2_name }}</a></li>
+                                                                <li v-if="contactData.custom_3" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_3)" href="#">{{ settings.custom_3_name }}</a></li>
+                                                                <li v-if="contactData.custom_4" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_4)" href="#">{{ settings.custom_4_name }}</a></li>
+                                                                <li v-if="contactData.custom_5" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_5)" href="#">{{ settings.custom_5_name }}</a></li>
+                                                                <li v-if="contactData.custom_6" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_6)" href="#">{{ settings.custom_6_name }}</a></li>
+                                                                <li v-if="contactData.custom_7" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_7)" href="#">{{ settings.custom_7_name }}</a></li>
+                                                                <li v-if="contactData.custom_8" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_8)" href="#">{{ settings.custom_8_name }}</a></li>
+                                                                <li v-if="contactData.custom_9" class="list-group-item"><a @click.prevent="addContactItem(contactData.custom_9)" href="#">{{ settings.custom_9_name }}</a></li>
                                                             </ul>
                                                         </div>
-
                                                     </div>
 
 
@@ -369,7 +329,7 @@
                                                         <td>
                                                             <input :data-vv-as="chatHeadPhone" name="phone"
                                                                    v-model="contactData.phone" type="text"
-                                                                   class="form-control m-input">
+                                                                   class="form-control m-input" readonly>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1400,6 +1360,7 @@
                 activeIndex: -1,
                 search: "",
                 imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
+                agentImage: BASE_URL + '/public/assets/app/media/img/users/profile.png',
                 interval: null,
                 lastUpdate: "",
                 currentDate: "",
@@ -1788,6 +1749,27 @@
                                 if (res.data.response_msg.type == 'success') {
                                     //this.$router.push({name:'Chats'});
                                     //alert("Contact saved successfully");
+                                    let currentData = vm.contactData;
+                                    this.openData[currentData.phone].first_name = currentData.first_name;
+                                    this.openData[currentData.phone].last_name = currentData.last_name;
+                                    this.openData[currentData.phone].company = currentData.company;
+                                    this.openData[currentData.phone].street = currentData.street;
+                                    this.openData[currentData.phone].zip = currentData.zip;
+                                    this.openData[currentData.phone].suite = currentData.suite;
+                                    this.openData[currentData.phone].city = currentData.city;
+                                    this.openData[currentData.phone].state = currentData.state;
+                                    this.openData[currentData.phone].phone_type = currentData.phone_type;
+                                    this.openData[currentData.phone].custom_0 = currentData.custom_0;
+                                    this.openData[currentData.phone].custom_1 = currentData.custom_1;
+                                    this.openData[currentData.phone].custom_2 = currentData.custom_2;
+                                    this.openData[currentData.phone].custom_3 = currentData.custom_3;
+                                    this.openData[currentData.phone].custom_4 = currentData.custom_4;
+                                    this.openData[currentData.phone].custom_5 = currentData.custom_5;
+                                    this.openData[currentData.phone].custom_6 = currentData.custom_6;
+                                    this.openData[currentData.phone].custom_7 = currentData.custom_7;
+                                    this.openData[currentData.phone].custom_8 = currentData.custom_8;
+                                    this.openData[currentData.phone].custom_9 = currentData.custom_9;
+                                    // console.log(this.openData[currentData.phone]);
                                 }
                                 commonLib.unblockUI(".m-content");
                             })
@@ -1802,6 +1784,28 @@
                                 if (res.data.response_msg.type == 'success') {
                                     //this.$router.push({name:'Chats'});
                                     //alert("Contact updated successfully");
+                                    let currentData = vm.contactData;
+                                    this.openData[currentData.phone].first_name = currentData.first_name;
+                                    this.chatHeadFirstName = currentData.first_name;
+                                    this.openData[currentData.phone].last_name = currentData.last_name;
+                                    this.chatHeadLastName = currentData.last_name;
+                                    this.openData[currentData.phone].company = currentData.company;
+                                    this.openData[currentData.phone].street = currentData.street;
+                                    this.openData[currentData.phone].zip = currentData.zip;
+                                    this.openData[currentData.phone].suite = currentData.suite;
+                                    this.openData[currentData.phone].city = currentData.city;
+                                    this.openData[currentData.phone].state = currentData.state;
+                                    this.openData[currentData.phone].phone_type = currentData.phone_type;
+                                    this.openData[currentData.phone].custom_0 = currentData.custom_0;
+                                    this.openData[currentData.phone].custom_1 = currentData.custom_1;
+                                    this.openData[currentData.phone].custom_2 = currentData.custom_2;
+                                    this.openData[currentData.phone].custom_3 = currentData.custom_3;
+                                    this.openData[currentData.phone].custom_4 = currentData.custom_4;
+                                    this.openData[currentData.phone].custom_5 = currentData.custom_5;
+                                    this.openData[currentData.phone].custom_6 = currentData.custom_6;
+                                    this.openData[currentData.phone].custom_7 = currentData.custom_7;
+                                    this.openData[currentData.phone].custom_8 = currentData.custom_8;
+                                    this.openData[currentData.phone].custom_9 = currentData.custom_9;
                                 }
                                 commonLib.unblockUI(".m-content");
                             })
