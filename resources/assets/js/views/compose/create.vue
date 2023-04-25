@@ -49,10 +49,40 @@
                                 <div class="form-group m-form__group row" :class="errors.has('message') || validationErrors.message ? 'has-error' : ''">
                                     <label class="col-lg-3 col-form-label"  for="message">Message:<span class="required">*</span></label>
                                     <div class="col-lg-6">
-                                        <textarea data-vv-as="Message" name="message" v-validate="'required|max:'+data.sms_text_size"  v-model="message" style="height:150px;resize: none;" type="text" class="form-control m-input" placeholder="Enter Message"></textarea>
+                                        <textarea id="s-msg" data-vv-as="Message" name="message" v-validate="'required|max:'+data.sms_text_size"  v-model="message" style="height:150px;resize: none;" type="text" class="form-control m-input" placeholder="Enter Message"></textarea>
                                         <span class="limiter">{{ calculateSMSParts }}</span>
-                                        <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Insert Template</label></span></a>
-                                        <br />
+                                        <a href="javascript:void(0)" @click.prevent="bindModalData(data)" data-toggle="modal" data-target="#template-modal" class="pull-right ml-3"><i class="m-menu__link-icon flaticon-list" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Template</label></span></a>
+                                        <a id="insert-tag" href="javascript:void(0)" @click.prevent="showTag()" class="pull-right"><i class="bi bi-tags-fill" style="font-size: 1.0rem;"></i><span><label style="cursor:pointer;">Tag</label></span>
+                                            <span>
+                                            <div data-toggle="tooltip"
+                                                 data-placement="top" title="Insert tag"
+                                                 class="g-tooltip-area"
+                                                 data-original-title="Insert tag">
+                                                <ul id="tag-list" class="list-group tag-list" style="display: none">
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('last_name')"  href="#">Last name</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('company')"  href="#">Company</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('street')"  href="#">Street</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('suite')"  href="#">Suite</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('city')"  href="#">City</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('state')"  href="#">State</a></li>
+                                                    <li class="list-group-item"><a @click.prevent="addContactItem('zip')"  href="#">zip</a></li>
+
+                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_2_name" class="list-group-item"><a @click.prevent="addContactItem('custom_2')"  href="#">{{data.settings.custom_2_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_3_name" class="list-group-item"><a @click.prevent="addContactItem('custom_3')"  href="#">{{data.settings.custom_3_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_4_name" class="list-group-item"><a @click.prevent="addContactItem('custom_4')"  href="#">{{data.settings.custom_4_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_5_name" class="list-group-item"><a @click.prevent="addContactItem('custom_5')"  href="#">{{data.settings.custom_5_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_6_name" class="list-group-item"><a @click.prevent="addContactItem('custom_6')"  href="#">{{data.settings.custom_6_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_7_name" class="list-group-item"><a @click.prevent="addContactItem('custom_7')"  href="#">{{data.settings.custom_7_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_8_name" class="list-group-item"><a @click.prevent="addContactItem('custom_8')"  href="#">{{data.settings.custom_8_name}}</a></li>
+                                                    <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </span>
+                                        </a>
+
                                         <span class="m-form__help" v-if="errors.has('message') || validationErrors.message">
                                             {{ errors.first('message') || validationErrors.message[0] }}
                                         </span>                                     
@@ -124,7 +154,9 @@ export default {
       message: "",      
       scheduleShow: false,
       validationErrors: {},      
-      data:{},     
+      data:{
+          settings:{}
+      },
       to:{}
     };
   },
@@ -213,6 +245,8 @@ export default {
   mounted(){
       this.create();      
       this.bindCurrentRoute();
+      // Add event listener to the document object
+      document.addEventListener('click', this.hideTag);
   },
   methods: {
     preventOnEnter(event){    
@@ -279,7 +313,38 @@ export default {
     },
     addGroupTag(tag){             
         this.to.addTags(tag);               
-    }
+    },
+      addContactItem(item) {
+          console.log(item);
+          // let currentMessage = currentElement.innerText || currentElement.textContent;
+          let cursorPosition = $("textarea#s-msg").prop('selectionStart');
+          let currentMessage = $('textarea#s-msg').val();
+          console.log(currentMessage);
+          console.log(cursorPosition);
+          currentMessage = currentMessage.substring(0,cursorPosition) + ' {'+item+'} ' + currentMessage.substring(cursorPosition);
+          console.log(currentMessage);
+          $('textarea#s-msg').val(currentMessage);
+          $('#tag-list').hide();
+      },
+
+    showTag() {
+        $('#tag-list').toggle();
+    },
+    hideTag(e) {
+        // Get the element that was clicked
+       const clickedElement = e.target;
+       // Get the element that contains the #tag-list element
+       const tagListContainer = $('#insert-tag').parent();
+       // Check if the clicked element is outside the tag list container
+       if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
+           $('#tag-list').hide();
+       }
+    },
+  },
+
+  beforeDestroy() {
+      // Remove event listener from the document object
+     document.removeEventListener('click', this.hideTag);
   }
 };
 </script>

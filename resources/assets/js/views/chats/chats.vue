@@ -14,7 +14,7 @@
                                     Chats: New Window
                                 </h3>
                                 <button class="btn btn-sm btn-default invisible" @click="toggleFullScreen"><i
-                                        class="bi bi-arrows-fullscreen"></i>
+                                    class="bi bi-arrows-fullscreen"></i>
                                 </button>
                             </div>
 
@@ -103,11 +103,11 @@
                                                             </div>
                                                             <div class="g-chat-left-u-meta">
                                                                 <strong class="mb-0">{{
-                                                                    item.first_name ? item.first_name : item.phone
+                                                                        item.first_name ? item.first_name : item.phone
                                                                     }}
                                                                     {{ item.last_name }} </strong>
                                                                 <small v-if="item.sms_text">{{
-                                                                    item.sms_text.substr(0, 15)
+                                                                        item.sms_text.substr(0, 15)
                                                                     }}</small>
                                                                 <small :id="'serving-' + key" class="serving"
                                                                        style="display: none"><span class="text-right"
@@ -115,7 +115,7 @@
                                                             </div>
                                                             <div v-if="item.status == 'U'" :id="'alert-' + key"
                                                                  class=""><span class="text-right"><i
-                                                                    class="bi bi-bell-fill" style="color: #f70606;"></i></span>
+                                                                class="bi bi-bell-fill" style="color: #f70606;"></i></span>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -137,7 +137,7 @@
                                                                 <strong class="mb-0">{{ item2.first_name }}
                                                                     {{ item2.last_name }}</strong>
                                                                 <small v-if="item2.sms_text">{{
-                                                                    item2.sms_text.substr(0, 15)
+                                                                        item2.sms_text.substr(0, 15)
                                                                     }}</small>
                                                             </div>
                                                         </div>
@@ -178,7 +178,7 @@
                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
                                   </span>
                                                                     {{
-                                                                    msg.log_time | formatDate("ddd, MMM YY HH:mm A")
+                                                                        msg.log_time | formatDate("ddd, MMM YY HH:mm A")
                                                                     }}
                                                                 </time>
                                                             </div>
@@ -193,41 +193,41 @@
                                                 </div>
 
                                                 <!-- show user this instant message -->
-                                                <div id="content-2" class="content active">
-                                                    <div class="g-chat-main" v-if="instantSmsData.text">
-                                                        <div class="chat-msg-content">
-                                                            <div class="chat-msg">
-                                                                {{ instantSmsData.text }}
-                                                                <time datetime="6:00">{{
-                                                                    instantSmsData.timesend
-                                                                    }}
-                                                                </time>
-                                                            </div>
-                                                            <div class="chat-msg-image">
-                                                                <img :src="imageUrl" alt="">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <!--                                                <div id="content-2" class="content active">-->
+                                                <!--                                                    <div class="g-chat-main" v-if="instantSmsData.text">-->
+                                                <!--                                                        <div class="chat-msg-content">-->
+                                                <!--                                                            <div class="chat-msg">-->
+                                                <!--                                                                {{ instantSmsData.text }}-->
+                                                <!--                                                                <time datetime="6:00">{{-->
+                                                <!--                                                                    instantSmsData.timesend-->
+                                                <!--                                                                    }}-->
+                                                <!--                                                                </time>-->
+                                                <!--                                                            </div>-->
+                                                <!--                                                            <div class="chat-msg-image">-->
+                                                <!--                                                                <img :src="imageUrl" alt="">-->
+                                                <!--                                                            </div>-->
+                                                <!--                                                        </div>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </div>-->
 
                                             </div>
 
 
-                                            <div class="g-chat-message">
-                                                <!-- <form action=""> -->
+                                            <div  v-if="chatHeadPhone" class="g-chat-message">
+                                                <!--                                                 <form action="">-->
 
-                                                <!--                                                <label for="s-msg" class="w-100">-->
-                                                <!--                          <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"-->
-                                                <!--                                    rows="5" placeholder="Write...." id="s-msg"></textarea>-->
-                                                <!--                                                </label>-->
+                                                <label for="s-msg" class="w-100">
+                                                  <textarea data-vv-as="Message" name="message" v-model="message" class="form-control" cols="30"
+                                                            rows="5" placeholder="Write...." id="s-msg"></textarea>
+                                                </label>
+
 
 
                                                 <!--New Contenteditable TextArea-->
 
-                                                <div id="s-msg" class="text-editable tag-item" v-model="message"
-                                                     contenteditable="true">
+                                                <!--                                                <div id="s-msg" class="text-editable tag-item" v-model="message" contenteditable="true">-->
 
-                                                </div>
+                                                <!--                                                </div>-->
 
 
                                                 <div class="g-chat-message-bottom">
@@ -246,7 +246,7 @@
                                                            @click.prevent="bindModalData(data)" data-toggle="modal"
                                                            data-target="#template-modal" class="btn btn-sm btn-default"
                                                            title="Insert Template"><i
-                                                                class="bi bi-file-earmark-text-fill"></i></a>
+                                                            class="bi bi-file-earmark-text-fill"></i></a>
 
                                                         <div class="g-date-picker">
                                                             <input type="date">
@@ -265,29 +265,29 @@
                                                                 style="display: none">
                                                                 <li v-if="contactData.first_name"
                                                                     class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('first_name')"
-                                                                        href="#">First name</a></li>
+                                                                    @click.prevent="addContactItem('first_name')"
+                                                                    href="#">First name</a></li>
                                                                 <li v-if="contactData.last_name"
                                                                     class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('last_name')"
-                                                                        href="#">Last name</a></li>
+                                                                    @click.prevent="addContactItem('last_name')"
+                                                                    href="#">Last name</a></li>
                                                                 <li v-if="contactData.company" class="list-group-item">
                                                                     <a @click.prevent="addContactItem('company')"
                                                                        href="#">Company</a></li>
                                                                 <li v-if="contactData.street" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('street')"
-                                                                        href="#">Street</a></li>
+                                                                    @click.prevent="addContactItem('street')"
+                                                                    href="#">Street</a></li>
                                                                 <li v-if="contactData.suite" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('suite')"
-                                                                        href="#">Suite</a></li>
+                                                                    @click.prevent="addContactItem('suite')"
+                                                                    href="#">Suite</a></li>
                                                                 <li v-if="contactData.city" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('city')"
-                                                                        href="#">City</a></li>
+                                                                    @click.prevent="addContactItem('city')"
+                                                                    href="#">City</a></li>
                                                                 <li v-if="contactData.state" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('state')"
-                                                                        href="#">State</a></li>
+                                                                    @click.prevent="addContactItem('state')"
+                                                                    href="#">State</a></li>
                                                                 <li v-if="contactData.zip" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('zip')" href="#">zip</a>
+                                                                    @click.prevent="addContactItem('zip')" href="#">zip</a>
                                                                 </li>
 
                                                                 <li v-if="contactData.custom_0" class="list-group-item">
@@ -536,12 +536,16 @@
                         <template-modal v-bind:modal-data="modalData"></template-modal>
 
 
+
                         <!--            Disposition Modal-->
                         <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
 
 
+
+
                         <!--            Disposition Modal-->
                         <disposition-modal v-bind:disposition-data="dispositionData"></disposition-modal>
+
 
 
                     </div>
@@ -558,141 +562,141 @@
      CrossBrowser ScrollBar
   ============================*/
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(104, 106, 102, 0.5), rgba(0, 0, 0, 0.099);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(104, 106, 102, 0.5), rgba(0, 0, 0, 0.099);
 }
 
 ::-webkit-scrollbar {
-  width: 5px; /* for vertical scrollbars */
-  height: auto; /* for horizontal scrollbars */
+    width: 5px; /* for vertical scrollbars */
+    height: auto; /* for horizontal scrollbars */
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.099);
+    background: rgba(0, 0, 0, 0.099);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(104, 106, 102, 0.5);
-  border-radius: 30px;
+    background: rgba(104, 106, 102, 0.5);
+    border-radius: 30px;
 }
 
 .m-input {
-  height: 25px;
-  font-size: 12px;
+    height: 25px;
+    font-size: 12px;
 }
 
 /*============================
          New Chat Area
   ============================*/
 .m-portlet__head-title {
-  width: 100%;
-  height: auto !important;
+    width: 100%;
+    height: auto !important;
 }
 
 .g-chattop-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .g-chat-area {
-  min-height: 65vh;
-  background-color: #fafafa;
+    min-height: 65vh;
+    background-color: #fafafa;
 }
 
 .g-chat-header {
-  display: flex;
-  height: 45px;
+    display: flex;
+    height: 45px;
 }
 
 .new-chat-open {
-  width: 25%;
-  background-color: darken(#fafafa, 5%);
-  color: #484848;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem;
-  border-right: 1px solid darken(#fafafa, 15%);
-  border-bottom: 1px solid #f8f8f8;
-  font-size: 13px;
-  white-space: nowrap;
+    width: 25%;
+    background-color: darken(#fafafa, 5%);
+    color: #484848;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem;
+    border-right: 1px solid darken(#fafafa, 15%);
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
 .g-open-chat-header {
-  background-color: darken(#fafafa, 5%);
-  flex-grow: 1;
-  width: 100%;
+    background-color: darken(#fafafa, 5%);
+    flex-grow: 1;
+    width: 100%;
 }
 
 .g-open-chat-h-main {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 0.3rem;;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 0.3rem;;
 }
 
 .g-chat-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
 
-  img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-  }
+    img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+    }
 }
 
 .g-chat-u-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 
-  strong {
-    line-height: 1.4;
-    font-size: 13px;
-  }
+    strong {
+        line-height: 1.4;
+        font-size: 13px;
+    }
 
-  small {
-    line-height: 1;
-  }
+    small {
+        line-height: 1;
+    }
 }
 
 .g-chat-u-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .g-chat-notes {
-  small {
-    background-color: #329e8c;
-    color: #ffffff;
-    padding: 0.2rem;
-    border-radius: 0.5rem;
-    line-height: 1;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.4s ease-in-out;
+    small {
+        background-color: #329e8c;
+        color: #ffffff;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
 
-    &:hover {
-      background-color: darken(#329e8c, 10%);
+        &:hover {
+            background-color: darken(#329e8c, 10%);
+        }
     }
-  }
 
 }
 
 .g-chat-user-property {
-  margin-left: auto;
-  margin-right: 25%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+    margin-left: auto;
+    margin-right: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 
@@ -700,47 +704,47 @@
          Search
   ============================*/
 .search-container {
-  position: relative;
-  margin-left: auto;
+    position: relative;
+    margin-left: auto;
 }
 
 .search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .search-container input[type="text"] {
-  width: 0;
-  max-width: 0;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
-  background-color: transparent;
+    width: 0;
+    max-width: 0;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    background-color: transparent;
 }
 
 .search-container input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #329e8c;
+    outline: none;
+    border-bottom: 2px solid #329e8c;
 }
 
 .search-container.active .search-icon {
-  left: 10px;
-  color: #329e8c;
+    left: 10px;
+    color: #329e8c;
 }
 
 .search-container.active input[type="text"] {
-  max-width: 150px;
-  width: 100%;
-  margin-left: 10px;
+    max-width: 150px;
+    width: 100%;
+    margin-left: 10px;
 }
 
 
@@ -748,144 +752,143 @@
         Chat Body
   ============================*/
 .g-chat-body {
-  display: flex;
-  height: calc(65vh - 30px);
+    display: flex;
+    height: calc(65vh - 30px);
 }
 
 .g-chat-left {
-  width: 232px;
-  background-color: #444753;
-  flex-basis: 20%;
-  position: relative;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  flex-shrink: 0;
+    width: 232px;
+    background-color: #444753;
+    flex-basis: 20%;
+    position: relative;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: calc(100% - 30px);
-    overflow-y: auto;
-  }
-
-  ul li {
-    cursor: pointer;
-    padding: 0.3rem;
-    display: block;
-    transition: all 0.4s ease-in-out;
-    color: darken(#ffffff, 25%);
-
-    &:hover {
-      background-color: #555555;
-      color: #ffffff;
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: calc(100% - 30px);
+        overflow-y: auto;
     }
 
-  }
+    ul li {
+        cursor: pointer;
+        padding: 0.3rem;
+        display: block;
+        transition: all 0.4s ease-in-out;
+        color: darken(#ffffff, 25%);
+
+        &:hover {
+            background-color: #555555;
+            color: #ffffff;
+        }
+
+    }
 }
 
 /*============================
          New Chat Area
   ============================*/
 .g-chat-area {
-  min-height: 65vh;
-  background-color: #fafafa;
+    min-height: 65vh;
+    background-color: #fafafa;
 }
 
 .chat-box {
-  padding: 13px !important;
-  border-bottom: 1px solid #333;
+    padding: 13px !important;
+    border-bottom: 1px solid #333;
 }
 
 .g-chat-header {
-  display: flex;
-  height: 45px;
+    display: flex;
+    height: 45px;
 }
 
 .new-chat-open {
-  width: 25%;
-  background-color: darken(#fafafa, 5%);
-  color: #484848;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem;
-  border-right: 1px solid darken(#fafafa, 15%);
-  border-bottom: 1px solid #f8f8f8;
-  font-size: 13px;
-  white-space: nowrap;
+    width: 25%;
+    background-color: darken(#fafafa, 5%);
+    color: #484848;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem;
+    border-right: 1px solid darken(#fafafa, 15%);
+    border-bottom: 1px solid #f8f8f8;
+    font-size: 13px;
+    white-space: nowrap;
 }
 
 .g-open-chat-header {
-  background-color: darken(#fafafa, 5%);
-  flex-grow: 1;
-  width: 100%;
+    background-color: darken(#fafafa, 5%);
+    flex-grow: 1;
+    width: 100%;
 }
 
 .g-open-chat-h-main {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 0.3rem;;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 0.3rem;;
 }
 
 .g-chat-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
 
-  img {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-  }
+    img {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+    }
 }
 
 .g-chat-u-name {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 
-  strong {
-    line-height: 1.4;
-    font-size: 13px;
-  }
+    strong {
+        line-height: 1.4;
+        font-size: 13px;
+    }
 
-  small {
-    line-height: 1;
-  }
+    small {
+        line-height: 1;
+    }
 }
 
 .g-chat-u-meta {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .g-chat-notes {
-  small {
-    background-color: #329e8c;
-    color: #ffffff;
-    padding: 0.2rem;
-    border-radius: 0.5rem;
-    line-height: 1;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.4s ease-in-out;
+    small {
+        background-color: #329e8c;
+        color: #ffffff;
+        padding: 0.2rem;
+        border-radius: 0.5rem;
+        line-height: 1;
+        vertical-align: middle;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
 
-    &:hover {
-      background-color: darken(#329e8c, 10%);
+        &:hover {
+            background-color: darken(#329e8c, 10%);
+        }
     }
-  }
 
 }
 
 .g-chat-user-property {
-  margin-left: auto;
-  margin-right: 25%;
+    margin-left: auto;
+    margin-right: 25%;
 }
 
 
@@ -893,47 +896,47 @@
          Search
   ============================*/
 .search-container {
-  position: relative;
-  margin-left: auto;
+    position: relative;
+    margin-left: auto;
 }
 
 .search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .search-container input[type="text"] {
-  width: 0;
-  max-width: 0;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
-  background-color: transparent;
+    width: 0;
+    max-width: 0;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    background-color: transparent;
 }
 
 .search-container input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #329e8c;
+    outline: none;
+    border-bottom: 2px solid #329e8c;
 }
 
 .search-container.active .search-icon {
-  left: 10px;
-  color: #329e8c;
+    left: 10px;
+    color: #329e8c;
 }
 
 .search-container.active input[type="text"] {
-  max-width: 150px;
-  width: 100%;
-  margin-left: 10px;
+    max-width: 150px;
+    width: 100%;
+    margin-left: 10px;
 }
 
 
@@ -941,86 +944,86 @@
         Chat Body
   ============================*/
 .g-chat-body {
-  display: flex;
+    display: flex;
 }
 
 .g-chat-left {
-  width: 232px;
-  background-color: #444753;
-  flex-basis: 20%;
-  position: relative;
-  height: calc(65vh - 30px);
+    width: 232px;
+    background-color: #444753;
+    flex-basis: 20%;
+    position: relative;
+    height: calc(65vh - 30px);
 
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    height: calc(100% - 30px);
-    overflow-y: auto;
-  }
-
-  ul li {
-    cursor: pointer;
-    padding: 0.3rem;
-    display: block;
-    transition: all 0.4s ease-in-out;
-    color: darken(#ffffff, 25%);
-
-    &:hover {
-      background-color: #555555;
-      color: #ffffff;
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: calc(100% - 30px);
+        overflow-y: auto;
     }
 
-    &.active {
-      background-color: #b39240;
-      color: #ffffff;
+    ul li {
+        cursor: pointer;
+        padding: 0.3rem;
+        display: block;
+        transition: all 0.4s ease-in-out;
+        color: darken(#ffffff, 25%);
 
-      &:hover {
-        color: inherit;
-      }
+        &:hover {
+            background-color: #555555;
+            color: #ffffff;
+        }
+
+        &.active {
+            background-color: #b39240;
+            color: #ffffff;
+
+            &:hover {
+                color: inherit;
+            }
+        }
     }
-  }
 }
 
 .g-button-group {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-
-  button {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 100%;
-    background-color: #646879;
-    color: #ffffff;
-  }
 
-  button#open-btn {
-    background-color: #329e8c;
-  }
+    button {
+        width: 100%;
+        background-color: #646879;
+        color: #ffffff;
+    }
+
+    button#open-btn {
+        background-color: #329e8c;
+    }
 }
 
 .g-chat {
-  flex: 2;
-  width: 60%;
-  background-color: #ffffff;
-  padding: 1rem;
+    flex: 2;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1rem;
 }
 
 .content {
-  transition: all 0.4s ease;
-  display: none;
-  opacity: 0;
-  visibility: hidden;
+    transition: all 0.4s ease;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
 }
 
 .content.active {
-  transition: all 0.4s ease;
-  display: block;
-  opacity: 1;
-  visibility: visible;
+    transition: all 0.4s ease;
+    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 
@@ -1028,34 +1031,34 @@
          Left List Item
   ============================*/
 .g-left-u-profile {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  height: 40px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 40px;
 }
 
 .g-chat-left-u-image {
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    -o-object-fit: cover;
-  }
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        -o-object-fit: cover;
+    }
 }
 
 .g-chat-left-u-meta {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  strong {
-    line-height: 1.2;
-    font-size: 0.9rem;
-  }
+    strong {
+        line-height: 1.2;
+        font-size: 0.9rem;
+    }
 
-  small {
-    line-height: 1;
-  }
+    small {
+        line-height: 1;
+    }
 }
 
 
@@ -1067,193 +1070,193 @@
 }
 
 .g-chat-history {
-  width: auto;
-  margin: auto auto 0.5rem;
-  height: calc(65vh - 215px);
-  overflow-y: auto;
-  padding: 1rem;
+    width: auto;
+    margin: auto auto 0.5rem;
+    height: calc(65vh - 215px);
+    overflow-y: auto;
+    padding: 1rem;
 }
 
 .chat-msg-content {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-end;
-  margin-bottom: 1rem;
-  justify-content: flex-end;
-
-  .chat-msg {
-    background-color: #dcdee7;
-    border-radius: 0.3rem;
-    padding: 0.5rem;
-    position: relative;
-    max-width: 86%;
-    min-width: 60%;
-
-    time {
-      font-size: 12px;
-      display: block;
-      float: right;
-      width: 100%;
-    }
-  }
-
-  .chat-msg-image {
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-  }
-}
-
-.chat-msg-content {
-  &.msg-other {
     display: flex;
     gap: 0.5rem;
     align-items: flex-end;
     margin-bottom: 1rem;
-    flex-direction: row-reverse;
-    clear: both;
+    justify-content: flex-end;
 
-    & .chat-msg {
-      background-color: #e8e8e8;
-      color: #434652;
-      clear: both;
-      max-width: 86%;
-      min-width: 60%;
+    .chat-msg {
+        background-color: #dcdee7;
+        border-radius: 0.3rem;
+        padding: 0.5rem;
+        position: relative;
+        max-width: 86%;
+        min-width: 60%;
 
-
-      time {
-        font-size: 12px;
-        display: block;
-        width: 100%;
-        float: right;
-        clear: both;
-      }
+        time {
+            font-size: 12px;
+            display: block;
+            float: right;
+            width: 100%;
+        }
     }
-  }
+
+    .chat-msg-image {
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+    }
+}
+
+.chat-msg-content {
+    &.msg-other {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        flex-direction: row-reverse;
+        clear: both;
+
+        & .chat-msg {
+            background-color: #e8e8e8;
+            color: #434652;
+            clear: both;
+            max-width: 86%;
+            min-width: 60%;
+
+
+            time {
+                font-size: 12px;
+                display: block;
+                width: 100%;
+                float: right;
+                clear: both;
+            }
+        }
+    }
 }
 
 .g-chat-message {
-  background-color: #f8f8f8;
-  padding: 0.5rem;
-  border-radius: 5px;
-  position: relative;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    background-color: #f8f8f8;
+    padding: 0.5rem;
+    border-radius: 5px;
+    position: relative;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 }
 
 .g-chat-message-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .g-chat-attachment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 10px;
-  font-size: 1rem;
-
-  label > input[type=file] {
-    visibility: hidden;
-    width: 0;
-  }
-
-  i {
-    cursor: pointer;
-    color: #329e8c;
-    font-weight: bold;
-    display: inline-block;
-    padding: 0.1rem;
-    font-size: 1.3rem;
-  }
-
-  a {
-    flex-shrink: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 7px;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 10px;
+    font-size: 1rem;
 
-  }
+    label > input[type=file] {
+        visibility: hidden;
+        width: 0;
+    }
+
+    i {
+        cursor: pointer;
+        color: #329e8c;
+        font-weight: bold;
+        display: inline-block;
+        padding: 0.1rem;
+        font-size: 1.3rem;
+    }
+
+    a {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px;
+
+    }
 }
+
 
 
 /*============================
         Chat Right Parts
   ============================*/
 .g-chat-right {
-  background-color: #eaeaea;
-  flex-basis: 20%;
-  overflow-y: auto;
-  flex-shrink: 0;
+    background-color: #eaeaea;
+    flex-basis: 20%;
+    overflow-y: auto;
 }
 
 
 #open-chat, #close-chat {
-  display: none;
+    display: none;
 }
 
 #open-chat {
-  display: block;
-  height: 100%;
-  overflow-y: auto;
+    display: block;
+    height: 100%;
+    overflow-y: auto;
 }
 
 #close-chat {
-  height: 100%;
-  overflow-y: auto;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .g-date-picker {
-  position: relative;
+    position: relative;
 
-  &::before {
-    content: "";
-    position: absolute;
-    background-color: #ffffff;
-    width: 15px;
-    height: 30px;
-    left: 2px;
-    top: 2px;
-    bottom: 2px;
-  }
-
-  input {
-    width: 35px;
-    height: 35px;
-    appearance: none;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-
-    &::-webkit-calendar-picker-indicator {
-      position: relative;
-      right: 8px;
-      color: green;
-      cursor: pointer;
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: #ffffff;
+        width: 15px;
+        height: 30px;
+        left: 2px;
+        top: 2px;
+        bottom: 2px;
     }
 
-    /**
- * @script clear current chat
- * */
-  }
+    input {
+        width: 35px;
+        height: 35px;
+        appearance: none;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+
+        &::-webkit-calendar-picker-indicator {
+            position: relative;
+            right: 8px;
+            color: green;
+            cursor: pointer;
+        }
+
+        /**
+     * @script clear current chat
+     * */
+    }
 
 
 }
 
 .list-group-item:last-child {
-  margin-bottom: 0;
-  border-bottom-right-radius: .25rem;
-  border-bottom-left-radius: .25rem;
-  display: block;
-  min-width: 130px;
-  text-align: center;
+    margin-bottom: 0;
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    display: block;
+    min-width: 130px;
+    text-align: center;
 }
 
 
@@ -1261,78 +1264,76 @@
          CheckBox
   ============================*/
 .g-check-box, .g-close-box {
-  display: none;
+    display: none;
 }
 
 .g-close-box.active {
-  display: block;
+    display: block;
 }
 
 /*============================
          For Tag list
   ============================*/
 .g-tooltip-area {
-  position: relative;
+    position: relative;
 }
 
 .tag-list {
-  line-height: 1;
-  position: absolute;
-  max-height: 250px;
-  height: auto;
-  overflow-y: auto;
-  overflow-x: hidden;
-  left: auto;
-  top: auto;
-  bottom: 35px;
+    line-height: 1;
+    position: absolute;
+    max-height: 250px;
+    height: auto;
+    overflow-y: auto;
+    left: auto;
+    top: auto;
+    bottom: 35px;
 }
 
-.tag-item > span {
-  padding: 1px 5px;
-  height: 22px;
-  margin: 0 2px;
-  font-size: 13px;
-  line-height: 14px;
-  position: relative;
-  top: 4px;
-  display: inline-block;
-  vertical-align: middle;
-  max-width: 98%;
-  overflow: hidden;
-  border: 2px solid #d8e6f5;
-  border-radius: 13px;
-  background-color: #fff;
-  color: #025d86;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: default;
-  text-overflow: ellipsis;
+.tag-item > span{
+    padding: 1px 5px;
+    height: 22px;
+    margin: 0 2px;
+    font-size: 13px;
+    line-height: 14px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 98%;
+    overflow: hidden;
+    border: 2px solid #d8e6f5;
+    border-radius: 13px;
+    background-color: #fff;
+    color: #025d86;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: default;
+    text-overflow: ellipsis;
 }
 
 .tag-list > li > a {
-  font-size: 13px;
-  font-weight: 600;
-  color: #015d85;
-  text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #015d85;
+    text-decoration: none;
 }
 
 .tag-list > li:hover {
-  background-color: #329d8b;
+    background-color: #329d8b;
 
-  & a {
-    color: #ffffff;
-  }
+    & a {
+        color: #ffffff;
+    }
 }
 
 //overwrite rule
 .list-group-item {
-  position: relative;
-  display: block;
-  padding: .25rem 0.5rem;
-  margin-bottom: -1px;
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, .125);
+    position: relative;
+    display: block;
+    padding: .25rem 0.5rem;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
 }
 
 
@@ -1340,26 +1341,16 @@
       New Content Editable
   ============================*/
 .text-editable {
-  background-color: #ffffff;
-  margin-bottom: 1rem;
-  min-height: 100px;
-  padding: 0.5rem;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  word-break: break-all;
-  line-height: 2em;
+    background-color: #ffffff;
+    margin-bottom: 1rem;
+    min-height: 100px;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 
-
-  &:focus-visible {
-    outline: 1px solid #329d8b;
-  }
-}
-
-#s-msg > br {
-  display: none;
+    &:focus-visible {
+        outline: 1px solid #329d8b;
+    }
 }
 
 </style>
@@ -1853,10 +1844,12 @@ export default {
             }
 
             // SEND SMS DATA
-            this.instantSmsData = {
-                text: smsBoxData,
-                timesend: localTime
-            };
+            // this.instantSmsData = {
+            //     text: smsBoxData,
+            //     timesend: localTime
+            // };
+
+
 
 
             /*if(this.message.length > this.data.sms_text_size){
@@ -1876,9 +1869,71 @@ export default {
                     this.selectedValue = {};
                     const chatBox = document.getElementById("s-msg");
                     chatBox.value = "";
-
                     this.message = "";
-                    console.log("All done from now");
+
+
+                    if (this.prevSmsData.data[0]) {
+                        phoneValue = this.prevSmsData.data[0].client_number;
+                        didValue = this.prevSmsData.data[0].did;
+                        let allchatinfo = this.chatInfo.data;
+                        let lastKey = Object.keys(this.chatInfo.data).length;
+                        let currentArrayChat = [];
+                        let currenObjChat = {
+                            "id":this.prevSmsData.data[0].id,
+                            "log_time":localTime,
+                            "delivery_time":this.prevSmsData.data[0].delivery_time,
+                            "account_id":this.prevSmsData.data[0].account_id,
+                            "userid":this.prevSmsData.data[0].userid,
+                            "schedule_id":this.prevSmsData.data[0].schedule_id,
+                            "callid":this.prevSmsData.data[0].callid,
+                            "did":this.prevSmsData.data[0].did,
+                            "client_number":this.prevSmsData.data[0].client_number,
+                            "sms_text":smsBoxData,
+                            "num_parts":this.prevSmsData.data[0].num_parts,
+                            "status":this.prevSmsData.data[0].status,
+                            "ob_status":this.prevSmsData.data[0].ob_status,
+                            "direction":this.prevSmsData.data[0].direction,
+                            "rate":this.prevSmsData.data[0].rate,
+                            "bill":this.prevSmsData.data[0].bill
+                        };
+                        currentArrayChat[lastKey] = currenObjChat;
+                        let result = {...this.chatInfo.data, ...currentArrayChat};
+                        this.chatInfo.data = result;
+                        // console.log(lastKey);
+                        // console.log(currentArrayChat);
+                    } else {
+                        let currentArrayChat = [];
+                        let currenObjChat = {
+                            "id":0,
+                            "log_time":localTime,
+                            "delivery_time":"0000-00-0000:00:00",
+                            "account_id":"",
+                            "userid":"",
+                            "schedule_id":"",
+                            "callid":"",
+                            "did":"19723182200",
+                            "client_number":this.chatHeadPhone,
+                            "sms_text":smsBoxData,
+                            "num_parts":"",
+                            "status":"",
+                            "ob_status":"",
+                            "direction":"",
+                            "rate":"",
+                            "bill":""
+                        };
+                        currentArrayChat[0] = currenObjChat;
+                        this.chatInfo.data = currentArrayChat;
+                    }
+
+                    // const currentLenth = Object.keys(this.chatInfo.data).length;
+                    // let lastKey = Object.keys(this.chatInfo.data).pop();
+                    // lastKey++;
+                    // this.chatInfo.data[lastKey] = Object.keys(this.chatInfo.data)[Object.keys(this.chatInfo.data).length-1];;
+                    // this.chatInfo.data[lastKey].sms_text = smsBoxData;
+                    // this.chatInfo.data[currentLenth].log_time = localTime;
+                    // // console.log(allchatinfo);
+                    // // console.log(localTime);
+                    // console.log(currentLenth);
                 }
                 commonLib.unblockUI(".m-content");
             })
@@ -1925,15 +1980,26 @@ export default {
         },
 
 
+        addContactItem(item) {
+            console.log(item);
+            // let currentMessage = currentElement.innerText || currentElement.textContent;
+            let cursorPosition = $("textarea#s-msg").prop('selectionStart');
+            let currentMessage = $('textarea#s-msg').val();
+            console.log(currentMessage);
+            console.log(cursorPosition);
+            currentMessage = currentMessage.substring(0,cursorPosition) + '{'+item+'}' + currentMessage.substring(cursorPosition);
+            console.log(currentMessage);
+            $('textarea#s-msg').val(currentMessage);
+            $('#tag-list').hide();
+        },
+
         // addContactItem(item) {
         //     let currentElement = document.getElementById('s-msg');
-        //     currentElement.style.display = 'flex';
-        //     currentElement.style.width = '100%';
-        //     let currentMessage = currentElement.innerText || currentElement.textContent;
         //     let mySpan = document.createElement("span");
         //     mySpan.innerHTML = item;
         //     mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
         //     currentElement.appendChild(mySpan);
+        //     // currentElement.appendChild(document.createElement("br")); // add a non-editable line break
         //     let range = document.createRange();
         //     range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
         //     range.collapse(true); // collapse the range to the end
@@ -1941,42 +2007,9 @@ export default {
         //     sel.removeAllRanges();
         //     sel.addRange(range); // set the focus to the end of the range
         //     $('#tag-list').hide();
-        // }
+        // },
 
-        addContactItem(item) {
-            let currentElement = document.getElementById('s-msg');
-            // currentElement.style.display = 'flex';
-            // currentElement.style.width = '100%';
-            let currentMessage = currentElement.innerText || currentElement.textContent;
-            let mySpan = document.createElement("span");
-            mySpan.innerHTML = item;
-            mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
-            currentElement.appendChild(mySpan);
-            currentElement.appendChild(document.createElement("br")); // add a non-editable line break
-            let range = document.createRange();
-            range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
-            range.collapse(true); // collapse the range to the end
-            let sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range); // set the focus to the end of the range
-            $('#tag-list').hide();
-        }
 
-        // addContactItem(item) {
-        //     let currentElement = document.getElementById('s-msg');
-        //     let currentMessage = currentElement.innerText || currentElement.textContent;
-        //     let mySpan = document.createElement("span");
-        //     mySpan.innerHTML = item;
-        //     currentElement.appendChild(mySpan);
-        //     currentElement.appendChild(document.createTextNode('\u00A0')); // add a text node
-        //     let range = document.createRange();
-        //     range.setStartAfter(mySpan); // set the range after the span element
-        //     range.collapse(true); // collapse the range to the end
-        //     let sel = window.getSelection();
-        //     sel.removeAllRanges();
-        //     sel.addRange(range); // set the focus to the end of the range
-        //     $('#tag-list').hide();
-        // }
 
 
     },
