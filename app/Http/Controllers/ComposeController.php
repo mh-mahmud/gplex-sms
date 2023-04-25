@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ContactsService;
 use Illuminate\Http\Request;
 use App\Services\ComposeService;
 use Auth;
@@ -20,6 +21,7 @@ class ComposeController extends Controller
     public function __construct()
     {
         $this->Service = new ComposeService();
+        $this->ContactsService = new ContactsService();
     }
 
     /**
@@ -43,6 +45,7 @@ class ComposeController extends Controller
         $layoutData['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");
         $layoutData['sms_text_part'] = config("dashboard_constant.SMS_TEXT_PART");
         $layoutData['sms_text_part_size'] = config("dashboard_constant.SMS_TEXT_PART_SIZE");
+        $layoutData['settings'] = $this->ContactsService->getAllSettings();
         return response()->json($layoutData);
     }
 
