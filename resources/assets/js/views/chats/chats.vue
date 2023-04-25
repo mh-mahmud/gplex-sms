@@ -1986,7 +1986,7 @@
                 let currentMessage = $('textarea#s-msg').val();
                 console.log(currentMessage);
                 console.log(cursorPosition);
-                currentMessage = currentMessage.substring(0,cursorPosition) + ' {'+item+'} ' + currentMessage.substring(cursorPosition);
+                currentMessage = currentMessage.substring(0,cursorPosition) + '{'+item+'}' + currentMessage.substring(cursorPosition);
                 console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();

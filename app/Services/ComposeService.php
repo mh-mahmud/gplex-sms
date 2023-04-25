@@ -133,6 +133,8 @@ class ComposeService extends AppService
         //DB::statement("SET time_zone = '".$user_time_zone."';");
 
         $smsFrom = $request->input('from');
+        $smsFrom = $this->getDid();
+//        dump($smsFrom);
         $smsTo = $request->input('to');
         $smsText = $request->input('message');
 
@@ -334,7 +336,7 @@ class ComposeService extends AppService
         //$data = Did::where('account_id', '=', $account_id)->pluck('did');
         //$data = Did::where('account_id', '=', $account_id)->where('extn','=','102')->pluck('did');
         //return $data->toArray();
-        return array(\Auth::user()->cname);
+        return \Auth::user()->cname;
     }
     /**
      * get Schedule Detail
