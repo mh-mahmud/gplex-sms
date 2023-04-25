@@ -183,7 +183,7 @@
                                                                 </time>
                                                             </div>
                                                             <div class="chat-msg-image">
-                                                                <img :src="msg.direction == 'O' ? imageUrl : 'https://picsum.photos/50/50'"
+                                                                <img :src="msg.direction == 'O' ? imageUrl : agentImage"
                                                                      alt="">
                                                             </div>
                                                         </div>
@@ -1409,6 +1409,7 @@ export default {
             activeIndex: -1,
             search: "",
             imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
+            agentImage: BASE_URL + '/public/assets/app/media/img/users/agent-avatar.png',
             interval: null,
             lastUpdate: "",
             currentDate: "",
