@@ -91,6 +91,7 @@ class ChatsController extends AppController
     }
 
     public function chatsByUserId($phone) {
+        $did =  $this->ChatsService->getDid();
         return $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
     }
 
