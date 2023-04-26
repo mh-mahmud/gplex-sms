@@ -1612,8 +1612,8 @@
                     this.openDataForSearch = res.data.openChat;
                     this.closeData = res.data.closeChat;
                     this.lastUpdate = res.data.lastUpdate;
-                    console.log(this.openData);
-                    console.log(this.closeData);
+                    // console.log(this.openData);
+                    // console.log(this.closeData);
                     this.$setDocumentTitle(this.data.title);
                 })
                     .catch(function (error) {
