@@ -224,6 +224,7 @@ export default {
                     queryStr += "&"+key+"="+value;
                 }            
             });
+            console.log(queryStr);
             this.searchQueryStr = queryStr;
         },
         getValidDiffDate(stDate, dateDiff){
