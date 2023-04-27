@@ -92,7 +92,9 @@ class ChatsController extends AppController
 
     public function chatsByUserId($phone) {
         $did =  $this->ChatsService->getDid();
-        return $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
+        $data = $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
+        $data['totaldisposition'] = $this->ChatsService->getTotalDispositionByNumber($this->account_id, $phone);
+        return $data;
     }
 
     public function getOpenChat($date) {
@@ -101,6 +103,15 @@ class ChatsController extends AppController
             list($firstKey) = array_keys($layoutData['openChat']);
             $layoutData['lastUpdate'] = $layoutData['openChat'][$firstKey]->log_time;
         }
+        return response()->json($layoutData);
+    }
+
+    public function getPreviousChat($date) {
+        $layoutData['openChat'] = $this->ChatsService->getPreviousChats($this->account_id,$date);
+//        if(count($layoutData['openChat']) > 0){
+//            list($firstKey) = array_keys($layoutData['openChat']);
+//            $layoutData['lastTime'] = $layoutData['openChat'][$firstKey]->log_time;
+//        }
         return response()->json($layoutData);
     }
 
@@ -200,6 +211,7 @@ class ChatsController extends AppController
         $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
         $layoutData['directions'] = config("dashboard_constant.LOG_SMS_STATUS");
         $layoutData['dispositionType'] = $this->ChatsService->getAllDisposition();
+        $layoutData['currentDid'] = \Auth::user()->cname;
         $layoutData['userTimeZone'] = $authUser['timezone'];
         $layoutData['title'] = 'Disposition Log | '.config("app.name");
         $layoutData['breadcrumb'] = [

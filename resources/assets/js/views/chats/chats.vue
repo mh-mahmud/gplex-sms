@@ -60,6 +60,10 @@
                                                              data-target="#disposition-modal">
                                                             <small v-if="chatHeadPhone">Note</small>
                                                         </div>
+                                                        <div v-if="totaldisposition != 0"
+                                                             class="g-chat-count">
+                                                            <small>{{totaldisposition}}</small>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -688,6 +692,19 @@
             &:hover {
                 background-color: darken(#329e8c, 10%);
             }
+        }
+
+    }
+
+    .g-chat-count {
+        small {
+            background-color: #b3b5be;
+            color: #131313;
+            padding: 0.2rem;
+            border-radius: 0.5rem;
+            line-height: 1;
+            vertical-align: middle;
+            transition: all 0.4s ease-in-out;
         }
 
     }
@@ -1406,7 +1423,8 @@
                 lastUpdate: "",
                 currentDate: "",
                 chatFlag: "open",
-                isFullScreen: false
+                isFullScreen: false,
+                totaldisposition: 0
             };
         },
         mounted() {
@@ -1583,20 +1601,15 @@
                     let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
                     // console.log(lastValue);
                     let url = `api/previous-chats/${lastValue}`;
-                    if (this.lastUpdate) {
-                        axios.get(url).then((res) => {
-                            // console.log(this.openData);
-                            if (typeof res.data.lastUpdate !== 'undefined') {
-                                let result = res.data.openChat;
-                                result = {...this.openData, ...result};
-                                this.lastUpdate = res.data.lastUpdate;
-                                this.openData = result;
-                            }
-                        })
-                            .catch(function (error) {
-                                console.log(error.response);
-                            });
-                    }
+                    axios.get(url).then((res) => {
+                        // console.log(this.openData);
+                        let result = res.data.openChat;
+                        result = {...this.openData, ...result};
+                        this.openData = result;
+                    })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
                 }
             },
 
@@ -1785,6 +1798,7 @@
                     this.prevSmsData = res.data;
                     this.instantSmsData = {};
                     this.message = "";
+                    this.totaldisposition = res.data.totaldisposition;
 
                 }).catch(function (error) {
                     console.log(error.response);
@@ -2104,13 +2118,14 @@
 
 
             addContactItem(item) {
-                console.log(item);
+                console.log(this.contactData[item]);
+
                 // let currentMessage = currentElement.innerText || currentElement.textContent;
                 let cursorPosition = $("textarea#s-msg").prop('selectionStart');
                 let currentMessage = $('textarea#s-msg').val();
                 console.log(currentMessage);
                 console.log(cursorPosition);
-                currentMessage = currentMessage.substring(0, cursorPosition) + '{' + item + '}' + currentMessage.substring(cursorPosition);
+                currentMessage = currentMessage.substring(0, cursorPosition) + this.contactData[item] + currentMessage.substring(cursorPosition);
                 console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
