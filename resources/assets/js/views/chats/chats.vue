@@ -1394,6 +1394,7 @@ export default {
             activeIndex: -1,
             search: "",
             imageUrl: BASE_URL + '/public/assets/app/media/img/users/user-avatar.png',
+            agentImage: BASE_URL + '/public/assets/app/media/img/users/profile.png',
             interval: null,
             lastUpdate: "",
             currentDate: "",
