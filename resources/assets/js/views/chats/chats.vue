@@ -509,9 +509,9 @@
                                                 </table>
 
                                             </div>
-                                            <div class="g-update-contact">
+                                            <div class="g-update-contact text-right bg-white py-2">
                                                 <button @click="updateContact()"
-                                                        class="btn btn-block btn-success btn-sm">Update Contact
+                                                        class="btn btn-success btn-sm">Update Contact
                                                 </button>
                                             </div>
                                         </div>
