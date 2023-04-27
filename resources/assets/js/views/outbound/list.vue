@@ -111,7 +111,7 @@
                                             <td>{{ log.log_time | formatDate('MM/DD/YYYY hh:mm A') }} </td>                                            
                                             <td>{{ log.did | formatPhone }}</td>
                                             <td>{{ log.first_name }}</td>
-                                            <td>{{ log.client_number | formatPhone }}</td>
+                                            <td>{{ log.client_number }}</td>
                                             <td><span class="badge">{{ data.directions[log.direction]}}</span></td>
                                             <td>{{ log.sms_text | formatText }}</td>
                                             <td>
