@@ -13,7 +13,7 @@
                                 <h3 class="m-portlet__head-text mb-0">
                                     Chats: New Window
                                 </h3>
-                                <button class="btn btn-sm btn-default" @click="toggleFullScreen">
+                                <button class="btn btn-sm text-success btn-default" @click="toggleFullScreen">
                                     <i :class="fullScreenIconClass"></i>
                                 </button>
                             </div>
@@ -325,7 +325,7 @@
                                                     </div>
 
 
-                                                    <button @click="sendMessage()" class="btn btn-primary btn-sm">SEND
+                                                    <button @click="sendMessage()" class="btn btn-success btn-sm">SEND
                                                     </button>
 
 
@@ -505,18 +505,14 @@
                                                     <!--                            <td><small><button @click="updateContact()" class="btn btn-primary btn-sm">Update Contact</button></small></td>-->
                                                     <!--                          </tr>-->
 
-
-                                                    <tr>
-                                                        <td><small>&nbsp;</small></td>
-                                                        <td><small>
-                                                            <button @click="updateContact()"
-                                                                    class="btn btn-primary btn-sm">Update Contact
-                                                            </button>
-                                                        </small></td>
-                                                    </tr>
-
                                                     </tbody>
                                                 </table>
+
+                                            </div>
+                                            <div class="g-update-contact">
+                                                <button @click="updateContact()"
+                                                        class="btn btn-block btn-success btn-sm">Update Contact
+                                                </button>
                                             </div>
                                         </div>
 
