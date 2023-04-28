@@ -22,25 +22,77 @@
                     <form class="m-form" @submit.prevent="addTemplate">
                         <div class="m-portlet__body">
                             <div class="m-form__section m-form__section--first">
-                                
-                                <div class="form-group m-form__group row" :class="errors.has('name') || validationErrors.name ? 'has-error' : ''">
-                                    <label class="col-lg-3 col-form-label"  for="name">Name:<span class="required">*</span></label>
+
+                                <div class="form-group m-form__group row"
+                                     :class="errors.has('name') || validationErrors.name ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label" >Name:<span
+                                            class="required">*</span></label>
                                     <div class="col-lg-6">
-                                        <input data-vv-as="Name" name="name" v-validate="'required'"  v-model="template.name" type="text" class="form-control m-input" placeholder="Enter Template Name">
+                                        <input data-vv-as="Name" name="name" v-validate="'required'"
+                                               v-model="template.name" type="text" class="form-control m-input"
+                                               placeholder="Enter Template Name">
                                         <span class="m-form__help" v-if="errors.has('name') || validationErrors.name">
                                             {{ errors.first('name') || validationErrors.name[0] }}
                                         </span>
-                                    </div>    
+                                    </div>
                                 </div>
-                                <div class="form-group m-form__group row" :class="errors.has('message') || validationErrors.message ? 'has-error' : ''">
-                                    <label class="col-lg-3 col-form-label"  for="message">Message:<span class="required">*</span></label>
+                                <div class="form-group m-form__group row"
+                                     :class="errors.has('message') || validationErrors.message ? 'has-error' : ''">
+                                    <label class="col-lg-3 col-form-label" >Message:<span class="required">*</span></label>
                                     <div class="col-lg-6">
-                                        <textarea data-vv-as="Message" name="message" rows="4" cols="50" v-validate="'required|max:'+data.sms_text_size"  v-model="message" type="text" class="form-control m-input" placeholder="Enter Message" /></textarea>
+                                        <textarea id="s-msg" data-vv-as="Message" name="message" rows="4" cols="50"
+                                                  v-validate="'required|max:'+data.sms_text_size" v-model="message"
+                                                  type="text" class="form-control m-input"
+                                                  placeholder="Enter Message"></textarea>
                                         <span class="limiter">{{charactersLeft}} | {{partsLeft}} remaining</span>
-                                        <span class="m-form__help" v-if="errors.has('message') || validationErrors.message">
+                                        <a id="insert-tag" href="javascript:void(0)" @click.prevent="showTag()"
+                                           class="pull-right"><i class="bi bi-tags-fill" style="font-size: 1.0rem;"></i><span><label
+                                                style="cursor:pointer;">Tag</label></span>
+                                            <span>
+                                            <div data-toggle="tooltip"
+                                                 data-placement="top" title="Insert tag"
+                                                 class="g-tooltip-area"
+                                                 data-original-title="Insert tag">
+                                                <ul id="tag-list" class="list-group tag-list" style="display: none">
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('last_name')" href="#">Last name</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('company')"
+                                                            href="#">Company</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('street')"
+                                                            href="#">Street</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('suite')" href="#">Suite</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('city')"
+                                                            href="#">City</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('state')" href="#">State</a></li>
+                                                    <li class="list-group-item"><a
+                                                            @click.prevent="addContactItem('zip')" href="#">zip</a></li>
+
+                                                    <!--   <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_2_name" class="list-group-item"><a @click.prevent="addContactItem('custom_2')"  href="#">{{data.settings.custom_2_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_3_name" class="list-group-item"><a @click.prevent="addContactItem('custom_3')"  href="#">{{data.settings.custom_3_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_4_name" class="list-group-item"><a @click.prevent="addContactItem('custom_4')"  href="#">{{data.settings.custom_4_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_5_name" class="list-group-item"><a @click.prevent="addContactItem('custom_5')"  href="#">{{data.settings.custom_5_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_6_name" class="list-group-item"><a @click.prevent="addContactItem('custom_6')"  href="#">{{data.settings.custom_6_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_7_name" class="list-group-item"><a @click.prevent="addContactItem('custom_7')"  href="#">{{data.settings.custom_7_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_8_name" class="list-group-item"><a @click.prevent="addContactItem('custom_8')"  href="#">{{data.settings.custom_8_name}}</a></li>-->
+                                                    <!--   <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>-->
+                                                </ul>
+                                            </div>
+                                        </span>
+                                        </a>
+                                        <span class="m-form__help"
+                                              v-if="errors.has('message') || validationErrors.message">
                                             {{ errors.first('message') || validationErrors.message[0] }}
                                         </span>
-                                    </div>    
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -56,91 +108,124 @@
 
             </div>
         </div>
-    </div>   
+    </div>
 </template>
 
 <script>
-import AppComponent from '../../components/AppComponent'
-export default {
-  extends: AppComponent,
-  data() {
-    return {
-      template: {},
-      message: "",     
-      validationErrors: {},
-      data:{}
-    };
-  },
-  computed: {
-    charactersLeft() {
-        var char = this.message.length,
-            limit = this.data.sms_text_size;
-        var remaining = limit - char;
-          if(remaining < 0)
-            remaining = 0;
+    import AppComponent from '../../components/AppComponent'
 
-        return "Characters: " + remaining + "/" + limit;
-      },
-      partsLeft() {
-          var parts = this.message.length,limit = this.data.sms_text_part,part_size = this.data.sms_text_part_size;
-          parts = Math.ceil(parts/part_size);
-          var remaining = limit - parts;
-          if(remaining < 0)
-            remaining = 0;
+    export default {
+        extends: AppComponent,
+        data() {
+            return {
+                template: {},
+                message: "",
+                validationErrors: {},
+                data: {}
+            };
+        },
+        computed: {
+            charactersLeft() {
+                var char = this.message.length,
+                    limit = this.data.sms_text_size;
+                var remaining = limit - char;
+                if (remaining < 0)
+                    remaining = 0;
 
-        return "Parts: " + remaining + "/" + limit;
-      }
-  },
-  mounted(){
-      this.create();
-      this.bindCurrentRoute();
-  },
-  methods: {    
-    create(){
+                return "Characters: " + remaining + "/" + limit;
+            },
+            partsLeft() {
+                var parts = this.message.length, limit = this.data.sms_text_part,
+                    part_size = this.data.sms_text_part_size;
+                parts = Math.ceil(parts / part_size);
+                var remaining = limit - parts;
+                if (remaining < 0)
+                    remaining = 0;
 
-        var url = 'api/templates/create';
-
-        axios.get(url).then((res) => 
-        { 
-            this.data = res.data;
-            this.$setDocumentTitle(this.data.title);
-        })
-        .catch(function (error) {
-            console.log(error.response);
-        });
-
-    },
-    // Add/Update Template
-    addTemplate() {
-        this.$validator.validateAll().then((result) => { 
-            if(result == true){
-                if(typeof commonLib != 'undefined'){
-                    commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
-                }
-                var vm = this;
-                //var text = this.template.message;
-                //this.template.message = text.replace(/\r?\n/g, '<br />');
-                this.template.message = this.message;
-                axios.post('api/templates', this.template).then((res) => 
-                {
-                    commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
-                    if(res.data.response_msg.type == 'success'){
-                        this.template = {};
-                        this.message = "";
-                        this.$router.push({name:'TemplateList'});
-                    }
-                    commonLib.unblockUI(".m-content");
-                })
-                .catch(function (error) {
-                    vm.validationErrors = error.response.data;
-                    commonLib.unblockUI(".m-content");
-                });  
-                 
+                return "Parts: " + remaining + "/" + limit;
             }
+        },
+        mounted() {
+            this.create();
+            this.bindCurrentRoute();
+            // Add event listener to the document object
+            document.addEventListener('click', this.hideTag);
+        },
+        methods: {
+            create() {
 
-        }); 
-      
-    }
-  }
-};
+                var url = 'api/templates/create';
+
+                axios.get(url).then((res) => {
+                    this.data = res.data;
+                    this.$setDocumentTitle(this.data.title);
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+
+            },
+            // Add/Update Template
+            addTemplate() {
+                this.$validator.validateAll().then((result) => {
+                    if (result == true) {
+                        if (typeof commonLib != 'undefined') {
+                            commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none'});
+                        }
+                        var vm = this;
+                        //var text = this.template.message;
+                        //this.template.message = text.replace(/\r?\n/g, '<br />');
+                        this.template.message = this.message;
+                        axios.post('api/templates', this.template).then((res) => {
+                            commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                            if (res.data.response_msg.type == 'success') {
+                                this.template = {};
+                                this.message = "";
+                                this.$router.push({name: 'TemplateList'});
+                            }
+                            commonLib.unblockUI(".m-content");
+                        })
+                            .catch(function (error) {
+                                vm.validationErrors = error.response.data;
+                                commonLib.unblockUI(".m-content");
+                            });
+
+                    }
+
+                });
+
+            },
+
+            addContactItem(item) {
+                console.log(item);
+                // let currentMessage = currentElement.innerText || currentElement.textContent;
+                let cursorPosition = $("textarea#s-msg").prop('selectionStart');
+                let currentMessage = $('textarea#s-msg').val();
+                console.log(currentMessage);
+                console.log(cursorPosition);
+                currentMessage = currentMessage.substring(0,cursorPosition) + '{'+item+'}' + currentMessage.substring(cursorPosition);
+                console.log(currentMessage);
+                $('textarea#s-msg').val(currentMessage);
+                $('#tag-list').hide();
+            },
+
+            showTag() {
+                $('#tag-list').toggle();
+            },
+            hideTag(e) {
+                // Get the element that was clicked
+                const clickedElement = e.target;
+                // Get the element that contains the #tag-list element
+                const tagListContainer = $('#insert-tag').parent();
+                // Check if the clicked element is outside the tag list container
+                if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
+                    $('#tag-list').hide();
+                }
+            },
+        },
+        beforeDestroy() {
+            // Remove event listener from the document object
+            document.removeEventListener('click', this.hideTag);
+        }
+    };
 </script>
