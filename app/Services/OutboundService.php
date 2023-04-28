@@ -35,7 +35,7 @@ class OutboundService extends AppService
 
         //$query = Log::where('account_id','=', $this->account_id)->where('direction','=', 'O');
 
-        //DB::enableQueryLog();
+        // DB::enableQueryLog();
         
         $query = DB::table('log_sms')
                 ->leftJoin('contacts', function ($join) {
@@ -44,20 +44,30 @@ class OutboundService extends AppService
                 }) 
                 ->where('log_sms.account_id','=', $this->account_id);                
 
-        $stdate = isset($queryParam['start_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['start_time']) : false;        
-        $endate = isset($queryParam['end_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['end_time']): false;        
+        $stdate = isset($queryParam['start_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['start_time']) : false;
+        // $stdate = isset($queryParam['start_time']) ? $queryParam['start_time'] : false;
+        $endate = isset($queryParam['end_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['end_time']): false;
+        // $endate = isset($queryParam['end_time']) ? $queryParam['end_time']: false;
+
+
         if($stdate !== false && $endate !== false){
+
             $startTime = $queryParam['start_time'];
             $endTime = $queryParam['end_time'];
+
+
+
             $diff = date_diff($stdate,$endate);
             $daysDiff = $diff->format("%a");
-            if($daysDiff > $maxDateDiff){                
+
+            if($daysDiff > $maxDateDiff){
                 // add (REPORT_MAX_DATE_DIFF) days to start time
                 $stdate->modify('+'.$maxDateDiff.' days');
                 $endTime = $stdate->format('Y-m-d');
             }
             $hasQuery = true;
         }else if($stdate !== false){
+
             $startTime = $queryParam['start_time'];
             $endTime = date('Y-m-d',strtotime($queryParam['start_time']))." 23:59";
             $hasQuery = true;
@@ -84,8 +94,9 @@ class OutboundService extends AppService
             $query->whereBetween("log_sms.log_time",[$startTime,$endTime]);
         }else{
             if($stdate !== false && $endate !== false){
-                $startTime = date('Y-m-d',strtotime($startTime))." 00:00";
-                $endTime = date('Y-m-d',strtotime($endTime))." 23:59";
+                /*$startTime = date('Y-m-d',strtotime($startTime))." 00:00";
+                $endTime = date('Y-m-d',strtotime($endTime))." 23:59";*/
+                //dd([$startTime,$endTime]);
                 $query->whereBetween("log_sms.log_time",[$startTime,$endTime]);
             }
         }
@@ -93,19 +104,23 @@ class OutboundService extends AppService
         // $query->where('log_sms.did','=',Auth::user()->cname);
         $query->where('direction','=', 'O');
 
+
         $per_page = (isset($queryParam['per_page']) && !empty($queryParam['per_page']) && $queryParam['per_page']!='undefined') ? $queryParam['per_page'] : config('dashboard_constant.PAGINATION_LIMIT');
 
-        $query = $query->orderBy('log_sms.log_time', 'DESC')->paginate($per_page); 
+        $query = $query->orderBy('log_sms.log_time', 'DESC')->paginate($per_page);
+        //dd($query->toArray());
         $authUser = Session::get('loginUser');
         //$tz_offset = $this->getTimeZoneOffset($authUser['timezone']);
+
         foreach($query as $key => $value){
             //$value->log_time=date('Y-m-d H:i:s', strtotime($value->log_time)+$tz_offset);
             if ($value->delivery_time == '0000-00-00 00:00:00') $value->delivery_time = $value->log_time;
             $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
             $value->delivery_time = $this->convertTime(config('app.timezone'), $authUser['timezone'], $value->delivery_time);
         }
-        //dd(DB::getQueryLog());
-        // dd($query->toSql());
+        // DB::getQueryLog();
+        // dd(DB::getQueryLog());
+        //dd($query->toArray());
         return $this->paginationDataFormat($query->toArray());
     }
 

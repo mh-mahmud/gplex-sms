@@ -58,11 +58,7 @@
                                                              @click.prevent="bindDispositionData(chatHeadPhone, callid)"
                                                              class="g-chat-notes" data-toggle="modal"
                                                              data-target="#disposition-modal">
-                                                            <small v-if="chatHeadPhone">Note</small>
-                                                        </div>
-                                                        <div v-if="totaldisposition != 0"
-                                                             class="g-chat-count">
-                                                            <small>{{totaldisposition}}</small>
+                                                            <small v-if="chatHeadPhone">{{totaldisposition}} Note</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1595,7 +1591,7 @@
              * @script  Initialize when chat history scroll reached at bottom
              * */
             scrollCustomBottom(event) {
-                const element = event.target
+                const element = event.target;
                 if (element.scrollHeight - element.scrollTop === element.clientHeight) {
                     // do something when scrolled to the bottom
                     let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
@@ -1619,6 +1615,18 @@
              * */
             scrollAtTop() {
                 console.log('I am at top');
+                let lastValue = this.chatInfo.data[0].log_time;
+                // console.log(lastValue);
+                let url = `api/previous-chat-info/${this.chatHeadPhone}/${lastValue}`;
+                axios.get(url).then((res) => {
+                    console.log(res.data.data);
+                    let result = res.data.data;
+                    result = {...result, ...this.chatInfo.data};
+                    this.chatInfo.data = result;
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });
             },
 
 

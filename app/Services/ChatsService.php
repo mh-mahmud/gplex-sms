@@ -153,7 +153,7 @@ class ChatsService extends AppService {
         $data = Log::where('account_id','=', $account_id)
             ->where('did','=', $sms_from)
             ->where('client_number','=', $sms_to)
-            ->orderBy('log_time', 'ASC')
+            ->orderBy('log_time', 'DESC')
             ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
 
         $authUser = Session::get('loginUser');
@@ -166,6 +166,25 @@ class ChatsService extends AppService {
         // update all chats data to read
         Log::where(['client_number' => $sms_to, 'status'=>'U'])->update(['status' => 'R']);
 
+        return $this->paginationDataFormat($data->toArray());
+    }
+
+    public function getPreviousChatHistoryByNumber($account_id, $to, $lastDate){
+        // Get list
+        $sms_from = $this->getDid();
+        $sms_to = $to;
+//        DB::enableQueryLog();
+        $data = Log::where('account_id','=', $account_id)
+            ->where('log_time','<', $lastDate)
+            ->where('did','=', $sms_from)
+            ->where('client_number','=', $sms_to)
+            ->orderBy('log_time', 'DESC')
+            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
+//        dd(DB::getQueryLog());
+        $authUser = Session::get('loginUser');
+        foreach($data as $key => $value){
+            $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
+        }
         return $this->paginationDataFormat($data->toArray());
     }
 
