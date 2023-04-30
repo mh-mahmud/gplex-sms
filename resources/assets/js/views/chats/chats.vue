@@ -1615,12 +1615,12 @@
              * */
             scrollAtTop() {
                 console.log('I am at top');
-                let lastValue = this.chatInfo.data[0].log_time;
+                let lastValue = this.chatInfo.data[Object.keys(this.chatInfo.data)[0]].log_time;
                 // console.log(lastValue);
                 let url = `api/previous-chat-info/${this.chatHeadPhone}/${lastValue}`;
                 axios.get(url).then((res) => {
-                    console.log(res.data.data);
-                    let result = res.data.data;
+                    console.log(res.data);
+                    let result = res.data;
                     result = {...result, ...this.chatInfo.data};
                     console.log(result);
                     this.chatInfo.data = result;

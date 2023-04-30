@@ -144,48 +144,61 @@ class ChatsService extends AppService {
         $sms_from = $this->getDid();
         $sms_to = $to;
 
-        /*$data = Log::where('account_id','=', $account_id)
-            ->where('did','=', $sms_from)
-            ->where('client_number','=', $sms_to)
-            ->orderBy('log_time', 'DESC')
-            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));*/
-
         $data = Log::where('account_id','=', $account_id)
             ->where('did','=', $sms_from)
             ->where('client_number','=', $sms_to)
             ->orderBy('log_time', 'DESC')
-            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
-
+            ->take(config('dashboard_constant.PAGINATION_LIMIT'))
+            ->get()
+            ->toArray();
+//        $data = $data->toArray();
         $authUser = Session::get('loginUser');
         //$tz_offset = $this->getTimeZoneOffset($authUser['timezone']);
+        $allData = [];
+        $i = 0;
         foreach($data as $key => $value){
             //$value->log_time=date('Y-m-d H:i:s', strtotime($value->log_time)+$tz_offset);
-            $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
+            $value['log_time']=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value['log_time']);
+            $allData[strtotime($value['log_time']) + $i] = $value;
+            $i++;
         }
-
+        uasort($allData, function($a, $b) {
+            if (strtotime($a['log_time']) == strtotime($b['log_time'])) return 0;
+            return (strtotime($a['log_time']) > strtotime($b['log_time'])) ? 1 : -1;
+        });
         // update all chats data to read
         Log::where(['client_number' => $sms_to, 'status'=>'U'])->update(['status' => 'R']);
 
-        return $this->paginationDataFormat($data->toArray());
+        return $allData;
     }
 
     public function getPreviousChatHistoryByNumber($account_id, $to, $lastDate){
         // Get list
         $sms_from = $this->getDid();
         $sms_to = $to;
-//        DB::enableQueryLog();
         $data = Log::where('account_id','=', $account_id)
             ->where('log_time','<', $lastDate)
             ->where('did','=', $sms_from)
             ->where('client_number','=', $sms_to)
             ->orderBy('log_time', 'DESC')
-            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
-//        dd(DB::getQueryLog());
+            ->take(config('dashboard_constant.PAGINATION_LIMIT'))
+            ->get()
+            ->toArray();
         $authUser = Session::get('loginUser');
+        $allData = [];
+        $i = 1;
         foreach($data as $key => $value){
-            $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
+            //$value->log_time=date('Y-m-d H:i:s', strtotime($value->log_time)+$tz_offset);
+            $value['log_time']=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value['log_time']);
+            $allData[strtotime($value['log_time']) + $i] = $value;
+            $i++;
         }
-        return $this->paginationDataFormat($data->toArray());
+        uasort($allData, function($a, $b) {
+            if (strtotime($a['log_time']) == strtotime($b['log_time'])) return 0;
+            return (strtotime($a['log_time']) > strtotime($b['log_time'])) ? 1 : -1;
+        });
+
+        return $allData;
     }
 
     public function getTotalDispositionByNumber($account_id, $phone){

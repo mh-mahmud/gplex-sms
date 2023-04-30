@@ -91,17 +91,13 @@ class ChatsController extends AppController
     }
 
     public function chatsByUserId($phone) {
-        $did =  $this->ChatsService->getDid();
-        $data = $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
+        $data['data'] = $this->ChatsService->getChatHistoryByNumber($this->account_id, $phone, $did="19723182200");
         $data['totaldisposition'] = $this->ChatsService->getTotalDispositionByNumber($this->account_id, $phone);
-        $data['data'] = array_reverse($data['data']);
         return $data;
     }
 
     public function previousChatsByUserId($phone,$lastDate) {
-        $did =  $this->ChatsService->getDid();
         $data = $this->ChatsService->getPreviousChatHistoryByNumber($this->account_id, $phone, $lastDate);
-        $data['data'] = array_reverse($data['data']);
         return $data;
     }
 
