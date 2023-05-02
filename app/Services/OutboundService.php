@@ -35,7 +35,7 @@ class OutboundService extends AppService
 
         //$query = Log::where('account_id','=', $this->account_id)->where('direction','=', 'O');
 
-         DB::enableQueryLog();
+        // DB::enableQueryLog();
         
         $query = DB::table('log_sms')
                 ->leftJoin('contacts', function ($join) {
@@ -119,7 +119,7 @@ class OutboundService extends AppService
             $value->delivery_time = $this->convertTime(config('app.timezone'), $authUser['timezone'], $value->delivery_time);
         }
         // DB::getQueryLog();
-         dd(DB::getQueryLog());
+        // dd(DB::getQueryLog());
         //dd($query->toArray());
         return $this->paginationDataFormat($query->toArray());
     }
