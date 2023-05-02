@@ -20,15 +20,6 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'DispositionList',
-        'title' => 'Disposition',
-        'icon' => 'flaticon-list',
-        'sidebar_menu_active' => 'DispositionList',
-        'vue_route_name' => 'DispositionList',
-        'url' => '#/disposition-list',
-        'model_list' => []
-    ],
-    [
         'name' => 'administrator',
         'title' => 'Compose',
         'icon' => 'flaticon-list',
@@ -65,15 +56,6 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'history',
-        'title' => 'History',
-        'icon' => 'flaticon-clock',
-        'url' => '#/history-list',
-        'sidebar_menu_active' => 'history',
-        'vue_route_name' => 'HistoryList',
-        'model_list' => []
-    ],
-    [
         'name' => 'DispositionLog',
         'title' => 'Disposition Log',
         'icon' => 'flaticon-list',
@@ -82,6 +64,17 @@ return [
         'url' => '#/disposition-log',
         'model_list' => []
     ],
+
+    [
+        'name' => 'history',
+        'title' => 'History',
+        'icon' => 'flaticon-clock',
+        'url' => '#/history-list',
+        'sidebar_menu_active' => 'history',
+        'vue_route_name' => 'HistoryList',
+        'model_list' => []
+    ],
+
     [
         'name' => 'contacts',
         'title' => 'Contacts',
@@ -102,6 +95,15 @@ return [
     ],
     [
         'name' => 'administrator',
+        'title' => 'Groups',
+        'icon' => 'flaticon-list',
+        'sidebar_menu_active' => 'groups',
+        'vue_route_name' => 'GroupList',
+        'url' => '#/group-list',
+        'model_list' => []
+    ],
+    [
+        'name' => 'administrator',
         'title' => 'Templates',
         'icon' => 'flaticon-list',
         'sidebar_menu_active' => 'templates',
@@ -110,12 +112,12 @@ return [
         'model_list' => []
     ],
     [
-        'name' => 'administrator',
-        'title' => 'Groups',
+        'name' => 'DispositionList',
+        'title' => 'Disposition',
         'icon' => 'flaticon-list',
-        'sidebar_menu_active' => 'groups',
-        'vue_route_name' => 'GroupList',
-        'url' => '#/group-list',
+        'sidebar_menu_active' => 'DispositionList',
+        'vue_route_name' => 'DispositionList',
+        'url' => '#/disposition-list',
         'model_list' => []
     ],
     [

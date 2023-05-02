@@ -58,7 +58,10 @@
                                                              @click.prevent="bindDispositionData(chatHeadPhone, callid)"
                                                              class="g-chat-notes" data-toggle="modal"
                                                              data-target="#disposition-modal">
+
                                                             <small v-if="chatHeadPhone">Note <span v-if="totaldisposition != 0">{{totaldisposition}}</span></small>
+
+
                                                         </div>
                                                     </div>
                                                 </div>
