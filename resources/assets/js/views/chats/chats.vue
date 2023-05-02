@@ -265,25 +265,25 @@
                                                             <button @click="showTag()" id="btn-insert-tag" title="Insert tag" type="button" class="btn btn-sm btn-default"><i class="bi bi-tags-fill"></i>
                                                             </button>
                                                             <ul id="tag-list" class="list-group tag-list" style="display: none">
-                                                                <li v-if="contactData.first_name" class="list-group-item"><a @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
-                                                                <li v-if="contactData.last_name" class="list-group-item"><a @click.prevent="addContactItem('last_name')" href="#">Last name</a></li>
-                                                                <li v-if="contactData.company" class="list-group-item"><a @click.prevent="addContactItem('company')" href="#">Company</a></li>
-                                                                <li v-if="contactData.street" class="list-group-item"><a @click.prevent="addContactItem('street')" href="#">Street</a></li>
-                                                                <li v-if="contactData.suite" class="list-group-item"><a @click.prevent="addContactItem('suite')" href="#">Suite</a></li>
-                                                                <li v-if="contactData.city" class="list-group-item"><a @click.prevent="addContactItem('city')" href="#">City</a></li>
-                                                                <li v-if="contactData.state" class="list-group-item"><a @click.prevent="addContactItem('state')" href="#">State</a></li>
-                                                                <li v-if="contactData.zip" class="list-group-item"><a @click.prevent="addContactItem('zip')" href="#">zip</a></li>
+                                                                <li v-if="contactData.first_name" class="list-group-item" @click.prevent="addContactItem('first_name')"><a href="#">First name</a></li>
+                                                                <li v-if="contactData.last_name" class="list-group-item" @click.prevent="addContactItem('last_name')"><a href="#">Last name</a></li>
+                                                                <li v-if="contactData.company" class="list-group-item" @click.prevent="addContactItem('company')"><a href="#">Company</a></li>
+                                                                <li v-if="contactData.street" class="list-group-item" @click.prevent="addContactItem('street')"><a href="#">Street</a></li>
+                                                                <li v-if="contactData.suite" class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
+                                                                <li v-if="contactData.city" class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
+                                                                <li v-if="contactData.state" class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
+                                                                <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">zip</a></li>
 
-                                                                <li v-if="contactData.custom_0" class="list-group-item"><a @click.prevent="addContactItem('custom_0')" href="#">{{ settings.custom_0_name }}</a></li>
-                                                                <li v-if="contactData.custom_1" class="list-group-item"><a @click.prevent="addContactItem('custom_1')" href="#">{{ settings.custom_1_name }}</a></li>
-                                                                <li v-if="contactData.custom_2" class="list-group-item"><a @click.prevent="addContactItem('custom_2')" href="#">{{ settings.custom_2_name }}</a></li>
-                                                                <li v-if="contactData.custom_3" class="list-group-item"><a @click.prevent="addContactItem('custom_3')" href="#">{{ settings.custom_3_name }}</a></li>
-                                                                <li v-if="contactData.custom_4" class="list-group-item"><a @click.prevent="addContactItem('custom_4')" href="#">{{ settings.custom_4_name }}</a></li>
-                                                                <li v-if="contactData.custom_5" class="list-group-item"><a @click.prevent="addContactItem('custom_5')" href="#">{{ settings.custom_5_name }}</a></li>
-                                                                <li v-if="contactData.custom_6" class="list-group-item"><a @click.prevent="addContactItem('custom_6')" href="#">{{ settings.custom_6_name }}</a></li>
-                                                                <li v-if="contactData.custom_7" class="list-group-item"><a @click.prevent="addContactItem('custom_7')" href="#">{{ settings.custom_7_name }}</a></li>
-                                                                <li v-if="contactData.custom_8" class="list-group-item"><a @click.prevent="addContactItem('custom_8')" href="#">{{ settings.custom_8_name }}</a></li>
-                                                                <li v-if="contactData.custom_9" class="list-group-item"><a @click.prevent="addContactItem('custom_9')" href="#">{{ settings.custom_9_name }}</a></li>
+                                                                <li v-if="contactData.custom_0" class="list-group-item" @click.prevent="addContactItem('custom_0')"><a href="#">{{ settings.custom_0_name }}</a></li>
+                                                                <li v-if="contactData.custom_1" class="list-group-item" @click.prevent="addContactItem('custom_1')"><a href="#">{{ settings.custom_1_name }}</a></li>
+                                                                <li v-if="contactData.custom_2" class="list-group-item" @click.prevent="addContactItem('custom_2')"><a href="#">{{ settings.custom_2_name }}</a></li>
+                                                                <li v-if="contactData.custom_3" class="list-group-item" @click.prevent="addContactItem('custom_3')"><a href="#">{{ settings.custom_3_name }}</a></li>
+                                                                <li v-if="contactData.custom_4" class="list-group-item" @click.prevent="addContactItem('custom_4')"><a href="#">{{ settings.custom_4_name }}</a></li>
+                                                                <li v-if="contactData.custom_5" class="list-group-item" @click.prevent="addContactItem('custom_5')"><a href="#">{{ settings.custom_5_name }}</a></li>
+                                                                <li v-if="contactData.custom_6" class="list-group-item" @click.prevent="addContactItem('custom_6')"><a href="#">{{ settings.custom_6_name }}</a></li>
+                                                                <li v-if="contactData.custom_7" class="list-group-item" @click.prevent="addContactItem('custom_7')"><a href="#">{{ settings.custom_7_name }}</a></li>
+                                                                <li v-if="contactData.custom_8" class="list-group-item" @click.prevent="addContactItem('custom_8')"><a href="#">{{ settings.custom_8_name }}</a></li>
+                                                                <li v-if="contactData.custom_9" class="list-group-item" @click.prevent="addContactItem('custom_9')"><a href="#">{{ settings.custom_9_name }}</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>

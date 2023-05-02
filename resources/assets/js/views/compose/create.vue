@@ -83,9 +83,11 @@
                                              data-placement="top" title="Insert tag"
                                              class="g-tooltip-area"
                                              data-original-title="Insert tag">
-                                            <button class="btn btn-sm btn-default pull-right" id="insert-tag"
-                                                    @click="showTag()"><i class="bi bi-tags-fill"></i>Tag
-                                            </button>
+                                            <a id="insert-tag" href="javascript:void(0)" @click.prevent="showTag()"
+                                               class="pull-right"><i class="bi bi-tags-fill" style="font-size: 1.0rem;"></i><span><label
+                                                    style="cursor:pointer;">Tag</label></span>
+
+                                            </a>
                                             <ul id="tag-list" class="list-group compose-tag-list" style="display: none">
                                                 <li class="list-group-item"
                                                     @click.prevent="addContactItem('first_name')"><a href="#">First

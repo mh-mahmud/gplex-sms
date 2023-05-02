@@ -40,7 +40,7 @@
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
                                                     </div>
-                                                    <date-picker data-vv-as="End Time" name="end_time" v-validate="'date_format:DD/MM/YYYY HH:mm|after:'+searchKey.start_time+'|date_between:'+searchKey.start_time+','+getValidDiffDate(searchKey.start_time,data.maxDateDiff)"  v-model="searchKey.end_time"
+                                                    <date-picker data-vv-as="End Time" name="end_time" v-validate="'date_format:MM/DD/YYYY HH:mm|after:'+searchKey.start_time+'|date_between:'+searchKey.start_time+','+getValidDiffDate(searchKey.start_time,data.maxDateDiff)"  v-model="searchKey.end_time"
                                                                  :config="datepickerOpt" class="form-control m-input date-time-picker" placeholder="To" autocomplete="off"></date-picker>
                                                     <span class="m-form__help" v-if="errors.has('end_time')">
                                                         {{ errors.first('end_time')}}
@@ -153,7 +153,9 @@ export default {
             searchQueryStr: '',
             start_time: moment().format('YYYY-MM-DD')+" 00:00",
             end_time: moment().format('YYYY-MM-DD HH:mm'),
-            data: {},
+            data: {
+                'maxDateDiff':15
+            },
             sortKey: 'tstamp',
             pagination: {},
         }
@@ -207,12 +209,12 @@ export default {
         },
 
         getValidDiffDate(stDate, dateDiff){
-            console.log(stDate);
             var getStDate = moment(String(stDate), 'MM/DD/YYYY HH:mm').format('YYYY-MM-DD HH:mm');
-            console.log(getStDate);
+            console.log('getStDate = '+getStDate);
             var formatStDate = new Date(getStDate);
+            console.log('formatStDate = ' + formatStDate);
             var dateDiffObj = moment(formatStDate).add(dateDiff, 'days');
-            console.log(dateDiffObj);
+            console.log('dateDiffObj = '+dateDiffObj);
             var dateDiff = moment(String(dateDiffObj)).format('MM/DD/YYYY HH:mm');
             console.log(dateDiff);
             return dateDiff;

@@ -257,7 +257,7 @@ class ChatsService extends AppService {
         $endate = isset($queryParam['end_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['end_time']): false;
         if($stdate !== false && $endate !== false){
             $from = $stdate->getTimestamp();
-            $to = $endate->getTimestamp();
+            $to = $endate->modify('+1 day')->getTimestamp();
             $query->whereBetween("lsd.tstamp",[$from,$to]);
         }
         $query->where("lsd.account_id",$account_id);
@@ -274,7 +274,7 @@ class ChatsService extends AppService {
 
     public function getContactDetails($clientNumber){
         //Get detail
-        return Contact::where('phone','=',$clientNumber)->firstOrFail();
+        return Contact::where('phone','=',$clientNumber)->where('account_id','=',$this->getAccountId())->firstOrFail();
 
     }
 
