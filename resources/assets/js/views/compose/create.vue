@@ -257,7 +257,7 @@ export default {
         axios.get(url).then((res) => 
         { 
             this.data = res.data;
-            this.compose.from = res.data.did[0];
+            this.compose.from = res.data.did.length == 1 ? res.data.did[0] : '';
             this.compose.time_zone = res.data.user_time_zone;
             this.$setDocumentTitle(this.data.title);
         })

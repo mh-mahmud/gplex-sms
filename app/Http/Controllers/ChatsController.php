@@ -217,6 +217,7 @@ class ChatsController extends AppController
         $layoutData['dispositionType'] = $this->ChatsService->getAllDisposition();
         $layoutData['currentDid'] = \Auth::user()->cname;
         $layoutData['userTimeZone'] = $authUser['timezone'];
+        $layoutData['maxDateDiff'] = config("dashboard_constant.REPORT_MAX_DATE_DIFF");
         $layoutData['title'] = 'Disposition Log | '.config("app.name");
         $layoutData['breadcrumb'] = [
             "links" => [

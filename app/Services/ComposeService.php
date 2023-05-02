@@ -328,15 +328,24 @@ class ComposeService extends AppService
         return $data->toArray();
     }
     /**
-     * get Group list
+     * get Agent list
      */
     public function getDid(){
-        $account_id = $this->getAccountId();        
-        
+        $account_id = $this->getAccountId();
         //$data = Did::where('account_id', '=', $account_id)->pluck('did');
         //$data = Did::where('account_id', '=', $account_id)->where('extn','=','102')->pluck('did');
         //return $data->toArray();
         return \Auth::user()->cname;
+    }
+    /**
+     * get Group list
+     */
+    public function getAllDid(){
+        $account_id = $this->getAccountId();
+        //$data = Did::where('account_id', '=', $account_id)->pluck('did');
+        //$data = Did::where('account_id', '=', $account_id)->where('extn','=','102')->pluck('did');
+        //return $data->toArray();
+        return array(\Auth::user()->cname);
     }
     /**
      * get Schedule Detail

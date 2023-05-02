@@ -47,11 +47,43 @@
                             </div>
                             <div class="type_msg">
                                 <div class="input_msg_write">                                    
-                                <textarea type="text" class="write_msg" v-model="message" v-validate="'required|max:'+data.sms_text_size" placeholder="Type a message"></textarea>
+                                <textarea id="s-msg" type="text" class="write_msg" v-model="message" v-validate="'required|max:'+data.sms_text_size" placeholder="Type a message"></textarea>
                                 <span class="m-form__help" v-if="message.length > data.sms_text_size" style="color: #c12222">
                                             The Message field may not be greater than {{data.sms_text_size}} characters.
                                 </span><br />
                                 <span class="limiter">{{calculateSMSParts}}</span>
+                                <span>
+                                    <a id="insert-tag" href="javascript:void(0)" @click.prevent="showTag()"
+                                       class="pull-right"><i class="bi bi-tags-fill" style="font-size: 1.0rem;"></i><span><label
+                                            style="cursor:pointer;">Tag</label></span>
+
+                                    </a>
+                                    <span class="list-group tag-list pull-right">
+                                    <div data-toggle="tooltip" data-placement="top" title="Insert tag" class="g-tooltip-area" data-original-title="Insert tag">
+                                        <ul id="tag-list" class="list-group tag-list" style="display: none; z-index: 1;">
+                                            <li class="list-group-item" @click.prevent="addContactItem('first_name')" ><a  href="#">First name</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('last_name')" ><a  href="#">Last name</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('company')" ><a  href="#">Company</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('street')" ><a  href="#">Street</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('suite')" ><a  href="#">Suite</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('city')" ><a  href="#">City</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('state')" ><a  href="#">State</a></li>
+                                            <li class="list-group-item" @click.prevent="addContactItem('zip')" ><a  href="#">zip</a></li>
+
+                                            <!--   <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_2_name" class="list-group-item"><a @click.prevent="addContactItem('custom_2')"  href="#">{{data.settings.custom_2_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_3_name" class="list-group-item"><a @click.prevent="addContactItem('custom_3')"  href="#">{{data.settings.custom_3_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_4_name" class="list-group-item"><a @click.prevent="addContactItem('custom_4')"  href="#">{{data.settings.custom_4_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_5_name" class="list-group-item"><a @click.prevent="addContactItem('custom_5')"  href="#">{{data.settings.custom_5_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_6_name" class="list-group-item"><a @click.prevent="addContactItem('custom_6')"  href="#">{{data.settings.custom_6_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_7_name" class="list-group-item"><a @click.prevent="addContactItem('custom_7')"  href="#">{{data.settings.custom_7_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_8_name" class="list-group-item"><a @click.prevent="addContactItem('custom_8')"  href="#">{{data.settings.custom_8_name}}</a></li>-->
+                                            <!--   <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>-->
+                                        </ul>
+                                    </div>
+                                </span>
+                                </span>
                                 <button class="msg_send_btn" @click="sendMessage()" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                                 </div>
                             </div>
@@ -215,6 +247,7 @@ export default {
             this.fetchInbound();
             this.bindCurrentRoute();
             this.scroll();
+            document.addEventListener('click', this.hideTag);
         }
     },
     methods: {
@@ -292,10 +325,41 @@ export default {
         fetchInbound(page_url) {            
             page_url = page_url || 'api/inbox-list/'+this.from+'/'+this.to+'?page='+this.pagination.current_page;
             this.getPagiDataReverse(page_url);
-        }
+        },
+
+        addContactItem(item) {
+            console.log(item);
+            // let currentMessage = currentElement.innerText || currentElement.textContent;
+            let cursorPosition = $("textarea#s-msg").prop('selectionStart');
+            let currentMessage = $('textarea#s-msg').val();
+            console.log(currentMessage);
+            console.log(cursorPosition);
+            currentMessage = currentMessage.substring(0,cursorPosition) + '{'+item+'}' + currentMessage.substring(cursorPosition);
+            console.log(currentMessage);
+            $('textarea#s-msg').val(currentMessage);
+            $('#tag-list').hide();
+        },
+
+        showTag() {
+            $('#tag-list').toggle();
+        },
+        hideTag(e) {
+            // Get the element that was clicked
+            const clickedElement = e.target;
+            // Get the element that contains the #tag-list element
+            const tagListContainer = $('#insert-tag').parent();
+            // Check if the clicked element is outside the tag list container
+            if (!tagListContainer.is(clickedElement) && tagListContainer.has(clickedElement).length === 0) {
+                $('#tag-list').hide();
+            }
+        },
     },
     beforeMount() {
         //this.getInitialUsers();
+    },
+    beforeDestroy() {
+        // Remove event listener from the document object
+        document.removeEventListener('click', this.hideTag);
     }
 
 }

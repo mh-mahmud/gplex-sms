@@ -36,7 +36,7 @@ class ComposeController extends Controller
         $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_SELECT2","JSP_BOOTSTRAP_DATEPICKER", "JSP_BOOTSTRAP_TAGINPUT"]);    
         $layoutData['templates'] = $this->Service->getTemplates();
         $layoutData['groups'] = $this->Service->getGroups();
-        $layoutData['did'] = $this->Service->getDid();
+        $layoutData['did'] = $this->Service->getAllDid();
         $layoutData['title'] = 'Compose | '.config("app.name");
         $layoutData['user_time_zone'] = $authUser['timezone'];
         $layoutData['time_zone'] = config("time_zone");
