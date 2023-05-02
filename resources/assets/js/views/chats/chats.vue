@@ -177,9 +177,9 @@
 
 
                                                                 <time>
-                                  <span style="font-size:10px" v-if="msg.direction=='O'">
-                                    <i v-if="msg.userid">{{ msg.userid }} - </i>
-                                  </span>
+                                                                  <span style="font-size:10px" v-if="msg.direction=='O'">
+                                                                    <i v-if="msg.userid">{{ msg.userid }} - </i>
+                                                                  </span>
                                                                     {{
                                                                     msg.log_time | formatDate("ddd, MMM DD, YYYY HH:mm A")
                                                                     }}
