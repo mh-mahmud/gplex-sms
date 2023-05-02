@@ -42,17 +42,18 @@
                                     <div class="col-lg-6">
                                         <textarea  id="s-msg" data-vv-as="Message" name="message" rows="4" cols="50"
                                                   v-validate="'required|max:'+data.sms_text_size"
-                                                  v-model="template.message" type="text" class="form-control m-input"
+                                                  v-model="template.message" type="text" class="form-control m-input mb-2"
                                                   placeholder="Enter Message"></textarea>
                                         <span class="limiter">{{charactersLeft}} | {{partsLeft}} remaining</span>
-                                        <a id="insert-tag" href="javascript:void(0)" @click.prevent="showTag()"
-                                           class="pull-right"><i class="bi bi-tags-fill" style="font-size: 1.0rem;"></i><span><label
-                                                style="cursor:pointer;">Tag</label></span>
-                                            <span>
+
                                             <div data-toggle="tooltip"
                                                  data-placement="top" title="Insert tag"
                                                  class="g-tooltip-area"
                                                  data-original-title="Insert tag">
+
+                                                <button type="button" id="insert-tag" @click="showTag()"
+                                                   class="pull-right btn btn-default btn-sm"><i class="bi bi-tags-fill"></i> Tag
+                                                </button>
                                                 <ul id="tag-list" class="list-group tag-list" style="display: none">
                                                     <li class="list-group-item"><a
                                                             @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
@@ -86,8 +87,8 @@
                                                     <!--   <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>-->
                                                 </ul>
                                             </div>
-                                        </span>
-                                        </a>
+
+
                                         <span class="m-form__help"
                                               v-if="errors.has('message') || validationErrors.message">
                                             {{ errors.first('message') || validationErrors.message[0] }}
@@ -111,6 +112,49 @@
     </div>
 </template>
 
+<style lang="scss" scoped>
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(104, 106, 102, 0.5), rgba(0, 0, 0, 0.099);
+}
+
+::-webkit-scrollbar {
+    width: 5px; /* for vertical scrollbars */
+    height: auto; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.099);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(104, 106, 102, 0.5);
+    border-radius: 30px;
+}
+
+.g-tooltip-area {
+    position: relative;
+    display: inline-block;
+    float: right;
+}
+
+.tag-list > li > a {
+    font-size: 13px;
+    font-weight: 600;
+    color: #015d85;
+    text-decoration: none;
+}
+
+.tag-list > li:hover {
+    background-color: #329d8b;
+
+    & a {
+        color: #ffffff;
+    }
+}
+
+</style>
+
 <script>
     import AppComponent from '../../components/AppComponent'
 
@@ -131,6 +175,7 @@
                 this.getTemplateById(id);
                 this.bindCurrentRoute("TemplateList");
             }
+            document.addEventListener('click', this.hideTag);
         },
         computed: {
             charactersLeft() {
