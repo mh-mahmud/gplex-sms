@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ContactsService;
 use Illuminate\Http\Request;
 use App\Services\TemplatesService;
 
@@ -17,6 +18,7 @@ class TemplateController extends Controller
     public function __construct()
     {
         $this->Service = new TemplatesService();
+        $this->ContactsService = new ContactsService();
     }
 
 
@@ -87,6 +89,7 @@ class TemplateController extends Controller
         $layoutData['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");
         $layoutData['sms_text_part'] = config("dashboard_constant.SMS_TEXT_PART");
         $layoutData['sms_text_part_size'] = config("dashboard_constant.SMS_TEXT_PART_SIZE");
+        $layoutData['settings'] = $this->ContactsService->getAllSettings();
         $layoutData['breadcrumb'] = [
             "links" => [
                 [
@@ -144,6 +147,7 @@ class TemplateController extends Controller
         $layoutData['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");
         $layoutData['sms_text_part'] = config("dashboard_constant.SMS_TEXT_PART");
         $layoutData['sms_text_part_size'] = config("dashboard_constant.SMS_TEXT_PART_SIZE");
+        $layoutData['settings'] = $this->ContactsService->getAllSettings();
         $layoutData['breadcrumb'] = [
             "links" => [
                 [

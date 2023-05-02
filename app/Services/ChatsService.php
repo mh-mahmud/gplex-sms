@@ -20,7 +20,7 @@ class ChatsService extends AppService {
 
     public function getOpenChats($account_id) {
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 20 ");
 
 
         $allData = [];
@@ -40,7 +40,7 @@ class ChatsService extends AppService {
     public function getLatestChats($account_id,$date) {
 
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND ls.log_time > '{$date}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND ls.log_time > '{$date}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 20 ");
 
         $allData = [];
         foreach ($data as $datum){
@@ -55,9 +55,27 @@ class ChatsService extends AppService {
         return $allData;
     }
 
+    public function getPreviousChats($account_id,$date) {
+
+        $did = $this->getDid();
+        $data = DB::select("select c.phone,c.first_name,c.last_name,c.company from contacts as c WHERE c.account_id='{$account_id}' AND c.last_text_at < '{$date}' AND c.last_text_at != '0000-00-00 00:00:00' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY last_text_at DESC limit 20 ");
+
+        $allData = [];
+        foreach ($data as $datum){
+            $uniqueData = DB::select("select ls.log_time, callid, SUBSTRING(ls.sms_text, 1, 15) AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
+            $allData[$datum->phone] = count($uniqueData) > 0 ? (object) array_merge((array) $datum, (array) $uniqueData[0]) : $datum;
+
+        }
+//        uasort($allData, function($a, $b) {
+//            if (strtotime($a->log_time) == strtotime($b->log_time)) return 0;
+//            return (strtotime($a->log_time) < strtotime($b->log_time)) ? 1 : -1;
+//        });
+        return $allData;
+    }
+
     public function getCloseChats($account_id) {
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND c.lead_status=0 ORDER BY log_time DESC limit 15 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND c.lead_status=0 ORDER BY log_time DESC limit 20 ");
 
         $allData = [];
         foreach ($data as $datum){
@@ -126,29 +144,68 @@ class ChatsService extends AppService {
         $sms_from = $this->getDid();
         $sms_to = $to;
 
-        /*$data = Log::where('account_id','=', $account_id)
-            ->where('did','=', $sms_from)
-            ->where('client_number','=', $sms_to)
-            ->orderBy('log_time', 'DESC')
-            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));*/
-
         $data = Log::where('account_id','=', $account_id)
             ->where('did','=', $sms_from)
             ->where('client_number','=', $sms_to)
-            ->orderBy('log_time', 'ASC')
-            ->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
-
+            ->orderBy('log_time', 'DESC')
+            ->take(config('dashboard_constant.PAGINATION_LIMIT'))
+            ->get()
+            ->toArray();
+//        $data = $data->toArray();
         $authUser = Session::get('loginUser');
         //$tz_offset = $this->getTimeZoneOffset($authUser['timezone']);
+        $allData = [];
+        $i = 0;
         foreach($data as $key => $value){
             //$value->log_time=date('Y-m-d H:i:s', strtotime($value->log_time)+$tz_offset);
-            $value->log_time=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value->log_time);
+            $value['log_time']=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value['log_time']);
+            $allData[strtotime($value['log_time']) + $i] = $value;
+            $i++;
         }
-
+        uasort($allData, function($a, $b) {
+            if (strtotime($a['log_time']) == strtotime($b['log_time'])) return 0;
+            return (strtotime($a['log_time']) > strtotime($b['log_time'])) ? 1 : -1;
+        });
         // update all chats data to read
         Log::where(['client_number' => $sms_to, 'status'=>'U'])->update(['status' => 'R']);
 
-        return $this->paginationDataFormat($data->toArray());
+        return $allData;
+    }
+
+    public function getPreviousChatHistoryByNumber($account_id, $to, $lastDate){
+        // Get list
+        $sms_from = $this->getDid();
+        $sms_to = $to;
+        $data = Log::where('account_id','=', $account_id)
+            ->where('log_time','<', $lastDate)
+            ->where('did','=', $sms_from)
+            ->where('client_number','=', $sms_to)
+            ->orderBy('log_time', 'DESC')
+            ->take(config('dashboard_constant.PAGINATION_LIMIT'))
+            ->get()
+            ->toArray();
+        $authUser = Session::get('loginUser');
+        $allData = [];
+        $i = 1;
+        foreach($data as $key => $value){
+            //$value->log_time=date('Y-m-d H:i:s', strtotime($value->log_time)+$tz_offset);
+            $value['log_time']=$this->convertTime(config('app.timezone'), $authUser['timezone'], $value['log_time']);
+            $allData[strtotime($value['log_time']) + $i] = $value;
+            $i++;
+        }
+        uasort($allData, function($a, $b) {
+            if (strtotime($a['log_time']) == strtotime($b['log_time'])) return 0;
+            return (strtotime($a['log_time']) > strtotime($b['log_time'])) ? 1 : -1;
+        });
+
+        return $allData;
+    }
+
+    public function getTotalDispositionByNumber($account_id, $phone){
+        $data = Disposition::where('account_id','=', $account_id)
+            ->where('cli','=', $phone)
+            ->count();
+        return $data;
     }
 
     public function getTemplates(){

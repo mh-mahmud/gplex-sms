@@ -15,14 +15,20 @@
                   <div class="row">
                     <div class="g-disposition-type mb-3">
                       <label>Disposition Type:</label>
-                      <select data-vv-as="Disposition Type" name="disposition_id" v-model="formData.disposition_id" class="form-control m-input">
+                      <select data-vv-as="Disposition Type" name="disposition_id" v-validate="'required'" v-model="formData.disposition_id" class="form-control m-input">
                         <option v-for="(item, index) in modalData.DispositionType" :value="index" :key="index">{{item}}</option>
                       </select>
+                      <span class="m-form__help text-danger" v-if="errors.has('disposition_id') || validationErrors.disposition_id">
+                         {{ errors.first('disposition_id') || validationErrors.disposition_id[0] }}
+                      </span>
                     </div>
-                    <textarea name="disposition" id="" cols="30" rows="5" v-validate="'required'"  v-model="formData.disposition" class="form-control" placeholder="Write here..."></textarea>
-                    <span class="m-form__help" v-if="errors.has('disposition') || validationErrors.disposition">
-                     {{ errors.first('disposition') || validationErrors.disposition[0] }}
-                  </span>
+                    <textarea name="disposition" id="dispositionText" cols="30" rows="5" v-validate="'required|max:255'"  v-model="formData.disposition" v-on:keyup="remainCharacter" class="form-control" placeholder="Write here..."></textarea>
+                    <span class="m-form__help text-danger" v-if="errors.has('disposition') || validationErrors.disposition">
+                       {{ errors.first('disposition') || validationErrors.disposition[0] }}
+                    </span>
+                    <span class="m-form__help  pull-right" v-if="dispositionTextLeft != 255">
+                       Characters: {{dispositionTextLeft}}/255
+                    </span>
                   </div>
 
                   <button type="submit" class="btn btn-success mt-2 float-right">Submit</button>
@@ -68,6 +74,7 @@ export default {
     return {
       formData:{},
       disposition: "",
+      dispositionTextLeft: 255,
       validationErrors: {},
       modalData:{},
       tableData:{},
@@ -149,6 +156,9 @@ export default {
       this.$router.push('disposition-log');
 
       console.log('calling');
+    },
+    remainCharacter(){
+      this.dispositionTextLeft = 255 - this.formData.disposition.length;
     }
   }
 }

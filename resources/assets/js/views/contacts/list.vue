@@ -98,7 +98,7 @@
                                             <td>{{index+1}}</td>
                                             <td>{{ contact.first_name }}</td>
                                             <td>{{ contact.last_name }}</td>
-                                            <td>{{ contact.phone | formatPhone}}</td>
+                                            <td>{{ contact.phone }}</td>
                                             <td>{{ contact.company }}</td>
                                             <!-- <td>{{ data.phoneType[contact.phone_type] }}</td>                                            
                                             <td>{{ contact.country }}</td> -->

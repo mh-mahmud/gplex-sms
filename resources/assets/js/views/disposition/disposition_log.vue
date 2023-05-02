@@ -106,7 +106,11 @@
                                         <tr v-for="(disposition, index) in data.data" style="text-align: center">
                                             <td>{{disposition.tstamp  | formatTimestampDate('MM/DD/YYYY hh:mm A') }}</td>
                                             <td>{{disposition.callid}}</td>
-                                            <td>{{disposition.cli | formatPhone}}</td>
+                                            <td>
+                                                <router-link href="#"  v-bind:to="{name: 'InboxList', params:{from: data.currentDid, to: disposition.cli}}" class="btn btn-reply" data-toggle="m-tooltip" title="Reply">
+                                                    {{disposition.cli }}
+                                                </router-link>
+                                            </td>
                                             <td>{{disposition.title}}</td>
                                             <td >{{disposition.note}}</td>
                                         </tr>

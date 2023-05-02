@@ -68,16 +68,16 @@
                                                     <li class="list-group-item"><a @click.prevent="addContactItem('state')"  href="#">State</a></li>
                                                     <li class="list-group-item"><a @click.prevent="addContactItem('zip')"  href="#">zip</a></li>
 
-                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_2_name" class="list-group-item"><a @click.prevent="addContactItem('custom_2')"  href="#">{{data.settings.custom_2_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_3_name" class="list-group-item"><a @click.prevent="addContactItem('custom_3')"  href="#">{{data.settings.custom_3_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_4_name" class="list-group-item"><a @click.prevent="addContactItem('custom_4')"  href="#">{{data.settings.custom_4_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_5_name" class="list-group-item"><a @click.prevent="addContactItem('custom_5')"  href="#">{{data.settings.custom_5_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_6_name" class="list-group-item"><a @click.prevent="addContactItem('custom_6')"  href="#">{{data.settings.custom_6_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_7_name" class="list-group-item"><a @click.prevent="addContactItem('custom_7')"  href="#">{{data.settings.custom_7_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_8_name" class="list-group-item"><a @click.prevent="addContactItem('custom_8')"  href="#">{{data.settings.custom_8_name}}</a></li>
-                                                    <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>
+<!--                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_2_name" class="list-group-item"><a @click.prevent="addContactItem('custom_2')"  href="#">{{data.settings.custom_2_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_3_name" class="list-group-item"><a @click.prevent="addContactItem('custom_3')"  href="#">{{data.settings.custom_3_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_4_name" class="list-group-item"><a @click.prevent="addContactItem('custom_4')"  href="#">{{data.settings.custom_4_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_5_name" class="list-group-item"><a @click.prevent="addContactItem('custom_5')"  href="#">{{data.settings.custom_5_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_6_name" class="list-group-item"><a @click.prevent="addContactItem('custom_6')"  href="#">{{data.settings.custom_6_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_7_name" class="list-group-item"><a @click.prevent="addContactItem('custom_7')"  href="#">{{data.settings.custom_7_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_8_name" class="list-group-item"><a @click.prevent="addContactItem('custom_8')"  href="#">{{data.settings.custom_8_name}}</a></li>-->
+<!--                                                    <li  v-if="data.settings.custom_9_name" class="list-group-item"><a @click.prevent="addContactItem('custom_9')"  href="#">{{data.settings.custom_9_name}}</a></li>-->
                                                 </ul>
                                             </div>
                                         </span>
@@ -321,7 +321,7 @@ export default {
           let currentMessage = $('textarea#s-msg').val();
           console.log(currentMessage);
           console.log(cursorPosition);
-          currentMessage = currentMessage.substring(0,cursorPosition) + ' {'+item+'} ' + currentMessage.substring(cursorPosition);
+          currentMessage = currentMessage.substring(0,cursorPosition) + '{'+item+'}' + currentMessage.substring(cursorPosition);
           console.log(currentMessage);
           $('textarea#s-msg').val(currentMessage);
           $('#tag-list').hide();
