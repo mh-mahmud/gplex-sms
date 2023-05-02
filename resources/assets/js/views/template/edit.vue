@@ -55,25 +55,14 @@
                                                    class="pull-right btn btn-default btn-sm"><i class="bi bi-tags-fill"></i> Tag
                                                 </button>
                                                 <ul id="tag-list" class="list-group tag-list" style="display: none">
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('first_name')" href="#">First name</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('last_name')" href="#">Last name</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('company')"
-                                                            href="#">Company</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('street')"
-                                                            href="#">Street</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('suite')" href="#">Suite</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('city')"
-                                                            href="#">City</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('state')" href="#">State</a></li>
-                                                    <li class="list-group-item"><a
-                                                            @click.prevent="addContactItem('zip')" href="#">zip</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('first_name')"><a href="#">First name</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('last_name')"><a href="#">Last name</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('company')"><a href="#">Company</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('street')"><a href="#">Street</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
+                                                    <li class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">zip</a></li>
 
                                                     <!--   <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
                                                     <!--   <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->

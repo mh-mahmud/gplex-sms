@@ -71,10 +71,12 @@
                                         <textarea id="s-msg" data-vv-as="Message" name="message"
                                                   v-validate="'required|max:'+data.sms_text_size" v-model="message"
                                                   style="height:150px;resize: none;" type="text"
-                                                  class="form-control m-input mb-2" placeholder="Enter Message"></textarea>
+                                                  class="form-control m-input mb-2"
+                                                  placeholder="Enter Message"></textarea>
                                         <span class="limiter">{{ calculateSMSParts }}</span>
-                                        <a role="button"  href="javascript:void(0)" @click.prevent="bindModalData(data)"
-                                           data-toggle="modal" data-target="#template-modal" class="pull-right ml-3 btn btn-sm btn-default"><i
+                                        <a role="button" href="javascript:void(0)" @click.prevent="bindModalData(data)"
+                                           data-toggle="modal" data-target="#template-modal"
+                                           class="pull-right ml-3 btn btn-sm btn-default"><i
                                                 class="m-menu__link-icon flaticon-list"></i> Template</a>
 
                                         <div data-toggle="tooltip"
@@ -85,25 +87,24 @@
                                                     @click="showTag()"><i class="bi bi-tags-fill"></i>Tag
                                             </button>
                                             <ul id="tag-list" class="list-group compose-tag-list" style="display: none">
-                                                <li class="list-group-item"><a
-                                                        @click.prevent="addContactItem('first_name')" href="#">First
+                                                <li class="list-group-item"
+                                                    @click.prevent="addContactItem('first_name')"><a href="#">First
                                                     name</a></li>
-                                                <li class="list-group-item"><a
-                                                        @click.prevent="addContactItem('last_name')" href="#">Last
+                                                <li class="list-group-item"
+                                                    @click.prevent="addContactItem('last_name')"><a href="#">Last
                                                     name</a></li>
-                                                <li class="list-group-item"><a
-                                                        @click.prevent="addContactItem('company')" href="#">Company</a>
-                                                </li>
-                                                <li class="list-group-item"><a @click.prevent="addContactItem('street')"
-                                                                               href="#">Street</a></li>
-                                                <li class="list-group-item"><a @click.prevent="addContactItem('suite')"
-                                                                               href="#">Suite</a></li>
-                                                <li class="list-group-item"><a @click.prevent="addContactItem('city')"
-                                                                               href="#">City</a></li>
-                                                <li class="list-group-item"><a @click.prevent="addContactItem('state')"
-                                                                               href="#">State</a></li>
-                                                <li class="list-group-item"><a @click.prevent="addContactItem('zip')"
-                                                                               href="#">zip</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('company')">
+                                                    <a href="#">Company</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('street')"><a
+                                                        href="#">Street</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('suit')"><a
+                                                        href="#">Suite</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('city')"><a
+                                                        href="#">City</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('state')"><a
+                                                        href="#">State</a></li>
+                                                <li class="list-group-item" @click.prevent="addContactItem('zip')"><a
+                                                        href="#">zip</a></li>
 
                                                 <!--                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
                                                 <!--                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->
