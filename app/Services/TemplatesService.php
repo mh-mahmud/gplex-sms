@@ -14,6 +14,7 @@ class TemplatesService extends AppService
     public function __construct()
     {
         $this->AuditLogService = new AuditLogService();
+
     }
     
     /**
@@ -23,7 +24,7 @@ class TemplatesService extends AppService
         // Get list
         $per_page = (isset($queryParam['per_page']) && !empty($queryParam['per_page']) && $queryParam['per_page']!='undefined') ? $queryParam['per_page'] : config('dashboard_constant.PAGINATION_LIMIT');
 
-        $data = Template::where('account_id','=', $this->getAccountId())->orderBy('created_at', 'DESC')->paginate($per_page); 
+        $data = Template::where('account_id','=', $this->getAccountId())->orderBy('name', 'ASC')->paginate($per_page);
         foreach($data as $key => $value){
             $value->message = nl2br($value->message);
         }
