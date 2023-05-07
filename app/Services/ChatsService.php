@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Contact;
+use App\Models\ContactStatus;
 use App\Models\Disposition;
 use App\Models\DispositionCode;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ChatsService extends AppService {
 
     public function getOpenChats($account_id) {
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 20 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9 from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id LEFT JOIN contact_opt_status AS cos ON cos.phone=ls.client_number AND cos.account_id=ls.account_id AND cos.did=ls.did WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND (cos.status!='O' OR cos.status IS NULL) ORDER BY log_time DESC limit 20 ");
 
 
         $allData = [];
@@ -40,7 +41,7 @@ class ChatsService extends AppService {
     public function getLatestChats($account_id,$date) {
 
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND ls.log_time > '{$date}' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY log_time DESC limit 20 ");
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id LEFT JOIN contact_opt_status AS cos ON cos.phone=ls.client_number AND cos.account_id=ls.account_id AND cos.did=ls.did WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND ls.log_time > '{$date}' AND (cos.status!='O' OR cos.status IS NULL) ORDER BY log_time DESC limit 20 ");
 
         $allData = [];
         foreach ($data as $datum){
@@ -58,7 +59,7 @@ class ChatsService extends AppService {
     public function getPreviousChats($account_id,$date) {
 
         $did = $this->getDid();
-        $data = DB::select("select c.phone,c.first_name,c.last_name,c.company from contacts as c WHERE c.account_id='{$account_id}' AND c.last_text_at < '{$date}' AND c.last_text_at != '0000-00-00 00:00:00' AND (c.lead_status!=0 OR c.lead_status IS NULL) ORDER BY last_text_at DESC limit 20 ");
+        $data = DB::select("select c.phone,c.first_name,c.last_name,c.company from contacts as c LEFT JOIN contact_opt_status AS cos ON cos.phone=c.phone AND cos.account_id=c.account_id WHERE c.account_id='{$account_id}' AND c.last_text_at < '{$date}' AND c.last_text_at != '0000-00-00 00:00:00' AND (cos.status!='O' OR cos.status IS NULL) ORDER BY last_text_at DESC limit 20 ");
 
         $allData = [];
         foreach ($data as $datum){
@@ -75,13 +76,11 @@ class ChatsService extends AppService {
 
     public function getCloseChats($account_id) {
         $did = $this->getDid();
-        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND c.lead_status=0 ORDER BY log_time DESC limit 20 ");
-
+        $data = DB::select("select DISTINCT ls.client_number as phone,c.first_name,c.last_name,c.company from log_sms as ls LEFT JOIN contacts AS c ON c.phone=ls.client_number AND c.account_id=ls.account_id LEFT JOIN contact_opt_status AS cos ON cos.phone=ls.client_number AND cos.account_id=ls.account_id AND cos.did=ls.did WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' AND cos.status='O' ORDER BY log_time DESC limit 20 ");
         $allData = [];
         foreach ($data as $datum){
             $uniqueData = DB::select("select ls.log_time, callid, SUBSTRING(ls.sms_text, 1, 15) AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
             $allData[$datum->phone] = (object) array_merge((array) $datum, (array) $uniqueData[0]);
-
         }
         uasort($allData, function($a, $b) {
             if (strtotime($a->log_time) == strtotime($b->log_time)) return 0;
@@ -114,25 +113,34 @@ class ChatsService extends AppService {
     }
 
     public function closeLeads($clientNumber) {
-//        DB::enableQueryLog();
-        $dataObj = $this->getContactDetails($clientNumber);
-        $dataObj->lead_status = '0';
-//        dd(DB::getQueryLog());
-        if($dataObj->save()) {
+        $dataObj = $this->getContactDetailsByDid($clientNumber);
+
+		if(count($dataObj)>0){
+            ContactStatus::where('phone','=',$clientNumber)->where('account_id','=',$this->getAccountId())->where('did','=',$this->getDid())->update(['status' => 'O']);
             return $this->processServiceResponse(true, "Chat Close Successfully!",$dataObj);
-        }
+		}else{
+			$dataObj =  new ContactStatus;
+			$dataObj->account_id = $this->getAccountId();
+			$dataObj->did = $this->getDid();
+			$dataObj->phone = $clientNumber;
+			$dataObj->status = 'O';
+			$dataObj->updated_at = time();
+            if($dataObj->save()) {
+
+                return $this->processServiceResponse(true, "Chat Close Successfully!",$dataObj);
+            }
+		}
         return $this->processServiceResponse(false, "Chat Close Failed!",$dataObj);
     }
 
     public function openLeads($clientNumber) {
-//        DB::enableQueryLog();
-        $dataObj = $this->getContactDetails($clientNumber);
-        $dataObj->lead_status = '1';
-//        dd(DB::getQueryLog());
-        if($dataObj->save()) {
-            return $this->processServiceResponse(true, "Chat Open Successfully!",$dataObj);
+        $dataObj = $this->getContactDetailsByDid($clientNumber);
+
+        if($dataObj){
+            ContactStatus::where('phone','=',$clientNumber)->where('account_id','=',$this->getAccountId())->where('did','=',$this->getDid())->update(['status' => 'I']);
+            return $this->processServiceResponse(true, "Chat Close Successfully!",$dataObj);
         }
-        return $this->processServiceResponse(false, "Chat Open Failed!",$dataObj);
+        return $this->processServiceResponse(false, "Chat Close Failed!",$dataObj);
     }
 
     public function getDid(){
@@ -275,6 +283,12 @@ class ChatsService extends AppService {
     public function getContactDetails($clientNumber){
         //Get detail
         return Contact::where('phone','=',$clientNumber)->where('account_id','=',$this->getAccountId())->firstOrFail();
+
+    }
+
+    public function getContactDetailsByDid($clientNumber){
+        //Get detail
+        return ContactStatus::where('phone','=',$clientNumber)->where('account_id','=',$this->getAccountId())->where('did','=',$this->getDid())->limit(1)->get();
 
     }
 
