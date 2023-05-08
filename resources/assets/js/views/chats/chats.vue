@@ -1977,33 +1977,36 @@
                         const chatBox = document.getElementById("s-msg");
                         chatBox.value = "";
                         this.message = "";
-
-
-                        if (this.prevSmsData.data[0]) {
-                            phoneValue = this.prevSmsData.data[0].client_number;
-                            didValue = this.prevSmsData.data[0].did;
+                        console.log('=========start===============');
+                        console.log(Object.keys(this.prevSmsData.data)[0]);
+                        console.log(Object.keys(this.prevSmsData.data).length);
+                        if (Object.keys(this.prevSmsData.data).length > 0) {
+                            let keyName = Object.keys(this.prevSmsData.data)[0];
+                            phoneValue = this.prevSmsData.data[keyName].client_number;
+                            didValue = this.prevSmsData.data[keyName].did;
                             let allchatinfo = this.chatInfo.data;
-                            let lastKey = Object.keys(this.chatInfo.data).length;
+                            let lastKey = Math.floor(Date.now() / 1000);
                             let currentArrayChat = [];
                             let currenObjChat = {
-                                "id": this.prevSmsData.data[0].id,
+                                "id": this.prevSmsData.data[keyName].id,
                                 "log_time": localTime,
-                                "delivery_time": this.prevSmsData.data[0].delivery_time,
-                                "account_id": this.prevSmsData.data[0].account_id,
-                                "userid": this.prevSmsData.data[0].userid,
-                                "schedule_id": this.prevSmsData.data[0].schedule_id,
-                                "callid": this.prevSmsData.data[0].callid,
-                                "did": this.prevSmsData.data[0].did,
-                                "client_number": this.prevSmsData.data[0].client_number,
+                                "delivery_time": this.prevSmsData.data[keyName].delivery_time,
+                                "account_id": this.prevSmsData.data[keyName].account_id,
+                                "userid": this.prevSmsData.data[keyName].userid,
+                                "schedule_id": this.prevSmsData.data[keyName].schedule_id,
+                                "callid": this.prevSmsData.data[keyName].callid,
+                                "did": this.prevSmsData.data[keyName].did,
+                                "client_number": this.prevSmsData.data[keyName].client_number,
                                 "sms_text": smsBoxData,
-                                "num_parts": this.prevSmsData.data[0].num_parts,
-                                "status": this.prevSmsData.data[0].status,
-                                "ob_status": this.prevSmsData.data[0].ob_status,
-                                "direction": this.prevSmsData.data[0].direction,
-                                "rate": this.prevSmsData.data[0].rate,
-                                "bill": this.prevSmsData.data[0].bill
+                                "num_parts": this.prevSmsData.data[keyName].num_parts,
+                                "status": this.prevSmsData.data[keyName].status,
+                                "ob_status": this.prevSmsData.data[keyName].ob_status,
+                                "direction": this.prevSmsData.data[keyName].direction,
+                                "rate": this.prevSmsData.data[keyName].rate,
+                                "bill": this.prevSmsData.data[keyName].bill
                             };
                             currentArrayChat[lastKey] = currenObjChat;
+                            console.log('=============lastkey===========');
                             let result = {...this.chatInfo.data, ...currentArrayChat};
                             this.chatInfo.data = result;
                             // console.log(lastKey);
@@ -2046,6 +2049,7 @@
                 })
                     .catch(function (error) {
                         console.log("All end from now");
+                        console.log(error);
                         /*vm.validationErrors = error.response.data;
                         commonLib.unblockUI(".m-content");*/
                     });
