@@ -184,7 +184,7 @@
                                                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
                                                                   </span>
                                                                     {{
-                                                                    msg.log_time | formatDate("ddd, MMM DD, YYYY HH:mm A")
+                                                                    msg.log_time | formatDate("ddd, MMM DD, YYYY hh:mm A")
                                                                     }}
                                                                 </time>
                                                             </div>
