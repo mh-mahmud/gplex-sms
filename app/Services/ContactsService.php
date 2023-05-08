@@ -629,7 +629,8 @@ class ContactsService extends AppService
 
             foreach($contactArray as $key => $value){
                 if(count($fieldName) == count($value)){
-                    if($this->validatePhone(array_combine($fieldName, $value))){                        
+                    if($this->validatePhone(array_combine($fieldName, $value))){
+                        //echo "<pre>";print_r($value);
                         $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
                         unset($insertArray[$key]['noimport']);                        
                         unset($insertArray[$key-1]['noimport']);
@@ -693,18 +694,41 @@ class ContactsService extends AppService
         }
     }
 
-    public function validatePhone($data){           
+    /*public function validatePhone($data){
+
         if(isset($data['phone'])){
-            $data['phone'] = trim($data['phone'],'+');            
+            $data['phone'] = trim($data['phone'],'+');
             if(is_numeric($data['phone'])){
-                if(strlen($data['phone'])!=11){                    
-                    return false;                    
+                if(strlen($data['phone'])<10){                    
+                    return false;
                 }
                 if($this->checkIfPhoneExist($data['phone'])){                    
                     return false;
                 }
                 return true;
             }
+        }        
+        return false;
+    }*/
+
+    public function validatePhone($data){
+        $pattern = "^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$";
+        if(isset($data['phone'])){
+            //echo "<pre>";print_r($data['phone']);
+            $data['phone'] = trim($data['phone'],'+');
+
+            /*preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $data['phone'], $matches, PREG_OFFSET_CAPTURE);
+            echo "<pre>";print_r($matches);*/
+
+            if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $data['phone'])) {
+              return false;
+            }
+
+            if($this->checkIfPhoneExist($data['phone'])){                    
+                return false;
+            }
+            return true;
+
         }        
         return false;
     }
