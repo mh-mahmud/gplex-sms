@@ -60,8 +60,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/contact-list-modal-filter/{id}', 'ContactController@getContactListModalFilter');
     Route::get('/contact-list-modal-filter-selectall/{id}', 'ContactController@getContactListModalFilterSelectAll');
     Route::get('/contact-group-list/{id}', 'ContactController@getContactListByGroup');
+
     Route::get('/contact-import', 'ContactController@getContactImport');
+    Route::get('/contact-import/{id}', 'ContactController@getContactImport');
+
     Route::post('/contact-import', 'ContactController@postContactImport');
+    Route::post('/contact-import/{id}', 'ContactController@postContactImport');
+
     Route::post('/contact-import-create', 'ContactController@postContactImportCreate');
     Route::get('/contact-country-list', 'ContactController@getCountries');
     Route::get('/country-phone-code/{country}', 'ContactController@getCountryPhoneCode');

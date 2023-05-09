@@ -45,6 +45,10 @@
                                                 <a @click.prevent="deleteUser(list.id,index)"  class="text-danger" href="#" data-toggle="m-tooltip" title="Delete">
                                                     <i class='fa fa-trash'></i>
                                                 </a>
+
+                                                <a @click.prevent="uploadUser(list.id,index)"  class="text-upload" href="#" data-toggle="m-tooltip" title="Upload">
+                                                    <i class='fa fa-upload'></i>
+                                                </a>
                                                     
                                             </td>
                                         </tr>
@@ -95,11 +99,13 @@ export default {
         fetchGroups(page_url) {
             page_url = page_url || 'api/group-list?page='+this.pagination.current_page;
             this.getPagiData(page_url);
-
         },
         deleteUser(id, index){
             var self = this;
             this.$deletePagiItem(self.data.data, index, self.pagination, 'Are you sure you want to delete this list?', 'api/groups/' + id);
+        },
+        uploadUser(id, index) {
+            this.$router.push('contact-import/?groupId='+id);
         }
        
     },

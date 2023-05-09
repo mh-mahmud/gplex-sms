@@ -539,6 +539,7 @@ class ContactsService extends AppService
                 "phone" => "Phone",
                 "company" => "Company",
                 "street" => "Street",
+                "state" => "State",
                 "suite" => "Suite",
                 "city" => "City",
                 "zip" => "Zip",
@@ -558,6 +559,7 @@ class ContactsService extends AppService
             }
             $data['contacts'] = $ListArray;
             $data['maxColumns'] = $maxColumns;
+            $data['group_id'] = !empty($request->group_id) ? $request->group_id : null;
 
             return $this->processServiceResponse(true, "", $data);
 
@@ -616,7 +618,7 @@ class ContactsService extends AppService
                 if ($header) {
                     $header = false;
                 } else {
-                    $contactArray[] = $csvLine;                    
+                    $contactArray[] = $csvLine;
                 }        
             }
             if(empty($contactArray)){  
@@ -625,7 +627,7 @@ class ContactsService extends AppService
 
             //create group
             $groupId = '';
-            $groupId = $this->insertGroup($originalFilename);
+            $groupId = !empty($request->groupID) ? $request->groupID : $this->insertGroup($originalFilename);
 
             foreach($contactArray as $key => $value){
                 if(count($fieldName) == count($value)){
@@ -664,7 +666,12 @@ class ContactsService extends AppService
             // insert contacts
             $status = \DB::table('contacts')->insert($insertArray);            
             if($status){
-                $this->updateGroup($groupId, count($insertArray));
+                if(!empty($request->groupID)) {
+                    $this->updateGroup($groupId, count($insertArray), true);
+                } else {
+                    $this->updateGroup($groupId, count($insertArray), false);
+                }
+                
                 $this->addImportContactGroup($insertArray,$groupId,$this->account_id);
                 return $this->processServiceResponse(true, "Successfully Imported (".count($insertArray).") Contacts out of (".$totalCount.")",['groupId'=> $groupId]);
             }
@@ -712,15 +719,12 @@ class ContactsService extends AppService
     }*/
 
     public function validatePhone($data){
-        $pattern = "^\([0-9]{3}\)[0-9]{3}-[0-9]{4}$";
+        $pattern = '/^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})$/';
         if(isset($data['phone'])){
             //echo "<pre>";print_r($data['phone']);
             $data['phone'] = trim($data['phone'],'+');
 
-            /*preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $data['phone'], $matches, PREG_OFFSET_CAPTURE);
-            echo "<pre>";print_r($matches);*/
-
-            if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $data['phone'])) {
+            if(!preg_match($pattern, $data['phone'])) {
               return false;
             }
 
@@ -747,7 +751,13 @@ class ContactsService extends AppService
      * @param string $groupId
      * @param string $numContacts 
      */
-    public function updateGroup($groupId, $numContacts){
+    public function updateGroup($groupId, $numContacts, $has_prev) {
+        if($has_prev) {
+            $data = Group::where('id', $groupId)->first();
+            if(!empty($data)) {
+                $numContacts = $numContacts + $data->num_contacts;
+            }
+        }
         \DB::table('sms_contact_group')
         ->where('id', $groupId)
         ->limit(1)
