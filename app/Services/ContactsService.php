@@ -720,16 +720,9 @@ class ContactsService extends AppService
     public function validatePhone($data){
         $pattern = '/^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})$/';
         if(isset($data['phone'])){
-            //echo "<pre>";print_r($data['phone']);
+
             $data['phone'] = trim($data['phone'],'+');
             $data['phone'] = ltrim($data['phone'],'1');
-
-            // -- test code
-            /*if(preg_match($pattern, $data['phone'])) {
-              dd("Ok");
-            } 
-            dd("Not ok");*/
-            // -- end
 
             if(!preg_match($pattern, $data['phone'])) {
               return false;
