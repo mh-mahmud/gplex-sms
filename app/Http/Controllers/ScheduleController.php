@@ -165,9 +165,9 @@ class ScheduleController extends Controller
      * * @param  string  $status
      * @return \Illuminate\Http\Response
      */
-    public function getScheduleChangeStatus($log_time, $account_id, $did, $client_number, $callid, $status)
+    public function getScheduleChangeStatus($scheduleId, $status)
     {        
-        $data['data'] = $this->Service->changeScheduleStatus($log_time, $account_id, $did, $client_number, $callid, $status);
+        $data['data'] = $this->Service->changeScheduleStatus($scheduleId, $status);
         return response()->json($data);
     }
 }

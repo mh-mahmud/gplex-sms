@@ -41,7 +41,7 @@
                                     <tbody>
                                         <tr v-for="(contact, index) in data.data" v-bind:key="contact.id" style="text-align: center">
                                             <td><input type="checkbox" name="listselect" v-model="selected" :value="contact.id" number></td>
-                                            <td>{{index+1}}</td>
+                                            <td>{{pagination.from+index}}</td>
                                             <td>{{ contact.first_name }}</td>
                                             <td>{{ contact.last_name }}</td>
                                             <td>{{ contact.phone }}</td>
@@ -72,7 +72,7 @@
                             <div class="col-sm-12 col-md-7 dataTables_pager">
                                 
                                 <div class="dataTables_paginate paging_simple_numbers" id="m_table_1_paginate">
-                                    <vue-pagination  :pagination="pagination" @paginate="fetchTextList()" :offset="4"> </vue-pagination>
+                                    <vue-pagination  :pagination="pagination" @paginate="fetchContacts()" :offset="4"> </vue-pagination>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +86,6 @@
             <!-- contact modal -->
                 <contact-modal v-bind:modal-data="modalData"></contact-modal>	        
         </div>
-    </div>
 </template>
 
 <script>

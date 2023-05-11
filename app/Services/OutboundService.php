@@ -42,7 +42,8 @@ class OutboundService extends AppService
                     $join->on('log_sms.account_id', '=', 'contacts.account_id');
                     $join->on('log_sms.client_number', '=', 'contacts.phone');
                 }) 
-                ->where('log_sms.account_id','=', $this->account_id);                
+                ->where('log_sms.account_id','=', $this->account_id)
+                ->where('log_sms.did','=',Auth::user()->cname);
 
         $stdate = isset($queryParam['start_time']) ? \DateTime::createFromFormat('Y-m-d H:i', $queryParam['start_time']) : false;
         // $stdate = isset($queryParam['start_time']) ? $queryParam['start_time'] : false;
@@ -101,7 +102,7 @@ class OutboundService extends AppService
             }
         }
 
-        // $query->where('log_sms.did','=',Auth::user()->cname);
+         // $query->where('log_sms.did','=',Auth::user()->cname);
         $query->where('direction','=', 'O');
 
 

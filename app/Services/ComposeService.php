@@ -53,7 +53,9 @@ class ComposeService extends AppService
         $scheduleShow = $request->input('scheduleShow');
         if($scheduleShow){
             $rules['scheduleDate'] = 'required|after:'.date('Y-m-d');            
-        }        
+            $rules['scheduleDateEnd'] = 'required|after:'.date('Y-m-d');
+            $rules['activeHours'] = 'required';
+        }
         Validator::make($request->all(),$rules)->validate();
 
         
@@ -80,7 +82,10 @@ class ComposeService extends AppService
                 $schedule->sms_text = $request->input('message');
                 $schedule->time_zone = $scheduleShow ? $time_zone : '';
                 $schedule->start_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDate'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
-                $schedule->is_schedule = $scheduleShow ? '1' : '0';            
+                $schedule->active_hour = $scheduleShow ? $request->input('activeHour') : '000000001111111111000000';
+                $schedule->stop_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDateEnd'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
+                $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
+                $schedule->is_schedule = $scheduleShow ? '1' : '0';
                 $schedule->is_repeat = '0';
                 $schedule->status = config('dashboard_constant.PENDING');
                 $schedule->created_by = \Auth::user()->userid;
@@ -147,6 +152,9 @@ class ComposeService extends AppService
         $schedule->time_zone = '';
         $schedule->num_contacts = 1;
         $schedule->start_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
+        $schedule->active_hour = '000000001111111111000000';
+        $schedule->stop_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
+        $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
         $schedule->is_schedule = '0';    
         $schedule->is_repeat = '0';
         $schedule->status = config('dashboard_constant.PENDING');
@@ -192,6 +200,8 @@ class ComposeService extends AppService
 
         if($scheduleShow){
             $rules['scheduleDate'] = 'required|after:'.date('Y-m-d');
+            $rules['scheduleDateEnd'] = 'required|after:'.date('Y-m-d');
+            $rules['activeHours'] = 'required';
         }        
         Validator::make($request->all(),$rules)->validate();
 
@@ -205,6 +215,9 @@ class ComposeService extends AppService
             $schedule->sms_text = $request->input('message');
             $schedule->time_zone = $scheduleShow ? $time_zone : '';
             $schedule->start_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDate'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
+            $schedule->active_hour = $scheduleShow ? $request->input('activeHour') : '000000001111111111000000';
+            $schedule->stop_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDateEnd'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
+            $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
             $schedule->is_schedule = $scheduleShow ? '1' : '0';            
             $schedule->is_repeat = '0';
             $schedule->num_contacts = 0;                       
