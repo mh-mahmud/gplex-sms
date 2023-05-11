@@ -1977,9 +1977,6 @@
                         const chatBox = document.getElementById("s-msg");
                         chatBox.value = "";
                         this.message = "";
-                        console.log('=========start===============');
-                        console.log(Object.keys(this.prevSmsData.data)[0]);
-                        console.log(Object.keys(this.prevSmsData.data).length);
                         if (Object.keys(this.prevSmsData.data).length > 0) {
                             let keyName = Object.keys(this.prevSmsData.data)[0];
                             phoneValue = this.prevSmsData.data[keyName].client_number;

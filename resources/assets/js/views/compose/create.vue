@@ -136,26 +136,57 @@
                                 <div v-show="scheduleShow">
                                     <div class="form-group m-form__group row"
                                          :class="errors.has('scheduleDate') || validationErrors.scheduleDate ? 'has-error' : ''">
-                                        <label class="col-lg-3 col-form-label" for="scheduleDate">Schedule:<span
+                                        <label class="col-lg-3 col-form-label">Schedule:<span
                                                 class="required">*</span></label>
                                         <div class="col-lg-6">
-                                            <date-picker class="form-control m-input date-time-picker"
-                                                         data-vv-as="Schedule" name="scheduleDate"
-                                                         v-validate="this.scheduleShow ? 'required' :''"
-                                                         v-model="compose.scheduleDate" :config="dateOptions"
-                                                         autocomplete="off"></date-picker>
-                                            <span class="m-form__help"
-                                                  v-if="errors.has('scheduleDate') || validationErrors.scheduleDate">
-                                                {{ errors.first('scheduleDate') || validationErrors.scheduleDate[0] }}
-                                            </span>
+                                            <div class="input-daterange form-group input-group" :class="errors.has('scheduleDate') || errors.has('scheduleDateEnd') ? 'has-error' : ''" id="m_datepicker">
+                                                <date-picker data-vv-as="Schedule Date"  name="scheduleDate" v-validate="this.scheduleShow ? 'required' :''" v-model="compose.scheduleDate" :config="dateOptions"
+                                                              class="form-control m-input date-time-picker" placeholder="Start" autocomplete="off"></date-picker>
+                                                <span class="m-form__help" v-if="errors.has('start_time')">
+                                                        {{ errors.first('scheduleDate')}}
+                                                    </span>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+                                                </div>
+                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd" v-validate="this.scheduleShow ? 'required' :''"  v-model="compose.scheduleDateEnd" :config="dateOptions"
+                                                              class="form-control m-input date-time-picker" placeholder="End" autocomplete="off"></date-picker>
+                                                <span class="m-form__help" v-if="errors.has('end_time')">
+                                                        {{ errors.first('scheduleDateEnd')}}
+                                                    </span>
+                                            </div>
+<!--                                            <date-picker id="scheduleDate" class="form-control m-input date-time-picker"-->
+<!--                                                         data-vv-as="Schedule" name="scheduleDate"-->
+<!--                                                         v-validate="this.scheduleShow ? 'required' :''"-->
+<!--                                                         v-model="compose.scheduleDate" :config="dateOptions"-->
+<!--                                                         autocomplete="off"></date-picker>-->
+<!--                                            <span class="m-form__help"-->
+<!--                                                  v-if="errors.has('scheduleDate') || validationErrors.scheduleDate">-->
+<!--                                                {{ errors.first('scheduleDate') || validationErrors.scheduleDate[0] }}-->
+<!--                                            </span>-->
                                         </div>
+<!--                                        <label class="col-lg-3 col-form-label">Schedule End:<span-->
+<!--                                                class="required">*</span></label>-->
+<!--                                        <div class="col-lg-3">-->
+<!--                                            <date-picker id="scheduleDateEnd" class="form-control m-input date-time-picker"-->
+<!--                                                         data-vv-as="Schedule" name="scheduleDateEnd"-->
+<!--                                                         v-validate="this.scheduleShow ? 'required' :''"-->
+<!--                                                         v-model="compose.scheduleDateEnd" :config="dateOptions"-->
+<!--                                                         autocomplete="off"></date-picker>-->
+<!--                                            <span class="m-form__help"-->
+<!--                                                  v-if="errors.has('scheduleDateEnd') || validationErrors.scheduleDateEnd">-->
+<!--                                                {{ errors.first('scheduleDateEnd') || validationErrors.scheduleDateEnd[0] }}-->
+<!--                                            </span>-->
+<!--                                        </div>-->
                                     </div>
                                     <div class="form-group m-form__group row">
                                         <label class="col-lg-3 col-form-label" for="time_zone">Time Zone:</label>
                                         <div class="col-lg-6">
-                                            <v-select data-vv-as="Time Zone" name="time_zone" :options="data.time_zone"
-                                                      v-model="compose.time_zone"
-                                                      @keydown.enter.native="preventOnEnter($event)"></v-select>
+<!--                                            <v-select data-vv-as="Time Zone" name="time_zone" :options="data.time_zone"-->
+<!--                                                      v-model="compose.time_zone"-->
+<!--                                                      @keydown.enter.native="preventOnEnter($event)"></v-select>-->
+                                            <select data-vv-as="Time Zone" name="time_zone" v-model="compose.time_zone" class="form-control m-input" @keydown.enter.native="preventOnEnter($event)">
+                                                <option v-for="(item, index) in data.time_zone" :value="item" :key="index">{{item}}</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -369,7 +400,7 @@ export default {
         { 
             this.data = res.data;
             this.compose.from = res.data.did.length == 1 ? res.data.did[0] : '';
-            this.compose.time_zone = res.data.user_time_zone;
+            // this.compose.time_zone = res.data.user_time_zone;
             this.$setDocumentTitle(this.data.title);
         })
         .catch(function (error) {

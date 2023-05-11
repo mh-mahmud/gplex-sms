@@ -224,9 +224,9 @@ export default {
     },
     setData () {
 
-        var array1 = this.$processTagifySelectData(this.data.data.groupContacts,'name','id');        
-        var array2 = this.$processTagifySelectData(this.data.data.contacts,'phone','phone');
-        this.initialData = array1.concat(array2);
+        // var array1 = this.$processTagifySelectData(this.data.data.groupContacts,'name','id');
+        // var array2 = this.$processTagifySelectData(this.data.data.contacts,'phone','phone');
+        // this.initialData = array1.concat(array2);
         this.compose.time_zone = this.data.data.time_zone;
         this.message = this.data.data.sms_text;        
         this.compose.from = this.data.data.sms_from;
