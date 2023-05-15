@@ -633,7 +633,7 @@ class ContactsService extends AppService
             $groupId = '';
             $groupId = !empty($request->groupID) ? $request->groupID : $this->insertGroup($originalFilename);
 
-            foreach($contactArray as $key => $value){
+            /*foreach($contactArray as $key => $value){
                 if(count($fieldName) == count($value)){
                     if($this->validatePhone(array_combine($fieldName, $value))){
                         $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
@@ -641,7 +641,20 @@ class ContactsService extends AppService
                         unset($insertArray[$key-1]['noimport']);
                     }
                 }
+            }*/
+            // new code provided by Masud bhai
+            foreach($contactArray as $key => $value){
+                if(count($fieldName) == count($value)){
+                    if($this->validatePhone(array_combine($fieldName, $value))){
+                        $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
+                        $insertArray[$key]['phone'] = str_replace(array('+',' ', '(', '-', ')'), "", $insertArray[$key]['phone']);
+                        if (strlen($insertArray[$key]['phone']) == 10) $insertArray[$key]['phone'] = '1'.$insertArray[$key]['phone'];
+                        unset($insertArray[$key]['noimport']);
+                        unset($insertArray[$key-1]['noimport']);
+                    }
+                }
             }
+
 
             $totalCount = count($contactArray)-1;
             // remove duplicate phone number
@@ -717,7 +730,27 @@ class ContactsService extends AppService
         return false;
     }*/
 
-    public function validatePhone($data){
+    function validatePhone($data){
+
+       if(isset($data['phone'])){
+
+          $data['phone'] = str_replace(array('+',' ', '(', '-', ')'), "", $data['phone']);
+          $len = strlen($data['phone']);
+          if (!ctype_digit($data['phone']) || $len < 10 || $len > 11) {
+            return false;
+          }
+
+          $data['phone'] = strlen($data['phone']) == 10 ? '1' . $data['phone'] : $data['phone'];
+          if($this->checkIfPhoneExist($data['phone'])){
+            return false;
+          }
+          return true;
+
+       }
+       return false;
+    }
+
+    /*public function validatePhone($data){
         $pattern = '/^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})$/';
         if(isset($data['phone'])){
 
@@ -736,7 +769,7 @@ class ContactsService extends AppService
 
         }        
         return false;
-    }
+    }*/
 
     public function checkIfPhoneExist($phone){        
         $obj = Contact::where('phone','=',$phone)
