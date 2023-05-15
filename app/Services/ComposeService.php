@@ -52,8 +52,8 @@ class ComposeService extends AppService
 
         $scheduleShow = $request->input('scheduleShow');
         if($scheduleShow){
-            $rules['scheduleDate'] = 'required|after:'.date('Y-m-d');            
-            $rules['scheduleDateEnd'] = 'required|after:'.date('Y-m-d');
+            $rules['scheduleDate'] = 'required';            
+            $rules['scheduleDateEnd'] = 'required';
             $rules['activeHours'] = 'required';
         }
         Validator::make($request->all(),$rules)->validate();
@@ -73,7 +73,31 @@ class ComposeService extends AppService
                 
             DB::beginTransaction();
             try {
-            
+                
+		if ($scheduleShow) {
+                    if (empty($time_zone)) $time_zone = 'America/Chicago';
+                    $start_time = $request->input('scheduleDate');
+                    $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
+	            if (!$this->isValidDate($start_time)) {
+	                $start_time = $date->format('Y-m-d H:i:s');
+                    }
+                    $start_time_utc = $this->getGMTTime($start_time, $time_zone);
+                    $stop_time = $request->input('scheduleDateEnd');
+                    if (!$this->isValidDate($stop_time)) {
+                        $stop_time = '0000-00-00 00:00:00';
+                        $stop_time_utc = '0000-00-00 00:00:00';
+                    } else {
+                        $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
+                    }
+                    $active_hour = $request->input('activeHour');
+		} else {
+		   $start_time = date('Y-m-d H:i:s');
+		   $stop_time = '0000-00-00 00:00:00';
+		   $start_time_utc = date('Y-m-d H:i:s');
+		   $stop_time_utc = '0000-00-00 00:00:00';
+		   $active_hour = '';
+		}
+                
                 $scheduleId = $this->genScheduleId();
                 $schedule = new Schedule;
                 $schedule->id = $scheduleId;
@@ -81,10 +105,12 @@ class ComposeService extends AppService
                 $schedule->sms_from = $request->input('from');
                 $schedule->sms_text = $request->input('message');
                 $schedule->time_zone = $scheduleShow ? $time_zone : '';
-                $schedule->start_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDate'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
-                $schedule->active_hour = $scheduleShow ? $request->input('activeHour') : '000000001111111111000000';
-                $schedule->stop_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDateEnd'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
-                $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
+                $schedule->start_time = $start_time;
+                $schedule->start_time_utc = $start_time_utc;
+                $schedule->active_hour = $active_hour;
+                $schedule->stop_time = $stop_time;
+                $schedule->stop_time_utc = $stop_time_utc;
+                $schedule->next_fetch_time = date('Y-m-d H:i:s');
                 $schedule->is_schedule = $scheduleShow ? '1' : '0';
                 $schedule->is_repeat = '0';
                 $schedule->status = config('dashboard_constant.PENDING');
@@ -152,8 +178,10 @@ class ComposeService extends AppService
         $schedule->time_zone = '';
         $schedule->num_contacts = 1;
         $schedule->start_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
-        $schedule->active_hour = '000000001111111111000000';
+        $schedule->start_time_utc = date('Y-m-d H:i:s');
+        $schedule->active_hour = '';
         $schedule->stop_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
+        $schedule->stop_time_utc = date('Y-m-d H:i:s');
         $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
         $schedule->is_schedule = '0';    
         $schedule->is_repeat = '0';
@@ -208,15 +236,41 @@ class ComposeService extends AppService
         $commit = true;
         DB::beginTransaction();
         try {
+
+                if ($scheduleShow) {
+                    if (empty($time_zone)) $time_zone = 'America/Chicago';
+                    $start_time = $request->input('scheduleDate');
+                    $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
+                    if (!$this->isValidDate($start_time)) {
+                        $start_time = $date->format('Y-m-d H:i:s');
+                    }
+                    $start_time_utc = $this->getGMTTime($start_time, $time_zone);
+                    $stop_time = $request->input('scheduleDateEnd');
+                    if (!$this->isValidDate($stop_time)) {
+                        $stop_time = '0000-00-00 00:00:00';
+                        $stop_time_utc = '0000-00-00 00:00:00';
+                    } else {
+                        $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
+                    }
+                    $active_hour = $request->input('activeHour');
+                } else {
+                   $start_time = date('Y-m-d H:i:s');
+                   $stop_time = '0000-00-00 00:00:00';
+                   $start_time_utc = date('Y-m-d H:i:s');
+                   $stop_time_utc = '0000-00-00 00:00:00';
+                   $active_hour = '';
+                }
            
             $scheduleId = $id;
             $schedule = Schedule::find($scheduleId);                      
             $schedule->sms_from = $request->input('from');
             $schedule->sms_text = $request->input('message');
             $schedule->time_zone = $scheduleShow ? $time_zone : '';
-            $schedule->start_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDate'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
-            $schedule->active_hour = $scheduleShow ? $request->input('activeHour') : '000000001111111111000000';
-            $schedule->stop_time = $scheduleShow ? $this->getGMTTime($request->input('scheduleDateEnd'), $time_zone) : $this->dateToTimestamp(date('Y-m-d H:i:s'));
+            $schedule->start_time = $start_time; 
+	    $schedule->start_time_utc = $start_time_utc;
+            $schedule->active_hour = $active_hour;
+            $schedule->stop_time = $stop_time;
+	    $schedule->stop_time_utc = $stop_time_utc;
             $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
             $schedule->is_schedule = $scheduleShow ? '1' : '0';            
             $schedule->is_repeat = '0';
@@ -283,6 +337,15 @@ class ComposeService extends AppService
             return false;
         }
         return true;
+    }
+
+    /**
+     * Check valid date
+     */
+    public function isValidDate($date, $format = 'Y-m-d H:i:s')
+    {
+       $d = \DateTime::createFromFormat($format, $date);
+       return $d && $d->format($format) == $date;
     }
 
     /**
