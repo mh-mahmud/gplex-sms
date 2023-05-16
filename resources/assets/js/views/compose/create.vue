@@ -459,17 +459,19 @@ export default {
                     this.compose.to = this.to.value;
                     this.compose.message = this.message;
                     this.compose.scheduleShow = this.scheduleShow;
-                    this.compose.activeHours = this.compose.activeHours.map(Number);
-                    let activeHour = "";
-                    for (var active_hour = 0; active_hour < 24; active_hour++) {
-                        //this.cutStrLength = smsType[sCount];
-                        if(this.compose.activeHours.includes(active_hour)){
-                            activeHour = activeHour + "1";
-                        }else {
-                            activeHour = activeHour + "0";
+                    if(this.scheduleShow){
+                        this.compose.activeHours = this.compose.activeHours.map(Number);
+                        let activeHour = "";
+                        for (var active_hour = 0; active_hour < 24; active_hour++) {
+                            //this.cutStrLength = smsType[sCount];
+                            if(this.compose.activeHours.includes(active_hour)){
+                                activeHour = activeHour + "1";
+                            }else {
+                                activeHour = activeHour + "0";
+                            }
                         }
+                        this.compose.activeHour = activeHour;
                     }
-                    this.compose.activeHour = activeHour;
                     axios.post('api/compose-create', this.compose).then((res) => {
                         commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
                         if (res.data.response_msg.type == 'success') {
