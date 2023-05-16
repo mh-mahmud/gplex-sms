@@ -272,7 +272,7 @@
                                                                 <li v-if="contactData.suite" class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
                                                                 <li v-if="contactData.city" class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
                                                                 <li v-if="contactData.state" class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
-                                                                <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">zip</a></li>
+                                                                <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">CPAS (ZIP)</a></li>
 
                                                                 <li v-if="contactData.custom_0" class="list-group-item" @click.prevent="addContactItem('custom_0')"><a href="#">{{ settings.custom_0_name }}</a></li>
                                                                 <li v-if="contactData.custom_1" class="list-group-item" @click.prevent="addContactItem('custom_1')"><a href="#">{{ settings.custom_1_name }}</a></li>
@@ -376,7 +376,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Zip</td>
+                                                        <td>CPAS (ZIP)</td>
                                                         <td>
                                                             <input :data-vv-as="contactData.zip" name="zip"
                                                                    v-model="contactData.zip" type="text"
