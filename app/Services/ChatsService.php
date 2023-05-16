@@ -26,7 +26,7 @@ class ChatsService extends AppService {
 
         $allData = [];
         foreach ($data as $datum){
-            $uniqueData = DB::select("select ls.log_time, callid, SUBSTRING(ls.sms_text, 1, 15) AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
+            $uniqueData = DB::select("select ls.log_time, callid, ls.sms_text AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
             $allData[$datum->phone] = (object) array_merge((array) $datum, (array) $uniqueData[0]);
 
         }
@@ -45,7 +45,7 @@ class ChatsService extends AppService {
 
         $allData = [];
         foreach ($data as $datum){
-            $uniqueData = DB::select("select ls.log_time, callid, SUBSTRING(ls.sms_text, 1, 15) AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
+            $uniqueData = DB::select("select ls.log_time, callid, ls.sms_text AS sms_text, ls.status,ls.direction from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
             $allData[$datum->phone] = (object) array_merge((array) $datum, (array) $uniqueData[0]);
 
         }

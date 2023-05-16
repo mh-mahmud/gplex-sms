@@ -111,7 +111,7 @@
                                                                     {{ item.last_name }} </strong>
                                                                 <small v-if="item.sms_text">{{
                                                                     item.sms_text.substr(0, 15)
-                                                                    }}
+                                                                    }} ...
                                                                 </small>
                                                                 <small :id="'serving-' + key" class="serving"
                                                                        style="display: none"><span class="text-right"
@@ -168,11 +168,6 @@
 
                                                 <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                                                     <div class="g-chat-main">
-                                                        <!-- <div class="text-center">
-                                                          <small class="text-white">
-                                                            Feb 22, 2023
-                                                          </small>
-                                                        </div> -->
                                                         <div class=""
                                                              :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
                                                             <div class="chat-msg">
@@ -198,24 +193,6 @@
 
                                                 </div>
 
-                                                <!-- show user this instant message -->
-                                                <!--                                                <div id="content-2" class="content active">-->
-                                                <!--                                                    <div class="g-chat-main" v-if="instantSmsData.text">-->
-                                                <!--                                                        <div class="chat-msg-content">-->
-                                                <!--                                                            <div class="chat-msg">-->
-                                                <!--                                                                {{ instantSmsData.text }}-->
-                                                <!--                                                                <time datetime="6:00">{{-->
-                                                <!--                                                                    instantSmsData.timesend-->
-                                                <!--                                                                    }}-->
-                                                <!--                                                                </time>-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                            <div class="chat-msg-image">-->
-                                                <!--                                                                <img :src="imageUrl" alt="">-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
-
                                             </div>
 
 
@@ -229,25 +206,8 @@
                                                 </label>
 
 
-                                                <!--New Contenteditable TextArea-->
-
-                                                <!--                                                <div id="s-msg" class="text-editable tag-item" v-model="message" contenteditable="true">-->
-
-                                                <!--                                                </div>-->
-
-
                                                 <div class="g-chat-message-bottom">
                                                     <div class="g-chat-attachment">
-                                                        <!-- <select v-model="selectedValue" id="template" name="template"
-                                                                class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
-                                                          <option value="" selected>-- Choose Template --</option>
-                                                          <option v-for="(value,key) in templateData"
-                                                                  :value="value.message">
-                                                            {{ value.name }}
-                                                          </option>
-                                                        </select> -->
-
-
                                                         <a href="javascript:void(0)"
                                                            @click.prevent="bindModalData(data)" data-toggle="modal"
                                                            data-target="#template-modal" class="btn btn-sm btn-default"
@@ -1679,7 +1639,6 @@
                 let self = this;
                 if (this.lastUpdate) {
                     axios.get(url).then((res) => {
-                        // console.log(this.openData);
                         if (typeof res.data.lastUpdate !== 'undefined') {
                             let result = res.data.openChat;
                             result = {...result, ...this.openData};
@@ -1689,11 +1648,14 @@
                             let newResult = res.data.openChat;
                             $.each(newResult, function (index, value) {
                                 self.openData[index] = value;
+                                if(self.chatHeadPhone == index){
+                                    self.addCustomerChat(value.sms_text,value.log_time,value.direction);
+                                }
                             });
                         }
                     })
                         .catch(function (error) {
-                            console.log(error.response);
+                            console.log(error);
                         });
                 }
 
@@ -1904,29 +1866,6 @@
                         console.log(error.response);
                     });
             },
-            openChatsView() {
-                let url = `api/open-chats/${this.lastUpdate}`;
-                let self = this;
-                if (this.lastUpdate) {
-                    axios.get(url).then((res) => {
-                        // console.log(this.openData);
-                        if (typeof res.data.lastUpdate !== 'undefined') {
-                            let result = res.data.openChat;
-                            result = {...result, ...this.openData};
-                            this.lastUpdate = res.data.lastUpdate;
-                            this.openData = result;
-                            // console.log(this.openData);
-                            let newResult = res.data.openChat;
-                            $.each(newResult, function (index, value) {
-                                self.openData[index] = value;
-                            });
-                        }
-                    })
-                        .catch(function (error) {
-                            console.log(error.response);
-                        });
-                }
-            },
 
             sendMessage() {
                 let phoneValue;
@@ -1998,12 +1937,11 @@
                                 "num_parts": this.prevSmsData.data[keyName].num_parts,
                                 "status": this.prevSmsData.data[keyName].status,
                                 "ob_status": this.prevSmsData.data[keyName].ob_status,
-                                "direction": this.prevSmsData.data[keyName].direction,
+                                "direction": "O",
                                 "rate": this.prevSmsData.data[keyName].rate,
                                 "bill": this.prevSmsData.data[keyName].bill
                             };
                             currentArrayChat[lastKey] = currenObjChat;
-                            console.log('=============lastkey===========');
                             let result = {...this.chatInfo.data, ...currentArrayChat};
                             this.chatInfo.data = result;
                             // console.log(lastKey);
@@ -2024,7 +1962,7 @@
                                 "num_parts": "",
                                 "status": "",
                                 "ob_status": "",
-                                "direction": "",
+                                "direction": "O",
                                 "rate": "",
                                 "bill": ""
                             };
@@ -2094,29 +2032,41 @@
                 // let currentMessage = currentElement.innerText || currentElement.textContent;
                 let cursorPosition = $("textarea#s-msg").prop('selectionStart');
                 let currentMessage = $('textarea#s-msg').val();
-                console.log(currentMessage);
-                console.log(cursorPosition);
                 currentMessage = currentMessage.substring(0, cursorPosition) + this.contactData[item] + currentMessage.substring(cursorPosition);
-                console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
             },
 
-            // addContactItem(item) {
-            //     let currentElement = document.getElementById('s-msg');
-            //     let mySpan = document.createElement("span");
-            //     mySpan.innerHTML = item;
-            //     mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
-            //     currentElement.appendChild(mySpan);
-            //     // currentElement.appendChild(document.createElement("br")); // add a non-editable line break
-            //     let range = document.createRange();
-            //     range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
-            //     range.collapse(true); // collapse the range to the end
-            //     let sel = window.getSelection();
-            //     sel.removeAllRanges();
-            //     sel.addRange(range); // set the focus to the end of the range
-            //     $('#tag-list').hide();
-            // },
+            addCustomerChat(message,log_time,direction) {
+                console.log(Object.keys(this.prevSmsData.data).length);
+                if (Object.keys(this.prevSmsData.data).length > 0) {
+                    let keyName = Object.keys(this.prevSmsData.data)[0];
+                    let lastKey = Math.floor(Date.now() / 1000);
+                    let currentArrayChat = [];
+                    let currenObjChat = {
+                        "id": this.prevSmsData.data[keyName].id,
+                        "log_time": log_time,
+                        "delivery_time": this.prevSmsData.data[keyName].delivery_time,
+                        "account_id": this.prevSmsData.data[keyName].account_id,
+                        "userid": this.prevSmsData.data[keyName].userid,
+                        "schedule_id": this.prevSmsData.data[keyName].schedule_id,
+                        "callid": this.prevSmsData.data[keyName].callid,
+                        "did": this.prevSmsData.data[keyName].did,
+                        "client_number": this.prevSmsData.data[keyName].client_number,
+                        "sms_text": message,
+                        "num_parts": this.prevSmsData.data[keyName].num_parts,
+                        "status": this.prevSmsData.data[keyName].status,
+                        "ob_status": this.prevSmsData.data[keyName].ob_status,
+                        "direction": direction,
+                        "rate": this.prevSmsData.data[keyName].rate,
+                        "bill": this.prevSmsData.data[keyName].bill
+                    };
+                    currentArrayChat[lastKey] = currenObjChat;
+                    let result = {...this.chatInfo.data, ...currentArrayChat};
+                    this.chatInfo.data = result;
+                }
+
+            },
 
 
         },
