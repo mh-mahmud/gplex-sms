@@ -88,6 +88,11 @@
                                             <th>Last Name</th>
                                             <th>Phone</th>
                                             <th>Company</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Street</th>
+                                            <th>Suite</th>
+                                            <th>CPAS (ZIP)</th>
                                             <!-- <th>Type</th>                                            
                                             <th>Country</th> -->
                                             <th colspan="2">Action</th>
@@ -100,6 +105,12 @@
                                             <td>{{ contact.last_name }}</td>
                                             <td>{{ contact.phone }}</td>
                                             <td>{{ contact.company }}</td>
+
+                                            <td>{{ contact.city }}</td>
+                                            <td>{{ contact.state }}</td>
+                                            <td>{{ contact.street }}</td>
+                                            <td>{{ contact.suite }}</td>
+                                            <td>{{ contact.zip }}</td>
                                             <!-- <td>{{ data.phoneType[contact.phone_type] }}</td>                                            
                                             <td>{{ contact.country }}</td> -->
                                             <td> 
