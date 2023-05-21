@@ -59,7 +59,8 @@
                                                              class="g-chat-notes" data-toggle="modal"
                                                              data-target="#disposition-modal">
 
-                                                            <small v-if="chatHeadPhone"><span v-if="totaldisposition != 0">{{totaldisposition}}</span> Note</small>
+                                                            <small v-if="chatHeadPhone">Note <span v-if="totaldisposition != 0">{{totaldisposition}}</span></small>
+
 
                                                         </div>
                                                     </div>
@@ -110,7 +111,7 @@
                                                                     {{ item.last_name }} </strong>
                                                                 <small v-if="item.sms_text">{{
                                                                     item.sms_text.substr(0, 15)
-                                                                    }}
+                                                                    }} ...
                                                                 </small>
                                                                 <small :id="'serving-' + key" class="serving"
                                                                        style="display: none"><span class="text-right"
@@ -167,11 +168,6 @@
 
                                                 <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                                                     <div class="g-chat-main">
-                                                        <!-- <div class="text-center">
-                                                          <small class="text-white">
-                                                            Feb 22, 2023
-                                                          </small>
-                                                        </div> -->
                                                         <div class=""
                                                              :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
                                                             <div class="chat-msg">
@@ -183,7 +179,7 @@
                                                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
                                                                   </span>
                                                                     {{
-                                                                    msg.log_time | formatDate("ddd, MMM DD, YYYY HH:mm A")
+                                                                    msg.log_time | formatDate("ddd, MMM DD, YYYY hh:mm A")
                                                                     }}
                                                                 </time>
                                                             </div>
@@ -196,24 +192,6 @@
 
 
                                                 </div>
-
-                                                <!-- show user this instant message -->
-                                                <!--                                                <div id="content-2" class="content active">-->
-                                                <!--                                                    <div class="g-chat-main" v-if="instantSmsData.text">-->
-                                                <!--                                                        <div class="chat-msg-content">-->
-                                                <!--                                                            <div class="chat-msg">-->
-                                                <!--                                                                {{ instantSmsData.text }}-->
-                                                <!--                                                                <time datetime="6:00">{{-->
-                                                <!--                                                                    instantSmsData.timesend-->
-                                                <!--                                                                    }}-->
-                                                <!--                                                                </time>-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                            <div class="chat-msg-image">-->
-                                                <!--                                                                <img :src="imageUrl" alt="">-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
 
                                             </div>
 
@@ -228,25 +206,8 @@
                                                 </label>
 
 
-                                                <!--New Contenteditable TextArea-->
-
-                                                <!--                                                <div id="s-msg" class="text-editable tag-item" v-model="message" contenteditable="true">-->
-
-                                                <!--                                                </div>-->
-
-
                                                 <div class="g-chat-message-bottom">
                                                     <div class="g-chat-attachment">
-                                                        <!-- <select v-model="selectedValue" id="template" name="template"
-                                                                class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
-                                                          <option value="" selected>-- Choose Template --</option>
-                                                          <option v-for="(value,key) in templateData"
-                                                                  :value="value.message">
-                                                            {{ value.name }}
-                                                          </option>
-                                                        </select> -->
-
-
                                                         <a href="javascript:void(0)"
                                                            @click.prevent="bindModalData(data)" data-toggle="modal"
                                                            data-target="#template-modal" class="btn btn-sm btn-default"
@@ -261,70 +222,28 @@
                                                              data-placement="top" title="Insert tag"
                                                              class="g-tooltip-area"
                                                              data-original-title="Insert tag">
-                                                            <button @click="showTag()" id="btn-insert-tag"
-                                                                    title="Insert tag" type="button"
-                                                                    class="btn btn-sm btn-default">
-                                                                <i class="bi bi-tags-fill"></i>
+                                                            <button @click="showTag()" id="btn-insert-tag" title="Insert tag" type="button" class="btn btn-sm btn-default"><i class="bi bi-tags-fill"></i>
                                                             </button>
-                                                            <ul id="tag-list" class="list-group tag-list"
-                                                                style="display: none">
-                                                                <li v-if="contactData.first_name"
-                                                                    class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('first_name')"
-                                                                        href="#">First name</a></li>
-                                                                <li v-if="contactData.last_name"
-                                                                    class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('last_name')"
-                                                                        href="#">Last name</a></li>
-                                                                <li v-if="contactData.company" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem('company')"
-                                                                       href="#">Company</a></li>
-                                                                <li v-if="contactData.street" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('street')"
-                                                                        href="#">Street</a></li>
-                                                                <li v-if="contactData.suite" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('suite')"
-                                                                        href="#">Suite</a></li>
-                                                                <li v-if="contactData.city" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('city')"
-                                                                        href="#">City</a></li>
-                                                                <li v-if="contactData.state" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('state')"
-                                                                        href="#">State</a></li>
-                                                                <li v-if="contactData.zip" class="list-group-item"><a
-                                                                        @click.prevent="addContactItem('zip')" href="#">zip</a>
-                                                                </li>
+                                                            <ul id="tag-list" class="list-group tag-list" style="display: none">
+                                                                <li v-if="contactData.first_name" class="list-group-item" @click.prevent="addContactItem('first_name')"><a href="#">First name</a></li>
+                                                                <li v-if="contactData.last_name" class="list-group-item" @click.prevent="addContactItem('last_name')"><a href="#">Last name</a></li>
+                                                                <li v-if="contactData.company" class="list-group-item" @click.prevent="addContactItem('company')"><a href="#">Company</a></li>
+                                                                <li v-if="contactData.street" class="list-group-item" @click.prevent="addContactItem('street')"><a href="#">Street</a></li>
+                                                                <li v-if="contactData.suite" class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
+                                                                <li v-if="contactData.city" class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
+                                                                <li v-if="contactData.state" class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
+                                                                <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">CPAS (ZIP)</a></li>
 
-                                                                <li v-if="contactData.custom_0" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_0)"
-                                                                       href="#">{{ settings.custom_0_name }}</a></li>
-                                                                <li v-if="contactData.custom_1" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_1)"
-                                                                       href="#">{{ settings.custom_1_name }}</a></li>
-                                                                <li v-if="contactData.custom_2" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_2)"
-                                                                       href="#">{{ settings.custom_2_name }}</a></li>
-                                                                <li v-if="contactData.custom_3" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_3)"
-                                                                       href="#">{{ settings.custom_3_name }}</a></li>
-                                                                <li v-if="contactData.custom_4" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_4)"
-                                                                       href="#">{{ settings.custom_4_name }}</a></li>
-                                                                <li v-if="contactData.custom_5" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_5)"
-                                                                       href="#">{{ settings.custom_5_name }}</a></li>
-                                                                <li v-if="contactData.custom_6" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_6)"
-                                                                       href="#">{{ settings.custom_6_name }}</a></li>
-                                                                <li v-if="contactData.custom_7" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_7)"
-                                                                       href="#">{{ settings.custom_7_name }}</a></li>
-                                                                <li v-if="contactData.custom_8" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_8)"
-                                                                       href="#">{{ settings.custom_8_name }}</a></li>
-                                                                <li v-if="contactData.custom_9" class="list-group-item">
-                                                                    <a @click.prevent="addContactItem(contactData.custom_9)"
-                                                                       href="#">{{ settings.custom_9_name }}</a></li>
+                                                                <li v-if="contactData.custom_0" class="list-group-item" @click.prevent="addContactItem('custom_0')"><a href="#">{{ settings.custom_0_name }}</a></li>
+                                                                <li v-if="contactData.custom_1" class="list-group-item" @click.prevent="addContactItem('custom_1')"><a href="#">{{ settings.custom_1_name }}</a></li>
+                                                                <li v-if="contactData.custom_2" class="list-group-item" @click.prevent="addContactItem('custom_2')"><a href="#">{{ settings.custom_2_name }}</a></li>
+                                                                <li v-if="contactData.custom_3" class="list-group-item" @click.prevent="addContactItem('custom_3')"><a href="#">{{ settings.custom_3_name }}</a></li>
+                                                                <li v-if="contactData.custom_4" class="list-group-item" @click.prevent="addContactItem('custom_4')"><a href="#">{{ settings.custom_4_name }}</a></li>
+                                                                <li v-if="contactData.custom_5" class="list-group-item" @click.prevent="addContactItem('custom_5')"><a href="#">{{ settings.custom_5_name }}</a></li>
+                                                                <li v-if="contactData.custom_6" class="list-group-item" @click.prevent="addContactItem('custom_6')"><a href="#">{{ settings.custom_6_name }}</a></li>
+                                                                <li v-if="contactData.custom_7" class="list-group-item" @click.prevent="addContactItem('custom_7')"><a href="#">{{ settings.custom_7_name }}</a></li>
+                                                                <li v-if="contactData.custom_8" class="list-group-item" @click.prevent="addContactItem('custom_8')"><a href="#">{{ settings.custom_8_name }}</a></li>
+                                                                <li v-if="contactData.custom_9" class="list-group-item" @click.prevent="addContactItem('custom_9')"><a href="#">{{ settings.custom_9_name }}</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -417,7 +336,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Zip</td>
+                                                        <td>CPAS (ZIP)</td>
                                                         <td>
                                                             <input :data-vv-as="contactData.zip" name="zip"
                                                                    v-model="contactData.zip" type="text"
@@ -1720,7 +1639,6 @@
                 let self = this;
                 if (this.lastUpdate) {
                     axios.get(url).then((res) => {
-                        // console.log(this.openData);
                         if (typeof res.data.lastUpdate !== 'undefined') {
                             let result = res.data.openChat;
                             result = {...result, ...this.openData};
@@ -1730,11 +1648,14 @@
                             let newResult = res.data.openChat;
                             $.each(newResult, function (index, value) {
                                 self.openData[index] = value;
+                                if(self.chatHeadPhone == index){
+                                    self.addCustomerChat(value.sms_text,value.log_time,value.direction);
+                                }
                             });
                         }
                     })
                         .catch(function (error) {
-                            console.log(error.response);
+                            console.log(error);
                         });
                 }
 
@@ -1945,29 +1866,6 @@
                         console.log(error.response);
                     });
             },
-            openChatsView() {
-                let url = `api/open-chats/${this.lastUpdate}`;
-                let self = this;
-                if (this.lastUpdate) {
-                    axios.get(url).then((res) => {
-                        // console.log(this.openData);
-                        if (typeof res.data.lastUpdate !== 'undefined') {
-                            let result = res.data.openChat;
-                            result = {...result, ...this.openData};
-                            this.lastUpdate = res.data.lastUpdate;
-                            this.openData = result;
-                            // console.log(this.openData);
-                            let newResult = res.data.openChat;
-                            $.each(newResult, function (index, value) {
-                                self.openData[index] = value;
-                            });
-                        }
-                    })
-                        .catch(function (error) {
-                            console.log(error.response);
-                        });
-                }
-            },
 
             sendMessage() {
                 let phoneValue;
@@ -2018,31 +1916,30 @@
                         const chatBox = document.getElementById("s-msg");
                         chatBox.value = "";
                         this.message = "";
-
-
-                        if (this.prevSmsData.data[0]) {
-                            phoneValue = this.prevSmsData.data[0].client_number;
-                            didValue = this.prevSmsData.data[0].did;
+                        if (Object.keys(this.prevSmsData.data).length > 0) {
+                            let keyName = Object.keys(this.prevSmsData.data)[0];
+                            phoneValue = this.prevSmsData.data[keyName].client_number;
+                            didValue = this.prevSmsData.data[keyName].did;
                             let allchatinfo = this.chatInfo.data;
-                            let lastKey = Object.keys(this.chatInfo.data).length;
+                            let lastKey = Math.floor(Date.now() / 1000);
                             let currentArrayChat = [];
                             let currenObjChat = {
-                                "id": this.prevSmsData.data[0].id,
+                                "id": this.prevSmsData.data[keyName].id,
                                 "log_time": localTime,
-                                "delivery_time": this.prevSmsData.data[0].delivery_time,
-                                "account_id": this.prevSmsData.data[0].account_id,
-                                "userid": this.prevSmsData.data[0].userid,
-                                "schedule_id": this.prevSmsData.data[0].schedule_id,
-                                "callid": this.prevSmsData.data[0].callid,
-                                "did": this.prevSmsData.data[0].did,
-                                "client_number": this.prevSmsData.data[0].client_number,
+                                "delivery_time": this.prevSmsData.data[keyName].delivery_time,
+                                "account_id": this.prevSmsData.data[keyName].account_id,
+                                "userid": this.prevSmsData.data[keyName].userid,
+                                "schedule_id": this.prevSmsData.data[keyName].schedule_id,
+                                "callid": this.prevSmsData.data[keyName].callid,
+                                "did": this.prevSmsData.data[keyName].did,
+                                "client_number": this.prevSmsData.data[keyName].client_number,
                                 "sms_text": smsBoxData,
-                                "num_parts": this.prevSmsData.data[0].num_parts,
-                                "status": this.prevSmsData.data[0].status,
-                                "ob_status": this.prevSmsData.data[0].ob_status,
-                                "direction": this.prevSmsData.data[0].direction,
-                                "rate": this.prevSmsData.data[0].rate,
-                                "bill": this.prevSmsData.data[0].bill
+                                "num_parts": this.prevSmsData.data[keyName].num_parts,
+                                "status": this.prevSmsData.data[keyName].status,
+                                "ob_status": this.prevSmsData.data[keyName].ob_status,
+                                "direction": "O",
+                                "rate": this.prevSmsData.data[keyName].rate,
+                                "bill": this.prevSmsData.data[keyName].bill
                             };
                             currentArrayChat[lastKey] = currenObjChat;
                             let result = {...this.chatInfo.data, ...currentArrayChat};
@@ -2065,7 +1962,7 @@
                                 "num_parts": "",
                                 "status": "",
                                 "ob_status": "",
-                                "direction": "",
+                                "direction": "O",
                                 "rate": "",
                                 "bill": ""
                             };
@@ -2087,6 +1984,7 @@
                 })
                     .catch(function (error) {
                         console.log("All end from now");
+                        console.log(error);
                         /*vm.validationErrors = error.response.data;
                         commonLib.unblockUI(".m-content");*/
                     });
@@ -2134,29 +2032,41 @@
                 // let currentMessage = currentElement.innerText || currentElement.textContent;
                 let cursorPosition = $("textarea#s-msg").prop('selectionStart');
                 let currentMessage = $('textarea#s-msg').val();
-                console.log(currentMessage);
-                console.log(cursorPosition);
                 currentMessage = currentMessage.substring(0, cursorPosition) + this.contactData[item] + currentMessage.substring(cursorPosition);
-                console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
             },
 
-            // addContactItem(item) {
-            //     let currentElement = document.getElementById('s-msg');
-            //     let mySpan = document.createElement("span");
-            //     mySpan.innerHTML = item;
-            //     mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
-            //     currentElement.appendChild(mySpan);
-            //     // currentElement.appendChild(document.createElement("br")); // add a non-editable line break
-            //     let range = document.createRange();
-            //     range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
-            //     range.collapse(true); // collapse the range to the end
-            //     let sel = window.getSelection();
-            //     sel.removeAllRanges();
-            //     sel.addRange(range); // set the focus to the end of the range
-            //     $('#tag-list').hide();
-            // },
+            addCustomerChat(message,log_time,direction) {
+                console.log(Object.keys(this.prevSmsData.data).length);
+                if (Object.keys(this.prevSmsData.data).length > 0) {
+                    let keyName = Object.keys(this.prevSmsData.data)[0];
+                    let lastKey = Math.floor(Date.now() / 1000);
+                    let currentArrayChat = [];
+                    let currenObjChat = {
+                        "id": this.prevSmsData.data[keyName].id,
+                        "log_time": log_time,
+                        "delivery_time": this.prevSmsData.data[keyName].delivery_time,
+                        "account_id": this.prevSmsData.data[keyName].account_id,
+                        "userid": this.prevSmsData.data[keyName].userid,
+                        "schedule_id": this.prevSmsData.data[keyName].schedule_id,
+                        "callid": this.prevSmsData.data[keyName].callid,
+                        "did": this.prevSmsData.data[keyName].did,
+                        "client_number": this.prevSmsData.data[keyName].client_number,
+                        "sms_text": message,
+                        "num_parts": this.prevSmsData.data[keyName].num_parts,
+                        "status": this.prevSmsData.data[keyName].status,
+                        "ob_status": this.prevSmsData.data[keyName].ob_status,
+                        "direction": direction,
+                        "rate": this.prevSmsData.data[keyName].rate,
+                        "bill": this.prevSmsData.data[keyName].bill
+                    };
+                    currentArrayChat[lastKey] = currenObjChat;
+                    let result = {...this.chatInfo.data, ...currentArrayChat};
+                    this.chatInfo.data = result;
+                }
+
+            },
 
 
         },

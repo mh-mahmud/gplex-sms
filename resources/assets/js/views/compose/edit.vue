@@ -60,21 +60,53 @@
                                     </div>    
                                 </div>
                                 <a href="#" @click.prevent="scheduleShow = !scheduleShow"><span><label style="cursor:pointer;">{{scheduleShow ? 'Cancel Schedule' : 'Schedule Message'}}</label></span></a>
-                                <div v-show="scheduleShow">                                
-                                    <div class="form-group m-form__group row" :class="errors.has('scheduleDate') || validationErrors.scheduleDate ? 'has-error' : ''">
-                                        <label class="col-lg-3 col-form-label"  for="scheduleDate">Schedule:<span class="required">*</span></label>
+                                <div v-show="scheduleShow">
+                                    <div class="form-group m-form__group row"
+                                         :class="errors.has('scheduleDate') || validationErrors.scheduleDate ? 'has-error' : ''">
+                                        <label class="col-lg-3 col-form-label">Schedule:<span
+                                                class="required">*</span></label>
                                         <div class="col-lg-6">
-                                            <date-picker class="form-control m-input date-time-picker" data-vv-as="Schedule" name="scheduleDate" v-validate="this.scheduleShow ? 'required' :''" v-model="compose.scheduleDate" :config="dateOptions" autocomplete="off"></date-picker>
-                                            <span class="m-form__help" v-if="errors.has('scheduleDate') || validationErrors.scheduleDate">
-                                                {{ errors.first('scheduleDate') || validationErrors.scheduleDate[0] }}
-                                            </span>
-                                        </div>    
+                                            <div class="input-daterange form-group input-group" :class="errors.has('scheduleDate') || errors.has('scheduleDateEnd') ? 'has-error' : ''" id="m_datepicker">
+                                                <date-picker data-vv-as="Schedule Date"  name="scheduleDate" v-validate="this.scheduleShow ? 'required' :''" v-model="compose.scheduleDate" :config="dateOptions"
+                                                             class="form-control m-input date-time-picker" placeholder="Start" autocomplete="off"></date-picker>
+                                                <span class="m-form__help" v-if="errors.has('start_time')">
+                                                        {{ errors.first('scheduleDate')}}
+                                                    </span>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+                                                </div>
+                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd" v-validate="this.scheduleShow ? 'required' :''"  v-model="compose.scheduleDateEnd" :config="dateOptions"
+                                                             class="form-control m-input date-time-picker" placeholder="End" autocomplete="off"></date-picker>
+                                                <span class="m-form__help" v-if="errors.has('end_time')">
+                                                        {{ errors.first('scheduleDateEnd')}}
+                                                    </span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group m-form__group row">
-                                        <label class="col-lg-3 col-form-label"  for="time_zone">Time Zone:</label>
+                                        <label class="col-lg-3 col-form-label"  for="activeHours">Active Hours:<span class="required">*</span></label>
+                                        <div class="col-lg-9">
+                                            <div class="md-checkbox-inline">
+                                                <b-form-checkbox-group
+                                                        id="activeHours"
+                                                        v-model="compose.activeHours"
+                                                        :options="data.activeHours"
+                                                        name="activeHours[]"
+                                                >
+                                                </b-form-checkbox-group>
+                                            </div>
+                                            <span class="m-form__help" v-if="errors.has('activeHour') || validationErrors.activeHour">
+                                            {{ errors.first('activeHour') || validationErrors.activeHour[0] }}
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group m-form__group row">
+                                        <label class="col-lg-3 col-form-label" for="time_zone">Time Zone:</label>
                                         <div class="col-lg-6">
-                                            <v-select data-vv-as="Time Zone" name="time_zone" :options="data.time_zone" v-model="compose.time_zone" @keydown.enter.native="preventOnEnter($event)"></v-select>                                        
-                                        </div>    
+                                            <select data-vv-as="Time Zone" name="time_zone" v-model="compose.time_zone" class="form-control m-input" @keydown.enter.native="preventOnEnter($event)">
+                                                <option v-for="(item, index) in data.time_zone" :value="item" :key="index">{{item}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -224,13 +256,28 @@ export default {
     },
     setData () {
 
-        var array1 = this.$processTagifySelectData(this.data.data.groupContacts,'name','id');        
+        var array1 = this.$processTagifySelectData(this.data.data.groupContacts,'name','id');
         var array2 = this.$processTagifySelectData(this.data.data.contacts,'phone','phone');
         this.initialData = array1.concat(array2);
         this.compose.time_zone = this.data.data.time_zone;
-        this.message = this.data.data.sms_text;        
+        this.message = this.data.data.sms_text;
         this.compose.from = this.data.data.sms_from;
-        this.compose.scheduleDate = this.data.data.first_send_time;
+        this.compose.scheduleDate = this.data.data.start_time;
+        this.compose.scheduleDateEnd = this.data.data.stop_time;
+        let active_Hours = this.data.data.active_hour.split('');
+        let activeHour = [];
+        let serNumber = 0;
+        for (var active_hour = 0; active_hour < 24; active_hour++) {
+            //this.cutStrLength = smsType[sCount];
+            if(active_Hours[active_hour] != 0 && active_hour.toString().length == 2){
+                activeHour[serNumber] = ''+active_hour+'';
+                serNumber++;
+            }else if(active_Hours[active_hour] != 0){
+                activeHour[serNumber] = '0'+active_hour+'';
+                serNumber++
+            }
+        }
+        this.compose.activeHours = activeHour;
     },
     getDetails(id){
         var url = 'api/compose-detail/'+id;
@@ -247,7 +294,7 @@ export default {
     },
     // Add/Update Contact
     composeUpdate() {
-        this.$validator.validateAll().then((result) => { 
+        this.$validator.validateAll().then((result) => {
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     // commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
@@ -256,6 +303,17 @@ export default {
                 this.compose.to = this.to.value;
                 this.compose.message = this.message;
                 this.compose.scheduleShow = this.scheduleShow;
+                this.compose.activeHours = this.compose.activeHours.map(Number);
+                let activeHour = "";
+                for (var active_hour = 0; active_hour < 24; active_hour++) {
+                    //this.cutStrLength = smsType[sCount];
+                    if(this.compose.activeHours.includes(active_hour)){
+                        activeHour = activeHour + "1";
+                    }else {
+                        activeHour = activeHour + "0";
+                    }
+                }
+                this.compose.activeHour = activeHour;
                 axios.post('api/compose-update/'+this.$route.params.id, this.compose).then((res) => 
                 {
                     commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);

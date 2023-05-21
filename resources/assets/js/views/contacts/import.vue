@@ -111,6 +111,7 @@ export default {
       file: {},
       tableShow: false,
       validationErrors: {},
+      groupID: {},
       data:{}
     };
   },
@@ -167,6 +168,8 @@ export default {
         axios.get(url).then((res) => 
         { 
             this.data = res.data;
+            this.groupID = this.data.group_id;
+            console.log(this.groupID);
             this.$setDocumentTitle(this.data.title);
         })
         .catch(function (error) {
@@ -178,7 +181,14 @@ export default {
     importContact() {
 
         this.$validator.validateAll().then((result) => {
-            console.log(result);            
+
+            // searching group id
+            let group_id = null;
+            if(this.$route.query.groupId) {
+                group_id = this.$route.query.groupId;
+            }
+            console.log(group_id);
+
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
@@ -190,6 +200,7 @@ export default {
                     'originalFilename': this.responseData.originalFilename,
                     'excludeFirstRow': $('#excludeFirstRow').is(":checked"),
                     'matchColumns': $('#matchColumns').is(":checked"),
+                    'groupID': group_id,
                 };
                 console.log(formData);
 
@@ -214,14 +225,23 @@ export default {
 
     // Upload Contact
     uploadContact() {
+
         this.$validator.validateAll().then((result) => { 
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
                 }
+
+                let group_id = null;
+                if(this.$route.query.groupId) {
+                    group_id = this.$route.query.groupId;
+                }
+                console.log(group_id);
+
                 var vm = this;
                 let formData = new FormData();
                 formData.append('file', this.file);
+                formData.append('group_id', group_id);
 
                 axios.post("api/contact-import",formData,
                     {

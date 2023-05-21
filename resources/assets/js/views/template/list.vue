@@ -24,7 +24,8 @@
                                         <tr role="row" style="text-align: center">                                            
                                             <th>Ser.</th>
                                             <th>Name</th>
-                                            <th>Message</th>                                            
+                                            <th>Message</th>
+                                            <th>Updated at</th>
                                             <th colspan="2">Action</th>
                                         </tr>
                                     </thead>
@@ -32,7 +33,8 @@
                                         <tr v-for="(template, index) in data.data" v-bind:key="template.id">
                                             <td>{{index+1}}</td>
                                             <td>{{ template.name }}</td>
-                                            <td style="word-break: break-all" v-html="template.message"></td>                                            
+                                            <td style="word-break: break-all" v-html="template.message"></td>
+                                            <td>{{template.updated_at}}</td>                                            
                                             <td> 
                                                 <!-- <router-link href="#"  v-bind:to="{name: 'ContactDetail', params: {id:contact.id}}" class="text-info" data-toggle="m-tooltip" title="Detail">
                                                     <i class='fa fa-folder'></i>

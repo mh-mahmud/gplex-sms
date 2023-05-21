@@ -284,13 +284,10 @@ class SchedulesService extends AppService
      * @param int $id
      * @param string $status 
      */
-    public function changeScheduleStatus($log_time, $account_id, $did, $client_number, $callid, $status){
-        
-        $res = Log::where('log_time',$log_time)
-                    ->where('account_id',$account_id)
-                    ->where('did',$did)
-                    ->where('client_number',$client_number)
-                    ->where('callid',$callid)
+    public function changeScheduleStatus($scheduleId, $status){
+        $this->getAccountId();
+        $res = Schedule::where('id',$scheduleId)
+                    ->where('account_id',$this->getAccountId())
                     ->update(['status' => $status]);
         if($res){
             $this->AuditLogService->createLog(array('status' => $status), 'U');

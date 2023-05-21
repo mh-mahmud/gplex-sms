@@ -194,15 +194,14 @@ class ContactController extends Controller
 
     public function postContactImport(Request $request)
     {
-        $data = $this->Service->import($request);        
+        $data = $this->Service->import($request);
         $responseMsg = $this->Service->processControllerResponseWithData($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')], $data[config('msg_label.MSG_DATA')]);
-        
-        return response()->json($responseMsg);  
+        return response()->json($responseMsg);
     }
 
     public function postContactImportCreate(Request $request)
     {
-        $data = $this->Service->importCreate($request);         
+        $data = $this->Service->importCreate($request);
         $responseMsg = $this->Service->processControllerResponseWithData($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')], $data[config('msg_label.MSG_DATA')]);
         
         return response()->json($responseMsg);    
@@ -412,7 +411,6 @@ class ContactController extends Controller
     // -- code for contact settings
     public function createInitSettings()
     {
-        dd("Hello");
         $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
         $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
         $layoutData['title'] = 'Contact Settings Page | '.config("app.name");

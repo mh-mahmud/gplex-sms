@@ -31,7 +31,7 @@ class GroupService extends AppService
 
         $per_page = (isset($queryParam['per_page']) && !empty($queryParam['per_page']) && $queryParam['per_page']!='undefined') ? $queryParam['per_page'] : config('dashboard_constant.PAGINATION_LIMIT');
 
-        $data = Group::where('account_id','=', $this->getAccountId())->orderBy('created_at', 'DESC')->paginate($per_page); 
+        $data = Group::where('account_id','=', $this->getAccountId())->orderBy('created_at', 'DESC')->paginate($per_page);
         return $this->paginationDataFormat($data->toArray());
     }
 

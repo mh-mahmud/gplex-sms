@@ -60,8 +60,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/contact-list-modal-filter/{id}', 'ContactController@getContactListModalFilter');
     Route::get('/contact-list-modal-filter-selectall/{id}', 'ContactController@getContactListModalFilterSelectAll');
     Route::get('/contact-group-list/{id}', 'ContactController@getContactListByGroup');
+
     Route::get('/contact-import', 'ContactController@getContactImport');
+    Route::get('/contact-import/{id}', 'ContactController@getContactImport');
+
     Route::post('/contact-import', 'ContactController@postContactImport');
+    Route::post('/contact-import/{id}', 'ContactController@postContactImport');
+
     Route::post('/contact-import-create', 'ContactController@postContactImportCreate');
     Route::get('/contact-country-list', 'ContactController@getCountries');
     Route::get('/country-phone-code/{country}', 'ContactController@getCountryPhoneCode');
@@ -70,7 +75,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::delete('/contact-delete/{id}/{group_id}', 'ContactController@postDeleteContactFromGroup');
     // Schedule
     Route::get('/schedule-detail/{id}', 'ScheduleController@getScheduleDetail');
-    Route::get('/schedule-change-status/{log_time}/{account_id}/{did}/{client_number}/{callid}/{status}', 'ScheduleController@getScheduleChangeStatus');
+    Route::get('/schedule-change-status/{scheduleId}/{status}', 'ScheduleController@getScheduleChangeStatus');
     // Outbound
     Route::get('/outbound-list', 'OutboundController@getList');
     // Inbound

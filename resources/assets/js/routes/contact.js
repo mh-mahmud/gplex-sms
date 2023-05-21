@@ -14,6 +14,7 @@ export default [
     {name: 'ContactCreate', path: '/contact-create', component: ContactCreate},
     {name: 'ContactEdit', path: '/contact-edit//:id', component: ContactEdit},
     {name: 'ContactImport', path: '/contact-import/', component: ContactImport},
+    {name: 'ContactImport', path: '/contact-import/:id', component: ContactImport},
     {name: 'ContactSettings', path: '/contact-settings/', component: ContactSettings},
 
 ];

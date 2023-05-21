@@ -539,9 +539,10 @@ class ContactsService extends AppService
                 "phone" => "Phone",
                 "company" => "Company",
                 "street" => "Street",
+                "state" => "State",
                 "suite" => "Suite",
                 "city" => "City",
-                "zip" => "Zip",
+                "zip" => "CPAS (ZIP)",
             );
 
             $settings = $this->getAllSettings();
@@ -558,6 +559,7 @@ class ContactsService extends AppService
             }
             $data['contacts'] = $ListArray;
             $data['maxColumns'] = $maxColumns;
+            $data['group_id'] = !empty($request->group_id) ? $request->group_id : null;
 
             return $this->processServiceResponse(true, "", $data);
 
@@ -576,8 +578,12 @@ class ContactsService extends AppService
         
         foreach($array as $val) { 
             if (!in_array($val[$key], $key_array)) { 
-                $key_array[$i] = $val[$key]; 
-                $temp_array[$i] = $val; 
+                $key_array[$i] = $val[$key];
+                $temp_array[$i] = $val;
+                if(strlen($temp_array[$i]['phone'])==10) {
+                    $temp_array[$i]['phone'] = '1'.$temp_array[$i]['phone'];
+                }
+                //dd($temp_array[$i]);
             } 
             $i++; 
         } 
@@ -616,7 +622,7 @@ class ContactsService extends AppService
                 if ($header) {
                     $header = false;
                 } else {
-                    $contactArray[] = $csvLine;                    
+                    $contactArray[] = $csvLine;
                 }        
             }
             if(empty($contactArray)){  
@@ -625,26 +631,38 @@ class ContactsService extends AppService
 
             //create group
             $groupId = '';
-            $groupId = $this->insertGroup($originalFilename);
+            $groupId = !empty($request->groupID) ? $request->groupID : $this->insertGroup($originalFilename);
 
-            foreach($contactArray as $key => $value){
+            /*foreach($contactArray as $key => $value){
                 if(count($fieldName) == count($value)){
-                    if($this->validatePhone(array_combine($fieldName, $value))){                        
+                    if($this->validatePhone(array_combine($fieldName, $value))){
                         $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
                         unset($insertArray[$key]['noimport']);                        
                         unset($insertArray[$key-1]['noimport']);
                     }
                 }
+            }*/
+            // new code provided by Masud bhai
+            foreach($contactArray as $key => $value){
+                if(count($fieldName) == count($value)){
+                    if($this->validatePhone(array_combine($fieldName, $value))){
+                        $insertArray[$key] = array_merge($this->getAdditionalFields($groupId),array_combine($fieldName, $value));
+                        $insertArray[$key]['phone'] = str_replace(array('+',' ', '(', '-', ')'), "", $insertArray[$key]['phone']);
+                        if (strlen($insertArray[$key]['phone']) == 10) $insertArray[$key]['phone'] = '1'.$insertArray[$key]['phone'];
+                        unset($insertArray[$key]['noimport']);
+                        unset($insertArray[$key-1]['noimport']);
+                    }
+                }
             }
+
 
             $totalCount = count($contactArray)-1;
             // remove duplicate phone number
             $insertArray = $this->unique_multidim_array($insertArray,'phone');
-            //var_dump($insertArray);
-            // die();              
+         
             // remove file
             if(file_exists($filePath)){
-                @unlink($fileName);                
+                @unlink($fileName);
             }
             // write josn log file
             $josnLogArray['fieldName'] = $fieldName;
@@ -653,9 +671,6 @@ class ContactsService extends AppService
 
             \Storage::disk('local')->put('files/'.$jsonLogPath, json_encode($josnLogArray));
             
-            // var_dump($insertArray);
-            //die();
-            
             if(empty($insertArray)){
                 \DB::table('sms_contact_group')->where('id', $groupId)->delete();         
                 return $this->processServiceResponse(false, "Failed to Import Contacts",[]);
@@ -663,7 +678,12 @@ class ContactsService extends AppService
             // insert contacts
             $status = \DB::table('contacts')->insert($insertArray);            
             if($status){
-                $this->updateGroup($groupId, count($insertArray));
+                if(!empty($request->groupID)) {
+                    $this->updateGroup($groupId, count($insertArray), true);
+                } else {
+                    $this->updateGroup($groupId, count($insertArray), false);
+                }
+                
                 $this->addImportContactGroup($insertArray,$groupId,$this->account_id);
                 return $this->processServiceResponse(true, "Successfully Imported (".count($insertArray).") Contacts out of (".$totalCount.")",['groupId'=> $groupId]);
             }
@@ -693,12 +713,13 @@ class ContactsService extends AppService
         }
     }
 
-    public function validatePhone($data){           
+    /*public function validatePhone($data){
+
         if(isset($data['phone'])){
-            $data['phone'] = trim($data['phone'],'+');            
+            $data['phone'] = trim($data['phone'],'+');
             if(is_numeric($data['phone'])){
-                if(strlen($data['phone'])!=11){                    
-                    return false;                    
+                if(strlen($data['phone'])<10){                    
+                    return false;
                 }
                 if($this->checkIfPhoneExist($data['phone'])){                    
                     return false;
@@ -707,7 +728,48 @@ class ContactsService extends AppService
             }
         }        
         return false;
+    }*/
+
+    function validatePhone($data){
+
+       if(isset($data['phone'])){
+
+          $data['phone'] = str_replace(array('+',' ', '(', '-', ')'), "", $data['phone']);
+          $len = strlen($data['phone']);
+          if (!ctype_digit($data['phone']) || $len < 10 || $len > 11) {
+            return false;
+          }
+
+          $data['phone'] = strlen($data['phone']) == 10 ? '1' . $data['phone'] : $data['phone'];
+          if($this->checkIfPhoneExist($data['phone'])){
+            return false;
+          }
+          return true;
+
+       }
+       return false;
     }
+
+    /*public function validatePhone($data){
+        $pattern = '/^\(?(\d{3})\)?[-\. ]?(\d{3})[-\. ]?(\d{4})$/';
+        if(isset($data['phone'])){
+
+            $data['phone'] = trim($data['phone'],'+');
+            $data['phone'] = ltrim($data['phone'],'1');
+
+            if(!preg_match($pattern, $data['phone'])) {
+              return false;
+            }
+
+            $data['phone'] = 1 . $data['phone'];
+            if($this->checkIfPhoneExist($data['phone'])){                    
+                return false;
+            }
+            return true;
+
+        }        
+        return false;
+    }*/
 
     public function checkIfPhoneExist($phone){        
         $obj = Contact::where('phone','=',$phone)
@@ -723,7 +785,13 @@ class ContactsService extends AppService
      * @param string $groupId
      * @param string $numContacts 
      */
-    public function updateGroup($groupId, $numContacts){
+    public function updateGroup($groupId, $numContacts, $has_prev) {
+        if($has_prev) {
+            $data = Group::where('id', $groupId)->first();
+            if(!empty($data)) {
+                $numContacts = $numContacts + $data->num_contacts;
+            }
+        }
         \DB::table('sms_contact_group')
         ->where('id', $groupId)
         ->limit(1)

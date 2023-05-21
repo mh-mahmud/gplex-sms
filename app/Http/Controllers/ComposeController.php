@@ -36,10 +36,11 @@ class ComposeController extends Controller
         $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_SELECT2","JSP_BOOTSTRAP_DATEPICKER", "JSP_BOOTSTRAP_TAGINPUT"]);    
         $layoutData['templates'] = $this->Service->getTemplates();
         $layoutData['groups'] = $this->Service->getGroups();
-        $layoutData['did'] = $this->Service->getDid();
+        $layoutData['did'] = $this->Service->getAllDid();
         $layoutData['title'] = 'Compose | '.config("app.name");
         $layoutData['user_time_zone'] = $authUser['timezone'];
         $layoutData['time_zone'] = config("time_zone");
+        $layoutData['activeHours'] = config("dashboard_constant.ACTIVE_HOURS");
         $layoutData['sms_text_lengths_ascii'] = config("dashboard_constant.SMS_TEXT_ASCII");
         $layoutData['sms_text_lengths_unicode'] = config("dashboard_constant.SMS_TEXT_UNICODE");
         $layoutData['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");
@@ -95,9 +96,10 @@ class ComposeController extends Controller
         $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_SELECT2","JSP_BOOTSTRAP_DATEPICKER", "JSP_BOOTSTRAP_TAGINPUT"]);
         $layoutData['templates'] = $this->Service->getTemplates();
         $layoutData['groups'] = $this->Service->getGroups();
-        $layoutData['did'] = $this->Service->getDid();
+        $layoutData['did'] = $this->Service->getAllDid();
         $layoutData['title'] = 'Compose | '.config("app.name");
         $layoutData['time_zone'] = config("time_zone");
+        $layoutData['activeHours'] = config("dashboard_constant.ACTIVE_HOURS");
         $layoutData['sms_text_lengths_ascii'] = config("dashboard_constant.SMS_TEXT_ASCII");
         $layoutData['sms_text_lengths_unicode'] = config("dashboard_constant.SMS_TEXT_UNICODE");
         $layoutData['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");

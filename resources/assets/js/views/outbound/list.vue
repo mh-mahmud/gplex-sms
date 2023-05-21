@@ -107,7 +107,8 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(log, index) in data.data" style="text-align: center">                                            
-                                            <td>{{index+1}}</td>
+                                            <!-- <td>{{index+1}}</td> -->
+                                            <td>{{parseInt(data.meta.from) + index}}</td>
                                             <td>{{ log.log_time | formatDate('MM/DD/YYYY hh:mm A') }} </td>                                            
                                             <td>{{ log.did | formatPhone }}</td>
                                             <td>{{ log.first_name }}</td>

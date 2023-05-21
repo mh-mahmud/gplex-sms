@@ -34,6 +34,10 @@
                                                             <td>Schedule Time</td>                
                                                             <td>{{ data.data.start_time | formatDate('DD-MM-YYYY hh:mm A') }}</td>
                                                         </tr>
+                                                        <tr>
+                                                            <td>Schedule Hour</td>
+                                                            <td>{{ compose.activeHours }}</td>
+                                                        </tr>
                                                         <tr>                            
                                                             <td>Time Zone</td>                
                                                             <td>{{data.data.time_zone}}</td>
@@ -91,6 +95,7 @@ export default {
     return {
       user: {},
       data: {},
+      compose: {},
     };
   },
   mounted(){
@@ -114,6 +119,18 @@ export default {
         {
             //console.log(res);
             this.data = res.data;
+            let active_Hours = this.data.data.active_hour.split('');
+            console
+            let activeHour = '';
+            for (var active_hour = 0; active_hour < 24; active_hour++) {
+                //this.cutStrLength = smsType[sCount];
+                if(active_Hours[active_hour] != 0 && active_hour.toString().length == 2){
+                    activeHour = activeHour !='' ? activeHour+','+active_hour+'' : activeHour+''+active_hour+'';
+                }else if(active_Hours[active_hour] != 0){
+                    activeHour =  activeHour !='' ? activeHour+',0'+active_hour+'' : activeHour+'0'+active_hour+'';
+                }
+            }
+            this.compose.activeHours = activeHour;
             this.$setDocumentTitle(res.data.title);
             commonLib.unblockUI(".m-content");
         })
