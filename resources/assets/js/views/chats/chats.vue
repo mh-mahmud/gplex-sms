@@ -13,9 +13,14 @@
                 <h3 class="m-portlet__head-text mb-0">
                   Chats: New Window
                 </h3>
-                <button class="btn btn-sm btn-default" @click="toggleFullScreen">
-                  <i :class="fullScreenIconClass"></i>
-                </button>
+                <div class="btn-group-sm">
+                  <button class="btn btn-sm btn-outline-success" onclick="{window.location.reload()}">
+                    <i class="bi bi-arrow-clockwise"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-success" @click="toggleFullScreen">
+                    <i :class="fullScreenIconClass"></i>
+                  </button>
+                </div>
               </div>
 
 
@@ -38,10 +43,10 @@
                   <div class="g-chat-header">
                     <div class="new-chat-open">
                       <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
-                      <!--                      <div class="search-container">-->
-                      <!--                        <i class="bi bi-search search-icon"></i>-->
-                      <!--                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">-->
-                      <!--                      </div>-->
+                      <div class="search-container">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">
+                      </div>
                     </div>
 
                     <div class="g-open-chat-header">
