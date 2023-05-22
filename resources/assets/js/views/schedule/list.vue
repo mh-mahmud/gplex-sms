@@ -97,7 +97,10 @@
                                             <th>Selected</th>
                                             <th>Sent</th>
                                             <th>Status</th>                                            
-                                            <th colspan="2">Action</th>
+                                            <th>Edit</th>
+                                            <th>Pause</th>
+                                            <th>Detail</th>
+                                            <th>Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -113,11 +116,17 @@
                                                 <router-link href="#"  v-if="schedule.is_schedule=='1'" v-bind:to="{name: 'ComposeEdit', params: {id:schedule.id}}" class="text-info" data-toggle="m-tooltip" title="Edit">
                                                     <i class='fa fa-edit'></i>
                                                 </router-link>
+                                            </td>
+                                            <td>
                                                 <a href="#" @click.prevent="changeStatus(schedule.id,index,'P')" v-if="schedule.status=='A'" class="text-info" data-toggle="m-tooltip" title="Play"><i class="fa fa-play"></i></a>
                                                 <a href="#" @click.prevent="changeStatus(schedule.id,index,'A')" v-if="schedule.status=='P'" class="text-info" data-toggle="m-tooltip" title="Pause"><i class="fa fa-pause"></i></a>
+                                            </td>
+                                            <td>
                                                 <router-link href="#"  v-bind:to="{name: 'ScheduleDetail', params: {id:schedule.id}}" class="text-info" data-toggle="m-tooltip" title="Detail">
                                                     <i class='fa fa-folder'></i>
                                                 </router-link>
+                                            </td>
+                                            <td>
                                                 <a @click.prevent="deleteSchedule(schedule.id,index)"  v-if="schedule.is_schedule=='1'" class="text-danger" href="#" data-toggle="m-tooltip" title="Delete">
                                                     <i class='fa fa-trash'></i>
                                                 </a>
