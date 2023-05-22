@@ -181,6 +181,7 @@
                                                                     {{
                                                                     msg.log_time | formatDate("ddd, MMM DD, YYYY hh:mm A")
                                                                     }}
+                                                                    <span v-if="msg.status == 'Q'" class="pull-right">Schedule</span>
                                                                 </time>
                                                             </div>
                                                             <div class="chat-msg-image">
@@ -1515,7 +1516,7 @@
                 const element = event.target;
                 if (element.scrollHeight - element.scrollTop === element.clientHeight) {
                     // do something when scrolled to the bottom
-                    let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
+                    let lastValue = this.openData[Object.keys(this.openData).pop()].last_text_at;
                     // console.log(lastValue);
                     let url = `api/previous-chats/${lastValue}`;
                     axios.get(url).then((res) => {
