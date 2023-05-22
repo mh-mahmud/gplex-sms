@@ -13,10 +13,16 @@
                                 <h3 class="m-portlet__head-text mb-0">
                                     Chats: New Window
                                 </h3>
-                                <button class="btn btn-sm btn-default" @click="toggleFullScreen">
-                                    <i :class="fullScreenIconClass"></i>
-                                </button>
+                                <div class="btn-group-sm">
+                                    <button class="btn btn-sm btn-outline-success" onclick="{window.location.reload()}">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" @click="toggleFullScreen">
+                                        <i :class="fullScreenIconClass"></i>
+                                    </button>
+                                </div>
                             </div>
+
 
 
                         </div>
@@ -58,6 +64,7 @@
                                                              @click.prevent="bindDispositionData(chatHeadPhone, callid)"
                                                              class="g-chat-notes" data-toggle="modal"
                                                              data-target="#disposition-modal">
+
 
                                                             <small v-if="chatHeadPhone">Note <span v-if="totaldisposition != 0">{{totaldisposition}}</span></small>
 
@@ -113,10 +120,10 @@
                                                                     item.sms_text.substr(0, 15)
                                                                     }} ...
                                                                 </small>
-                                                                <small :id="'serving-' + key" class="serving"
-                                                                       style="display: none"><span class="text-right"
-                                                                                                   style="color: #3cffed;">Serving...</span>
-                                                                </small>
+<!--                                                                <small :id="'serving-' + key" class="serving"-->
+<!--                                                                       style="display: none"><span class="text-right"-->
+<!--                                                                                                   style="color: #3cffed;">Serving...</span>-->
+<!--                                                                </small>-->
                                                             </div>
                                                             <div v-if="item.status == 'U'" :id="'alert-' + key"
                                                                  class=""><span class="text-right"><i
@@ -164,7 +171,7 @@
                                         <div class="g-chat">
 
                                             <div class="g-chat-history" id="g-chat-history"
-                                                 v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
+                                                 v-chat-scroll="{always:false}" @v-chat-scroll-top-reached="scrollAtTop">
 
                                                 <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                                                     <div class="g-chat-main">
@@ -176,6 +183,7 @@
 
                                                                 <time>
                                                                   <span style="font-size:10px" v-if="msg.direction=='O'">
+
                                                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
                                                                   </span>
                                                                     {{
@@ -224,27 +232,66 @@
                                                              class="g-tooltip-area"
                                                              data-original-title="Insert tag">
                                                             <button @click="showTag()" id="btn-insert-tag" title="Insert tag" type="button" class="btn btn-sm btn-default"><i class="bi bi-tags-fill"></i>
+
                                                             </button>
                                                             <ul id="tag-list" class="list-group tag-list" style="display: none">
+
                                                                 <li v-if="contactData.first_name" class="list-group-item" @click.prevent="addContactItem('first_name')"><a href="#">First name</a></li>
+
                                                                 <li v-if="contactData.last_name" class="list-group-item" @click.prevent="addContactItem('last_name')"><a href="#">Last name</a></li>
+
                                                                 <li v-if="contactData.company" class="list-group-item" @click.prevent="addContactItem('company')"><a href="#">Company</a></li>
+
                                                                 <li v-if="contactData.street" class="list-group-item" @click.prevent="addContactItem('street')"><a href="#">Street</a></li>
+
                                                                 <li v-if="contactData.suite" class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
+
                                                                 <li v-if="contactData.city" class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
+
                                                                 <li v-if="contactData.state" class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
+
                                                                 <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">CPAS (ZIP)</a></li>
 
+
                                                                 <li v-if="contactData.custom_0" class="list-group-item" @click.prevent="addContactItem('custom_0')"><a href="#">{{ settings.custom_0_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_1" class="list-group-item" @click.prevent="addContactItem('custom_1')"><a href="#">{{ settings.custom_1_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_2" class="list-group-item" @click.prevent="addContactItem('custom_2')"><a href="#">{{ settings.custom_2_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_3" class="list-group-item" @click.prevent="addContactItem('custom_3')"><a href="#">{{ settings.custom_3_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_4" class="list-group-item" @click.prevent="addContactItem('custom_4')"><a href="#">{{ settings.custom_4_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_5" class="list-group-item" @click.prevent="addContactItem('custom_5')"><a href="#">{{ settings.custom_5_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_6" class="list-group-item" @click.prevent="addContactItem('custom_6')"><a href="#">{{ settings.custom_6_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_7" class="list-group-item" @click.prevent="addContactItem('custom_7')"><a href="#">{{ settings.custom_7_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_8" class="list-group-item" @click.prevent="addContactItem('custom_8')"><a href="#">{{ settings.custom_8_name }}</a></li>
+
+
+
                                                                 <li v-if="contactData.custom_9" class="list-group-item" @click.prevent="addContactItem('custom_9')"><a href="#">{{ settings.custom_9_name }}</a></li>
+
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -477,7 +524,10 @@
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
+
+
     </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -493,10 +543,14 @@
     ::-webkit-scrollbar {
         width: 5px; /* for vertical scrollbars */
         height: auto; /* for horizontal scrollbars */
+
+
+
     }
 
     ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.099);
+
     }
 
     ::-webkit-scrollbar-thumb {
@@ -521,11 +575,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+
     }
 
     .g-chat-area {
         min-height: 65vh;
         background-color: #fafafa;
+
     }
 
     .g-chat-header {
@@ -548,9 +605,17 @@
     }
 
     .g-open-chat-header {
+
         background-color: darken(#fafafa, 5%);
         flex-grow: 1;
         width: 100%;
+
+
+
+
+
+
+
     }
 
     .g-open-chat-h-main {
@@ -566,6 +631,8 @@
         gap: 10px;
         height: 100%;
 
+
+
         img {
             width: 38px;
             height: 38px;
@@ -579,10 +646,12 @@
         justify-content: center;
         gap: 5px;
 
+
         strong {
             line-height: 1.4;
             font-size: 13px;
         }
+
 
         small {
             line-height: 1;
@@ -608,11 +677,20 @@
             transition: all 0.4s ease-in-out;
 
             &:hover {
+
                 background-color: darken(#329e8c, 10%);
             }
         }
 
+
+
+
+
+
+
+
     }
+
 
     .g-chat-count {
         small {
@@ -624,6 +702,15 @@
             vertical-align: middle;
             transition: all 0.4s ease-in-out;
         }
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -637,6 +724,14 @@
     }
 
 
+
+
+
+
+
+
+
+
     /*============================
              Search
       ============================*/
@@ -644,6 +739,9 @@
         position: relative;
         margin-left: auto;
     }
+
+
+
 
     .search-icon {
         position: absolute;
@@ -671,10 +769,23 @@
     .search-container input[type="text"]:focus {
         outline: none;
         border-bottom: 2px solid #329e8c;
+
+
+
+
+
+
     }
 
     .search-container.active .search-icon {
         left: 10px;
+
+
+
+
+
+
+
         color: #329e8c;
     }
 
@@ -683,6 +794,10 @@
         width: 100%;
         margin-left: 10px;
     }
+
+
+
+
 
 
     /*============================
@@ -705,6 +820,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+
             height: calc(100% - 30px);
             overflow-y: auto;
         }
@@ -716,13 +832,21 @@
             transition: all 0.4s ease-in-out;
             color: darken(#ffffff, 25%);
 
+
             &:hover {
                 background-color: #555555;
                 color: #ffffff;
+
+
+
             }
 
         }
     }
+
+
+
+
 
     /*============================
              New Chat Area
@@ -736,6 +860,9 @@
         padding: 13px !important;
         border-bottom: 1px solid #333;
     }
+
+
+
 
     .g-chat-header {
         display: flex;
@@ -763,10 +890,17 @@
     }
 
     .g-open-chat-h-main {
+
+
+
         display: flex;
         align-items: center;
         height: 100%;
         padding-left: 0.3rem;;
+
+
+
+
     }
 
     .g-chat-user-profile {
@@ -774,6 +908,7 @@
         align-items: center;
         gap: 10px;
         height: 100%;
+
 
         img {
             width: 38px;
@@ -789,14 +924,17 @@
         gap: 5px;
 
         strong {
+
             line-height: 1.4;
             font-size: 13px;
         }
+
 
         small {
             line-height: 1;
         }
     }
+
 
     .g-chat-u-meta {
         display: flex;
@@ -819,14 +957,27 @@
             &:hover {
                 background-color: darken(#329e8c, 10%);
             }
+
+
         }
 
     }
+
+
+
+
+
+
+
+
+
 
     .g-chat-user-property {
         margin-left: auto;
         margin-right: 25%;
     }
+
+
 
 
     /*============================
@@ -848,6 +999,9 @@
         transition: all 0.3s ease;
     }
 
+
+
+
     .search-container input[type="text"] {
         width: 0;
         max-width: 0;
@@ -863,10 +1017,23 @@
     .search-container input[type="text"]:focus {
         outline: none;
         border-bottom: 2px solid #329e8c;
+
+
+
+
+
+
     }
 
     .search-container.active .search-icon {
         left: 10px;
+
+
+
+
+
+
+
         color: #329e8c;
     }
 
@@ -875,6 +1042,10 @@
         width: 100%;
         margin-left: 10px;
     }
+
+
+
+
 
 
     /*============================
@@ -909,13 +1080,20 @@
             &:hover {
                 background-color: #555555;
                 color: #ffffff;
+
+
+
             }
 
             &.active {
                 background-color: #b39240;
+
+
+
                 color: #ffffff;
 
                 &:hover {
+
                     color: inherit;
                 }
             }
@@ -942,12 +1120,16 @@
         }
     }
 
+
+
     .g-chat {
         flex: 2;
         width: 100%;
         background-color: #ffffff;
         padding: 1rem;
     }
+
+
 
     .content {
         transition: all 0.4s ease;
@@ -962,6 +1144,12 @@
         opacity: 1;
         visibility: visible;
     }
+
+
+
+
+
+
 
 
     /*============================
@@ -991,12 +1179,25 @@
         strong {
             line-height: 1.2;
             font-size: 0.9rem;
+
+
+
+
+
         }
 
         small {
+
+
             line-height: 1;
         }
+
+
     }
+
+
+
+
 
 
     /*============================
@@ -1004,7 +1205,10 @@
       ============================*/
     .g-chat {
 
+
+
     }
+
 
     .g-chat-history {
         width: auto;
@@ -1046,7 +1250,20 @@
             }
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
 
     .chat-msg-content {
         &.msg-other {
@@ -1065,9 +1282,18 @@
                 min-width: 60%;
 
 
+
+
+
+
+
+
+
+
                 time {
                     font-size: 12px;
                     display: block;
+
                     width: 100%;
                     float: right;
                     clear: both;
@@ -1090,6 +1316,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+
+
     }
 
     .g-chat-attachment {
@@ -1103,6 +1332,11 @@
         label > input[type=file] {
             visibility: hidden;
             width: 0;
+
+
+
+
+
         }
 
         i {
@@ -1121,8 +1355,19 @@
             justify-content: center;
             padding: 7px;
 
+
         }
+
+
     }
+
+
+
+
+
+
+
+
 
 
     /*============================
@@ -1135,9 +1380,14 @@
     }
 
 
+
+
     #open-chat, #close-chat {
         display: none;
     }
+
+
+
 
     #open-chat {
         display: block;
@@ -1152,6 +1402,7 @@
 
     .g-date-picker {
         position: relative;
+
 
         &::before {
             content: "";
@@ -1181,7 +1432,24 @@
             /**
          * @script clear current chat
          * */
+
+
+
+
+
+
         }
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -1204,7 +1472,12 @@
     }
 
     .g-close-box.active {
+
+
+
         display: block;
+
+
     }
 
     /*============================
@@ -1257,9 +1530,34 @@
     .tag-list > li:hover {
         background-color: #329d8b;
 
+
+
+
+
+
+
+
+
         & a {
+
+
+
+
+
+
+
+
+
+
+
+
             color: #ffffff;
         }
+
+
+
+
+
     }
 
     //overwrite rule
@@ -1273,6 +1571,8 @@
     }
 
 
+
+
     /*============================
           New Content Editable
       ============================*/
@@ -1283,6 +1583,28 @@
         padding: 0.5rem;
         border-radius: 5px;
         box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         &:focus-visible {
             outline: 1px solid #329d8b;
@@ -1349,7 +1671,7 @@
             this.fullScreen = this.$refs.fullscreen;
             this.chatsView();
             this.bindCurrentRoute("Chats");
-            this.interval = setInterval(() => this.openChatsView(), 9000);
+            this.interval = setInterval(() => this.openChatsView(), 5000);
 
             const leftItems = document.querySelectorAll('.g-chat-left li');
             const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1525,9 +1847,9 @@
                         result = {...this.openData, ...result};
                         this.openData = result;
                     })
-                    .catch(function (error) {
-                        console.log(error.response);
-                    });
+                        .catch(function (error) {
+                            console.log(error.response);
+                        });
                 }
             },
 
@@ -1547,9 +1869,9 @@
                     console.log(result);
                     this.chatInfo.data = result;
                 })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
             },
 
 
