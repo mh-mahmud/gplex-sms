@@ -1230,8 +1230,9 @@
             border-radius: 0.3rem;
             padding: 0.5rem;
             position: relative;
-            max-width: 86%;
+            max-width: 70%;
             min-width: 60%;
+            width:100%;
 
             time {
                 font-size: 12px;
@@ -1278,8 +1279,9 @@
                 background-color: #e8e8e8;
                 color: #434652;
                 clear: both;
-                max-width: 86%;
+                max-width: 70%;
                 min-width: 60%;
+                width:100%
 
 
 
