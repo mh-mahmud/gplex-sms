@@ -2196,7 +2196,7 @@ export default {
 
   computed: {
     /**
-     *
+     * @mominriyadh
      * @returns {string}
      */
     fullScreenIconClass() {
