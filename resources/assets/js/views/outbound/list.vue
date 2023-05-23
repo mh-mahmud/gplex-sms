@@ -23,7 +23,7 @@
                                 <span class="m-accordion__item-title">Search</span>
                                 <span class="m-accordion__item-mode"></span>    
                             </div>
-                            <b-collapse id="collapse1" class="vue-accordion-body">
+                            <b-collapse visible id="collapse1" class="vue-accordion-body">
                                 
                                 <b-card>
                                     <!-- search form -->
@@ -171,8 +171,8 @@ export default {
         return {
             datepickerOpt:{format: 'MM/DD/Y HH:mm',useCurrent: 'day',showClear: true,showClose: true},
             searchKey: {                
-                'start_time': '',
-                'end_time': '',
+                'start_time': moment().day(-12).format('MM/DD/Y')+" 00:00",
+                'end_time': moment().format('MM/DD/Y')+" 23:59",
                 'did': '',
                 'client': '',
                 'client_name': '',

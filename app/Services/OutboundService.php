@@ -90,7 +90,7 @@ class OutboundService extends AppService
 
         //get last 30 days
         if(!$hasQuery){
-            $startTime = date('Y-m-d', strtotime('today - 3000 days'))." 00:00";
+            $startTime = date('Y-m-d', strtotime('today - 15 days'))." 00:00";
             $endTime = date('Y-m-d')." 23:59";
             $query->whereBetween("log_sms.log_time",[$startTime,$endTime]);
         }else{
