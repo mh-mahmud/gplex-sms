@@ -1071,8 +1071,9 @@
     border-radius: 0.3rem;
     padding: 0.5rem;
     position: relative;
-    max-width: 86%;
+    max-width: 70%;
     min-width: 60%;
+    width: 100%;
 
     time {
       font-size: 12px;
@@ -1106,8 +1107,9 @@
       background-color: #e8e8e8;
       color: #434652;
       clear: both;
-      max-width: 86%;
+      max-width: 70%;
       min-width: 60%;
+      width: 100%;
 
 
       time {
@@ -1652,34 +1654,7 @@ export default {
 
 
     },
-    selectItem: function (index) {
-      // remove active state from previously active item
-      if (this.activeIndex !== -1) {
-        this.$set(this.openData[this.activeIndex], 'isActive', false);
-      }
 
-      // toggle active state of clicked item
-      this.$set(this.openData[index], 'isActive', !this.openData[index].isActive);
-      this.activeIndex = index;
-    },
-    chatsView() {
-      var url = 'api/chats';
-      axios.get(url).then((res) => {
-        this.data = res.data;
-        this.templateData = res.data.templateInfoNew;
-        this.openData = res.data.openChat;
-        this.settings = res.data.settings;
-        this.openDataForSearch = res.data.openChat;
-        this.closeData = res.data.closeChat;
-        this.lastUpdate = res.data.lastUpdate;
-        console.log(this.openData);
-        console.log(this.closeData);
-        this.$setDocumentTitle(this.data.title);
-      })
-          .catch(function (error) {
-            console.log(error.response);
-          });
-    },
     openChatsView() {
       let url = `api/open-chats/${this.lastUpdate}`;
       let self = this;
