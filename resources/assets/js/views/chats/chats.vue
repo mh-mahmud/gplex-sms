@@ -45,7 +45,7 @@
                       <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
                       <div class="search-container">
                         <i class="bi bi-search search-icon"></i>
-                        <input type="text" v-model="searchKeyword"  placeholder="Search...">
+                        <input type="text" v-model="searchKeyword" placeholder="Search...">
                       </div>
                     </div>
 
@@ -2203,6 +2203,7 @@ export default {
       return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
     },
 
+    
     /**
      * @mominriyadh
      * @returns {unknown[]}
@@ -2213,11 +2214,32 @@ export default {
         return Object.values(this.openData); // Return all values if no keyword is provided
       } else {
         // Filter data based on search keyword
-        return Object.values(this.openData).filter(item =>
-            item.first_name.toLowerCase().includes(keyword)
+        const filtered = Object.values(this.openData).filter(item =>
+            item.first_name.toLowerCase().startsWith(keyword)
         );
+
+        // return Object.values(this.openData).filter(item =>
+        //     item.first_name.toLowerCase().startsWith(keyword)
+        // );
+
+        // Sort the filtered array to show matching elements/names first
+        const sorted = filtered.sort((a, b) => {
+          const nameA = a.first_name.toLowerCase();
+          const nameB = b.first_name.toLowerCase();
+          if (nameA.startsWith(keyword) && !nameB.startsWith(keyword)) {
+            return -1; // a should come before b
+          } else if (!nameA.startsWith(keyword) && nameB.startsWith(keyword)) {
+            return 1; // b should come before a
+          } else {
+            return nameA.localeCompare(nameB); // Sort alphabetically
+          }
+        });
+
+        return sorted;
       }
+
     }
+
   },
 
   beforeDestroy() {
