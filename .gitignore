@@ -17,6 +17,7 @@ storage/*
 public/storage
 public/hot
 public/js/app.js
+public/js/min/app.min.js
 public/*
 /public/js/*
 
