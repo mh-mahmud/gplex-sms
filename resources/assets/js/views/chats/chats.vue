@@ -2203,7 +2203,7 @@ export default {
       return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
     },
 
-    
+
     /**
      * @mominriyadh
      * @returns {unknown[]}
