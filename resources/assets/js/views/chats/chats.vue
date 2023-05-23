@@ -1206,7 +1206,7 @@
       clear: both;
       max-width: 70%;
       min-width: 60%;
-      width:100%;
+      width: 100%;
 
       time {
         font-size: 12px;
