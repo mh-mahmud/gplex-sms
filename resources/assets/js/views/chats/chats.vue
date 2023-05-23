@@ -43,10 +43,10 @@
                   <div class="g-chat-header">
                     <div class="new-chat-open">
                       <i class="bi bi-chat-right-text-fill"></i> <strong>Chat List</strong>
-                      <!--                      <div class="search-container">-->
-                      <!--                        <i class="bi bi-search search-icon"></i>-->
-                      <!--                        <input type="text" v-model="search" v-on:keyup="onSearch" placeholder="Search...">-->
-                      <!--                      </div>-->
+                      <div class="search-container">
+                        <i class="bi bi-search search-icon"></i>
+                        <input type="text" v-model="searchKeyword"  placeholder="Search...">
+                      </div>
                     </div>
 
                     <div class="g-open-chat-header">
@@ -66,7 +66,7 @@
 
 
                               <small v-if="chatHeadPhone">Note <span
-                                  v-if="totaldisposition != 0">{{ totaldisposition }}</span></small>
+                                  v-if="totaldisposition !== 0">{{ totaldisposition }}</span></small>
 
 
                             </div>
@@ -79,12 +79,12 @@
                           <!--                            <i class="bi bi-search search-icon"></i>-->
                           <!--                            <input type="text" placeholder="Search...">-->
                           <!--                          </div>-->
-                          <div v-if="chatHeadFirstName && chatFlag == 'open'"
+                          <div v-if="chatHeadFirstName && chatFlag === 'open'"
                                class="g-close-box active btn btn-sm btn-success"
                                @click="dataCloseHandler">
                             <i class="bi bi-x-lg"></i>
                           </div>
-                          <div v-if="chatHeadFirstName && chatFlag == 'close'"
+                          <div v-if="chatHeadFirstName && chatFlag === 'close'"
                                class="g-close-box active btn btn-sm btn-success"
                                @click="dataCheckHandler">
                             <i class="bi bi-check2"></i>
@@ -103,7 +103,7 @@
                     <div class="g-chat-left">
                       <div id="open-chat">
                         <ul @scroll="scrollCustomBottom">
-                          <li class="chat-box" v-for="(item, key) in openData"
+                          <li class="chat-box" v-for="(item, key) in filteredData"
                               :data-target="'content-'+key"
                               v-on:click="greet(item); selectItem(key)"
                               :class="{active: activeIndex === key}">
@@ -125,7 +125,7 @@
                                 <!--                                                                                                   style="color: #3cffed;">Serving...</span>-->
                                 <!--                                                                </small>-->
                               </div>
-                              <div v-if="item.status == 'U'" :id="'alert-' + key"
+                              <div v-if="item.status === 'U'" :id="'alert-' + key"
                                    class=""><span class="text-right"><i
                                   class="bi bi-bell-fill" style="color: #f70606;"></i></span>
                               </div>
@@ -1507,7 +1507,8 @@ export default {
       currentDate: "",
       chatFlag: "open",
       isFullScreen: false,
-      totaldisposition: 0
+      totaldisposition: 0,
+      searchKeyword: ''
     };
   },
   mounted() {
@@ -1717,23 +1718,6 @@ export default {
           });
     },
 
-
-    /**
-     * @script array object based search
-     * */
-    onSearch() {
-      if (this.search && this.search !== '') {
-        let chatData = this.openData;
-        console.log(chatData);
-        let result = chatData.filter((item) => {
-          if (item.first_name.toLowerCase().includes(this.search.toLowerCase())) {
-            return item
-          }
-        })
-        console.log(result);
-      }
-
-    },
 
     toggleFullScreen() {
       this.isFullScreen = !this.isFullScreen;
@@ -2210,15 +2194,37 @@ export default {
 
   },
 
+  computed: {
+    /**
+     *
+     * @returns {string}
+     */
+    fullScreenIconClass() {
+      return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
+    },
+
+    /**
+     * @mominriyadh
+     * @returns {unknown[]}
+     */
+    filteredData() {
+      const keyword = this.searchKeyword.toLowerCase().trim();
+      if (keyword === '') {
+        return Object.values(this.openData); // Return all values if no keyword is provided
+      } else {
+        // Filter data based on search keyword
+        return Object.values(this.openData).filter(item =>
+            item.first_name.toLowerCase().includes(keyword)
+        );
+      }
+    }
+  },
+
   beforeDestroy() {
     // Remove event listener from the document object
     document.removeEventListener('click', this.hideTag);
   },
-  computed: {
-    fullScreenIconClass() {
-      return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
-    },
-  }
+
 };
 
 
