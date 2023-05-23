@@ -29,12 +29,13 @@ class ChatsService extends AppService {
         $allData = [];
         foreach ($data as $datum){
             $uniqueData = DB::select("select ls.log_time, callid, ls.sms_text AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
-            $allData[$datum->phone] = (object) array_merge((array) $datum, (array) $uniqueData[0]);
+            $allData[$datum->phone] = isset($uniqueData[0]) ? (object) array_merge((array) $datum, (array) $uniqueData[0]) : (object) $datum;
 
         }
+
         uasort($allData, function($a, $b) {
-            if (strtotime($a->log_time) == strtotime($b->log_time)) return 0;
-            return (strtotime($a->log_time) < strtotime($b->log_time)) ? 1 : -1;
+            if (strtotime($a->last_text_at) == strtotime($b->last_text_at)) return 0;
+            return (strtotime($a->last_text_at) < strtotime($b->last_text_at)) ? 1 : -1;
         });
 //        print_r($allData);
 //        die();
