@@ -171,7 +171,7 @@ export default {
         return {
             datepickerOpt:{format: 'MM/DD/Y HH:mm',useCurrent: 'day',showClear: true,showClose: true},
             searchKey: {                
-                'start_time': moment().day(-12).format('MM/DD/Y')+" 00:00",
+                'start_time': moment().day(-11).format('MM/DD/Y')+" 00:00",
                 'end_time': moment().format('MM/DD/Y')+" 23:59",
                 'did': '',
                 'client': '',
