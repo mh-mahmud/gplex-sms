@@ -52,9 +52,8 @@ class ComposeService extends AppService
 
         $scheduleShow = $request->input('scheduleShow');
         if($scheduleShow){
-            $rules['scheduleDate'] = 'required';            
-            $rules['scheduleDateEnd'] = 'required';
-            $rules['activeHours'] = 'required';
+            $rules['scheduleDate'] = 'required';
+            $rules['time_zone'] = 'required';
         }
         Validator::make($request->all(),$rules)->validate();
 

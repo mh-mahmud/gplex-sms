@@ -167,7 +167,7 @@ class ChatsService extends AppService {
             ->toArray();
 //        dd(DB::getQueryLog());
 //        $data = $data->toArray();
-        $scheduleData = DB::select("select sms_schedule.created_at as log_time, sms_schedule.userid, sms_schedule_contact.phone as client_number, sms_schedule.sms_text, 'Q' as `status`, 'O' as direction from `sms_schedule` LEFT JOIN sms_schedule_contact ON sms_schedule_contact.schedule_id = sms_schedule.id where sms_schedule.account_id = '{$account_id}' and sms_schedule.sms_from = '{$sms_from}' and sms_schedule_contact.phone = '{$sms_to}' order by sms_schedule.created_at desc limit 10");
+        $scheduleData = DB::select("select sms_schedule.start_time as log_time, sms_schedule.userid, sms_schedule_contact.phone as client_number, sms_schedule.sms_text, 'Q' as `status`, 'O' as direction from `sms_schedule` LEFT JOIN sms_schedule_contact ON sms_schedule_contact.schedule_id = sms_schedule.id where sms_schedule.account_id = '{$account_id}' and sms_schedule.sms_from = '{$sms_from}' and sms_schedule_contact.phone = '{$sms_to}' order by sms_schedule.created_at desc limit 10");
         $data = json_decode(json_encode($data), true);
         $scheduleData = json_decode(json_encode($scheduleData), true);
         $newData = array_merge((array) $data, (array) $scheduleData);

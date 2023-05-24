@@ -148,7 +148,7 @@
                                                 <div class="input-group-append">
                                                     <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
                                                 </div>
-                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd" v-validate="this.scheduleShow ? 'required' :''"  v-model="compose.scheduleDateEnd" :config="dateOptions"
+                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd"  v-model="compose.scheduleDateEnd" :config="dateOptions"
                                                               class="form-control m-input date-time-picker" placeholder="End" autocomplete="off"></date-picker>
                                                 <span class="m-form__help" v-if="errors.has('end_time')">
                                                         {{ errors.first('scheduleDateEnd')}}
@@ -285,7 +285,10 @@ export default {
             modalData: {},
             baseUrl: "",
             toList: [],
-            compose: {},
+            compose: {
+                scheduleDateEnd : "0000-00-00 00:00:00",
+                activeHour : "111111111111111111111111"
+            },
             message: "",
             scheduleShow: false,
             validationErrors: {},
@@ -459,7 +462,7 @@ export default {
                     this.compose.to = this.to.value;
                     this.compose.message = this.message;
                     this.compose.scheduleShow = this.scheduleShow;
-                    if(this.scheduleShow){
+                    if(this.scheduleShow && 'activeHours' in this.compose){
                         this.compose.activeHours = this.compose.activeHours.map(Number);
                         let activeHour = "";
                         for (var active_hour = 0; active_hour < 24; active_hour++) {
