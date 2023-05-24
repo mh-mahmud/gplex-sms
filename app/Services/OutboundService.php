@@ -27,7 +27,7 @@ class OutboundService extends AppService
     public function getPagination($request){
         // Get list data
         $hasQuery = false;
-        $startTime = date('Y-m-d', strtotime('today - 30 days'))." 00:00";
+        $startTime = date('Y-m-d', strtotime('today - 15 days'))." 00:00";
         $endTime = date('Y-m-d')." 23:59";
         $maxDateDiff = config('dashboard_constant.REPORT_MAX_DATE_DIFF');
 
@@ -88,7 +88,7 @@ class OutboundService extends AppService
             $hasQuery = true;           
         }
 
-        //get last 30 days
+        //get last 15 days
         if(!$hasQuery){
             $startTime = date('Y-m-d', strtotime('today - 15 days'))." 00:00";
             $endTime = date('Y-m-d')." 23:59";
