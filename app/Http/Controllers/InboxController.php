@@ -41,6 +41,7 @@ class InboxController extends Controller
         $data['sms_text_size'] = config("dashboard_constant.SMS_TEXT_SIZE");
         $data['sms_text_part'] = config("dashboard_constant.SMS_TEXT_PART");
         $data['sms_text_part_size'] = config("dashboard_constant.SMS_TEXT_PART_SIZE");
+        $data['contactStatus'] = $this->Service->getContactStatus($from, $to);
         return response()->json($data); 
     }
 }

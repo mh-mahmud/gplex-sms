@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::delete('/contact-delete/{id}/{group_id}', 'ContactController@postDeleteContactFromGroup');
     // Schedule
     Route::get('/schedule-detail/{id}', 'ScheduleController@getScheduleDetail');
-    Route::get('/schedule-change-status/{scheduleId}/{status}', 'ScheduleController@getScheduleChangeStatus');
+    Route::get('/schedule-change-status/{log_time}/{account_id}/{did}/{client_number}/{callid}/{status}', 'ScheduleController@getScheduleChangeStatus');
     // Outbound
     Route::get('/outbound-list', 'OutboundController@getList');
     // Inbound
