@@ -119,6 +119,15 @@ class ChatsController extends AppController
         return response()->json($layoutData);
     }
 
+    public function getPreviousCloseChat($date) {
+        $layoutData['openChat'] = $this->ChatsService->getPreviousCloseChats($this->account_id,$date);
+//        if(count($layoutData['openChat']) > 0){
+//            list($firstKey) = array_keys($layoutData['openChat']);
+//            $layoutData['lastTime'] = $layoutData['openChat'][$firstKey]->log_time;
+//        }
+        return response()->json($layoutData);
+    }
+
     /*
         -- End
     */
