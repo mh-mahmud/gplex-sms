@@ -1864,32 +1864,67 @@
                 this.chatHeadSmsText = itemInfo.sms_text;
                 this.callid = itemInfo.callid;
 
-                // contact data
-                this.contactData = {
-                    custom_data: true,
-                    id: itemInfo.id,
-                    first_name: itemInfo.first_name,
-                    last_name: itemInfo.last_name,
-                    phone: itemInfo.phone,
-                    company: itemInfo.company,
-                    street: itemInfo.street,
-                    zip: itemInfo.zip,
-                    suite: itemInfo.suite,
-                    city: itemInfo.city,
-                    state: itemInfo.state,
-                    phone_type: 'M',
-                    custom_0: itemInfo.custom_0,
-                    custom_1: itemInfo.custom_1,
-                    custom_2: itemInfo.custom_2,
-                    custom_3: itemInfo.custom_3,
-                    custom_4: itemInfo.custom_4,
-                    custom_5: itemInfo.custom_5,
-                    custom_6: itemInfo.custom_6,
-                    custom_7: itemInfo.custom_7,
-                    custom_8: itemInfo.custom_8,
-                    custom_9: itemInfo.custom_9
+                // write axios for per click data
+                var contactData = {};
+                contactData.phone = itemInfo.phone;
+                var url = `api/contact-info`;
+                axios.post(url, contactData.phone).then((res) => {
+                    // this.chatInfo = res.data;
+                    console.log(res.data);
+                    // contact data
+                    this.contactData = {
+                        custom_data: true,
+                        id: res.data.id,
+                        first_name: res.data.first_name,
+                        last_name: res.data.last_name,
+                        phone: res.data.phone,
+                        company: res.data.company,
+                        street: res.data.street,
+                        zip: res.data.zip,
+                        suite: res.data.suite,
+                        city: res.data.city,
+                        state: res.data.state,
+                        phone_type: 'M',
+                        custom_0: res.data.custom_0,
+                        custom_1: res.data.custom_1,
+                        custom_2: res.data.custom_2,
+                        custom_3: res.data.custom_3,
+                        custom_4: res.data.custom_4,
+                        custom_5: res.data.custom_5,
+                        custom_6: res.data.custom_6,
+                        custom_7: res.data.custom_7,
+                        custom_8: res.data.custom_8,
+                        custom_9: res.data.custom_9
+                    };
 
-                };
+                }).catch(function (error) {
+                    console.log(error.response);
+                    // contact data
+                    this.contactData = {
+                        custom_data: true,
+                        id: itemInfo.id,
+                        first_name: itemInfo.first_name,
+                        last_name: itemInfo.last_name,
+                        phone: itemInfo.phone,
+                        company: itemInfo.company,
+                        street: itemInfo.street,
+                        zip: itemInfo.zip,
+                        suite: itemInfo.suite,
+                        city: itemInfo.city,
+                        state: itemInfo.state,
+                        phone_type: 'M',
+                        custom_0: itemInfo.custom_0,
+                        custom_1: itemInfo.custom_1,
+                        custom_2: itemInfo.custom_2,
+                        custom_3: itemInfo.custom_3,
+                        custom_4: itemInfo.custom_4,
+                        custom_5: itemInfo.custom_5,
+                        custom_6: itemInfo.custom_6,
+                        custom_7: itemInfo.custom_7,
+                        custom_8: itemInfo.custom_8,
+                        custom_9: itemInfo.custom_9
+                    };
+                });
 
                 $('#' + 'alert-' + itemInfo.phone).hide();
                 $('.serving').hide();

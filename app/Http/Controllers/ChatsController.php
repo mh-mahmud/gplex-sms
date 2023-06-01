@@ -247,4 +247,18 @@ class ChatsController extends AppController
         return response()->json($layoutData);
     }
 
+    public function getContactData() {
+        if(!empty($_POST)) {
+            $phone = null;
+            foreach($_POST as $key=>$val) {
+                $phone = $key;
+            }
+            $data = $this->ChatsService->getContactData($phone);
+            if(!empty($data)) {
+                return json_encode($data);
+            }
+        }
+        return false;
+    }
+
 }

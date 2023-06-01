@@ -303,4 +303,8 @@ class ChatsService extends AppService {
 
     }
 
+    public function getContactData($phone) {
+        return Contact::where('phone', $phone)->first();
+    }
+
 }

@@ -100,4 +100,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/close-leads/{clientNumber}', 'ChatsController@closeLeads');
     Route::get('/open-leads/{clientNumber}', 'ChatsController@openLeads');
     Route::get('/disposition-log', 'ChatsController@getDispositionLog');
+    // Route::get('/contact-info/{phone}', 'ChatsController@getContactData');
+    Route::post('/contact-info/', 'ChatsController@getContactData');
 });
