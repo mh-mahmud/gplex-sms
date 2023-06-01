@@ -123,6 +123,24 @@
                                                 <div class="m-widget28__tab-item">
                                                     <span>Total Outbound</span> <span>{{ (data.outbound[0]) ? data.outbound[0].Total : 0 }}</span>
                                                 </div>
+                                                <div class="m-widget28__tab-item">
+                                                    <span>Status</span>
+                                                    <span>{{ data.contactStatus == "O" ? 'Close' : data.contactStatus == "I" ? 'Open' : 'N/A' }}</span>
+                                                    <span>
+                                                        <div v-if="data.contactStatus == 'I'"
+                                                             class="g-close-box active btn btn-sm btn-success"
+                                                             title="Opt-Out"
+                                                             @click="dataCloseHandler">
+                                                            Close
+                                                        </div>
+                                                    <div v-if="data.contactStatus == 'O'"
+                                                         class="g-close-box active btn btn-sm btn-success"
+                                                         title="Opt-In"
+                                                         @click="dataCheckHandler">
+                                                        Open
+                                                    </div>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +171,10 @@ export default {
             from: '',
             to: '',
             date: null,         
-            data: {},
+            data: {
+                inbound : [],
+                outbound : []
+            },
             pagination: {},
         }
     },
@@ -320,6 +341,40 @@ export default {
                         vm.validationErrors = error.response.data;
                         commonLib.unblockUI(".m-content");
                     });
+        },
+
+        dataCheckHandler() {
+            console.log("Working Check Handler = " + this.to);
+            let url = `api/open-leads/${this.to}`;
+            if (this.to) {
+                commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top: '45%'});
+                axios.get(url).then((res) => {
+                    commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                    commonLib.unblockUI(".m-content");
+                    this.data.contactStatus = 'I';
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+        },
+
+        dataCloseHandler() {
+            console.log("Working Close Handler = " + this.to);
+
+            let url = `api/close-leads/${this.to}`;
+            if (this.to) {
+                commonLib.blockUI({target: ".m-content", animate: true, overlayColor: 'none', top: '45%'});
+                axios.get(url).then((res) => {
+                    commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
+                    commonLib.unblockUI(".m-content");
+                    this.data.contactStatus = 'O';
+                })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
+            }
+
         },
         
         fetchInbound(page_url) {            

@@ -13,9 +13,14 @@
                                 <h3 class="m-portlet__head-text mb-0">
                                     Chats: New Window
                                 </h3>
-                                <button class="btn btn-sm btn-default" @click="toggleFullScreen">
-                                    <i :class="fullScreenIconClass"></i>
-                                </button>
+                                <div class="btn-group-sm">
+                                    <button class="btn btn-sm btn-outline-success" onclick="{window.location.reload()}">
+                                        <i class="bi bi-arrow-clockwise"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" @click="toggleFullScreen">
+                                        <i :class="fullScreenIconClass"></i>
+                                    </button>
+                                </div>
                             </div>
 
 
@@ -59,7 +64,10 @@
                                                              class="g-chat-notes" data-toggle="modal"
                                                              data-target="#disposition-modal">
 
-                                                            <small v-if="chatHeadPhone">Note <span v-if="totaldisposition != 0">{{totaldisposition}}</span></small>
+
+                                                            <small v-if="chatHeadPhone">Note <span
+                                                                    v-if="totaldisposition != 0">{{ totaldisposition }}</span>
+                                                            </small>
 
 
                                                         </div>
@@ -74,11 +82,13 @@
                                                     <!--                          </div>-->
                                                     <div v-if="chatHeadFirstName && chatFlag == 'open'"
                                                          class="g-close-box active btn btn-sm btn-success"
+                                                         title="Opt-Out"
                                                          @click="dataCloseHandler">
                                                         <i class="bi bi-x-lg"></i>
                                                     </div>
                                                     <div v-if="chatHeadFirstName && chatFlag == 'close'"
                                                          class="g-close-box active btn btn-sm btn-success"
+                                                         title="Opt-In"
                                                          @click="dataCheckHandler">
                                                         <i class="bi bi-check2"></i>
                                                     </div>
@@ -111,12 +121,12 @@
                                                                     {{ item.last_name }} </strong>
                                                                 <small v-if="item.sms_text">{{
                                                                     item.sms_text.substr(0, 15)
-                                                                    }}
+                                                                    }} ...
                                                                 </small>
-                                                                <small :id="'serving-' + key" class="serving"
-                                                                       style="display: none"><span class="text-right"
-                                                                                                   style="color: #3cffed;">Serving...</span>
-                                                                </small>
+                                                                <!--                                                                <small :id="'serving-' + key" class="serving"-->
+                                                                <!--                                                                       style="display: none"><span class="text-right"-->
+                                                                <!--                                                                                                   style="color: #3cffed;">Serving...</span>-->
+                                                                <!--                                                                </small>-->
                                                             </div>
                                                             <div v-if="item.status == 'U'" :id="'alert-' + key"
                                                                  class=""><span class="text-right"><i
@@ -129,8 +139,7 @@
 
 
                                             <div id="close-chat">
-                                                <ul>
-
+                                                <ul @scroll="scrollCustomBottomClose">
                                                     <li class="chat-box" v-for="(item2, key2) in closeData"
                                                         :data-target="'content-'+key2"
                                                         v-on:click="greet(item2)">
@@ -148,8 +157,6 @@
                                                             </div>
                                                         </div>
                                                     </li>
-
-
                                                 </ul>
                                             </div>
 
@@ -164,21 +171,15 @@
                                         <div class="g-chat">
 
                                             <div class="g-chat-history" id="g-chat-history"
-                                                 v-chat-scroll @v-chat-scroll-top-reached="scrollAtTop">
+                                                 v-chat-scroll="{always:false}"
+                                                 @v-chat-scroll-top-reached="scrollAtTop">
 
                                                 <div id="content-1" class="content active" v-for="msg in chatInfo.data">
                                                     <div class="g-chat-main">
-                                                        <!-- <div class="text-center">
-                                                          <small class="text-white">
-                                                            Feb 22, 2023
-                                                          </small>
-                                                        </div> -->
                                                         <div class=""
-                                                             :class="msg.direction == 'O' ? 'chat-msg-content' :'chat-msg-content msg-other'">
+                                                             :class="msg.direction == 'O' ? (msg.status == 'Q' ? 'chat-msg-content msg-schedule':'chat-msg-content') : 'chat-msg-content msg-other' ">
                                                             <div class="chat-msg">
                                                                 {{ msg.sms_text }}
-
-
                                                                 <time>
                                                                   <span style="font-size:10px" v-if="msg.direction=='O'">
                                                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
@@ -186,6 +187,7 @@
                                                                     {{
                                                                     msg.log_time | formatDate("ddd, MMM DD, YYYY hh:mm A")
                                                                     }}
+                                                                    <span v-if="msg.status == 'Q'" class="pull-right">Schedule</span>
                                                                 </time>
                                                             </div>
                                                             <div class="chat-msg-image">
@@ -197,24 +199,6 @@
 
 
                                                 </div>
-
-                                                <!-- show user this instant message -->
-                                                <!--                                                <div id="content-2" class="content active">-->
-                                                <!--                                                    <div class="g-chat-main" v-if="instantSmsData.text">-->
-                                                <!--                                                        <div class="chat-msg-content">-->
-                                                <!--                                                            <div class="chat-msg">-->
-                                                <!--                                                                {{ instantSmsData.text }}-->
-                                                <!--                                                                <time datetime="6:00">{{-->
-                                                <!--                                                                    instantSmsData.timesend-->
-                                                <!--                                                                    }}-->
-                                                <!--                                                                </time>-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                            <div class="chat-msg-image">-->
-                                                <!--                                                                <img :src="imageUrl" alt="">-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                        </div>-->
-                                                <!--                                                    </div>-->
-                                                <!--                                                </div>-->
 
                                             </div>
 
@@ -229,25 +213,8 @@
                                                 </label>
 
 
-                                                <!--New Contenteditable TextArea-->
-
-                                                <!--                                                <div id="s-msg" class="text-editable tag-item" v-model="message" contenteditable="true">-->
-
-                                                <!--                                                </div>-->
-
-
                                                 <div class="g-chat-message-bottom">
                                                     <div class="g-chat-attachment">
-                                                        <!-- <select v-model="selectedValue" id="template" name="template"
-                                                                class="form-control form-control-sm" @change="onChangeTemplate(this.value)">
-                                                          <option value="" selected>-- Choose Template --</option>
-                                                          <option v-for="(value,key) in templateData"
-                                                                  :value="value.message">
-                                                            {{ value.name }}
-                                                          </option>
-                                                        </select> -->
-
-
                                                         <a href="javascript:void(0)"
                                                            @click.prevent="bindModalData(data)" data-toggle="modal"
                                                            data-target="#template-modal" class="btn btn-sm btn-default"
@@ -262,28 +229,119 @@
                                                              data-placement="top" title="Insert tag"
                                                              class="g-tooltip-area"
                                                              data-original-title="Insert tag">
-                                                            <button @click="showTag()" id="btn-insert-tag" title="Insert tag" type="button" class="btn btn-sm btn-default"><i class="bi bi-tags-fill"></i>
-                                                            </button>
-                                                            <ul id="tag-list" class="list-group tag-list" style="display: none">
-                                                                <li v-if="contactData.first_name" class="list-group-item" @click.prevent="addContactItem('first_name')"><a href="#">First name</a></li>
-                                                                <li v-if="contactData.last_name" class="list-group-item" @click.prevent="addContactItem('last_name')"><a href="#">Last name</a></li>
-                                                                <li v-if="contactData.company" class="list-group-item" @click.prevent="addContactItem('company')"><a href="#">Company</a></li>
-                                                                <li v-if="contactData.street" class="list-group-item" @click.prevent="addContactItem('street')"><a href="#">Street</a></li>
-                                                                <li v-if="contactData.suite" class="list-group-item" @click.prevent="addContactItem('suite')"><a href="#">Suite</a></li>
-                                                                <li v-if="contactData.city" class="list-group-item" @click.prevent="addContactItem('city')"><a href="#">City</a></li>
-                                                                <li v-if="contactData.state" class="list-group-item" @click.prevent="addContactItem('state')"><a href="#">State</a></li>
-                                                                <li v-if="contactData.zip" class="list-group-item" @click.prevent="addContactItem('zip')"><a href="#">zip</a></li>
+                                                            <button @click="showTag()" id="btn-insert-tag"
+                                                                    title="Insert tag" type="button"
+                                                                    class="btn btn-sm btn-default"><i
+                                                                    class="bi bi-tags-fill"></i>
 
-                                                                <li v-if="contactData.custom_0" class="list-group-item" @click.prevent="addContactItem('custom_0')"><a href="#">{{ settings.custom_0_name }}</a></li>
-                                                                <li v-if="contactData.custom_1" class="list-group-item" @click.prevent="addContactItem('custom_1')"><a href="#">{{ settings.custom_1_name }}</a></li>
-                                                                <li v-if="contactData.custom_2" class="list-group-item" @click.prevent="addContactItem('custom_2')"><a href="#">{{ settings.custom_2_name }}</a></li>
-                                                                <li v-if="contactData.custom_3" class="list-group-item" @click.prevent="addContactItem('custom_3')"><a href="#">{{ settings.custom_3_name }}</a></li>
-                                                                <li v-if="contactData.custom_4" class="list-group-item" @click.prevent="addContactItem('custom_4')"><a href="#">{{ settings.custom_4_name }}</a></li>
-                                                                <li v-if="contactData.custom_5" class="list-group-item" @click.prevent="addContactItem('custom_5')"><a href="#">{{ settings.custom_5_name }}</a></li>
-                                                                <li v-if="contactData.custom_6" class="list-group-item" @click.prevent="addContactItem('custom_6')"><a href="#">{{ settings.custom_6_name }}</a></li>
-                                                                <li v-if="contactData.custom_7" class="list-group-item" @click.prevent="addContactItem('custom_7')"><a href="#">{{ settings.custom_7_name }}</a></li>
-                                                                <li v-if="contactData.custom_8" class="list-group-item" @click.prevent="addContactItem('custom_8')"><a href="#">{{ settings.custom_8_name }}</a></li>
-                                                                <li v-if="contactData.custom_9" class="list-group-item" @click.prevent="addContactItem('custom_9')"><a href="#">{{ settings.custom_9_name }}</a></li>
+                                                            </button>
+                                                            <ul id="tag-list" class="list-group tag-list"
+                                                                style="display: none">
+
+                                                                <li v-if="contactData.first_name"
+                                                                    class="list-group-item"
+                                                                    @click.prevent="addContactItem('first_name')"><a
+                                                                        href="#">First name</a></li>
+
+                                                                <li v-if="contactData.last_name" class="list-group-item"
+                                                                    @click.prevent="addContactItem('last_name')"><a
+                                                                        href="#">Last name</a></li>
+
+                                                                <li v-if="contactData.company" class="list-group-item"
+                                                                    @click.prevent="addContactItem('company')"><a
+                                                                        href="#">Company</a></li>
+
+                                                                <li v-if="contactData.street" class="list-group-item"
+                                                                    @click.prevent="addContactItem('street')"><a
+                                                                        href="#">Street</a></li>
+
+                                                                <li v-if="contactData.suite" class="list-group-item"
+                                                                    @click.prevent="addContactItem('suite')"><a
+                                                                        href="#">Suite</a></li>
+
+                                                                <li v-if="contactData.city" class="list-group-item"
+                                                                    @click.prevent="addContactItem('city')"><a href="#">City</a>
+                                                                </li>
+
+                                                                <li v-if="contactData.state" class="list-group-item"
+                                                                    @click.prevent="addContactItem('state')"><a
+                                                                        href="#">State</a></li>
+
+                                                                <li v-if="contactData.zip" class="list-group-item"
+                                                                    @click.prevent="addContactItem('zip')"><a href="#">CPAS
+                                                                    (ZIP)</a></li>
+
+
+                                                                <li v-if="contactData.custom_0" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_0')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_0_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_1" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_1')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_1_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_2" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_2')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_2_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_3" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_3')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_3_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_4" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_4')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_4_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_5" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_5')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_5_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_6" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_6')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_6_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_7" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_7')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_7_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_8" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_8')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_8_name
+                                                                    }}</a></li>
+
+
+                                                                <li v-if="contactData.custom_9" class="list-group-item"
+                                                                    @click.prevent="addContactItem('custom_9')"><a
+                                                                        href="#">{{
+                                                                    settings.custom_9_name
+                                                                    }}</a></li>
+
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -376,7 +434,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Zip</td>
+                                                        <td>CPAS (ZIP)</td>
                                                         <td>
                                                             <input :data-vv-as="contactData.zip" name="zip"
                                                                    v-model="contactData.zip" type="text"
@@ -516,7 +574,10 @@
             </div>
             <!-- END EXAMPLE TABLE PORTLET-->
         </div>
+
+
     </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -532,10 +593,13 @@
     ::-webkit-scrollbar {
         width: 5px; /* for vertical scrollbars */
         height: auto; /* for horizontal scrollbars */
+
+
     }
 
     ::-webkit-scrollbar-track {
         background: rgba(0, 0, 0, 0.099);
+
     }
 
     ::-webkit-scrollbar-thumb {
@@ -560,11 +624,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+
     }
 
     .g-chat-area {
         min-height: 65vh;
         background-color: #fafafa;
+
     }
 
     .g-chat-header {
@@ -587,9 +654,12 @@
     }
 
     .g-open-chat-header {
+
         background-color: darken(#fafafa, 5%);
         flex-grow: 1;
         width: 100%;
+
+
     }
 
     .g-open-chat-h-main {
@@ -605,6 +675,7 @@
         gap: 10px;
         height: 100%;
 
+
         img {
             width: 38px;
             height: 38px;
@@ -618,10 +689,12 @@
         justify-content: center;
         gap: 5px;
 
+
         strong {
             line-height: 1.4;
             font-size: 13px;
         }
+
 
         small {
             line-height: 1;
@@ -647,11 +720,14 @@
             transition: all 0.4s ease-in-out;
 
             &:hover {
+
                 background-color: darken(#329e8c, 10%);
             }
         }
 
+
     }
+
 
     .g-chat-count {
         small {
@@ -663,6 +739,7 @@
             vertical-align: middle;
             transition: all 0.4s ease-in-out;
         }
+
 
     }
 
@@ -683,6 +760,7 @@
         position: relative;
         margin-left: auto;
     }
+
 
     .search-icon {
         position: absolute;
@@ -710,10 +788,14 @@
     .search-container input[type="text"]:focus {
         outline: none;
         border-bottom: 2px solid #329e8c;
+
+
     }
 
     .search-container.active .search-icon {
         left: 10px;
+
+
         color: #329e8c;
     }
 
@@ -744,6 +826,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+
             height: calc(100% - 30px);
             overflow-y: auto;
         }
@@ -755,13 +838,17 @@
             transition: all 0.4s ease-in-out;
             color: darken(#ffffff, 25%);
 
+
             &:hover {
                 background-color: #555555;
                 color: #ffffff;
+
+
             }
 
         }
     }
+
 
     /*============================
              New Chat Area
@@ -775,6 +862,7 @@
         padding: 13px !important;
         border-bottom: 1px solid #333;
     }
+
 
     .g-chat-header {
         display: flex;
@@ -802,10 +890,14 @@
     }
 
     .g-open-chat-h-main {
+
+
         display: flex;
         align-items: center;
         height: 100%;
         padding-left: 0.3rem;;
+
+
     }
 
     .g-chat-user-profile {
@@ -813,6 +905,7 @@
         align-items: center;
         gap: 10px;
         height: 100%;
+
 
         img {
             width: 38px;
@@ -828,14 +921,17 @@
         gap: 5px;
 
         strong {
+
             line-height: 1.4;
             font-size: 13px;
         }
+
 
         small {
             line-height: 1;
         }
     }
+
 
     .g-chat-u-meta {
         display: flex;
@@ -858,9 +954,12 @@
             &:hover {
                 background-color: darken(#329e8c, 10%);
             }
+
+
         }
 
     }
+
 
     .g-chat-user-property {
         margin-left: auto;
@@ -887,6 +986,7 @@
         transition: all 0.3s ease;
     }
 
+
     .search-container input[type="text"] {
         width: 0;
         max-width: 0;
@@ -902,10 +1002,14 @@
     .search-container input[type="text"]:focus {
         outline: none;
         border-bottom: 2px solid #329e8c;
+
+
     }
 
     .search-container.active .search-icon {
         left: 10px;
+
+
         color: #329e8c;
     }
 
@@ -948,13 +1052,18 @@
             &:hover {
                 background-color: #555555;
                 color: #ffffff;
+
+
             }
 
             &.active {
                 background-color: #b39240;
+
+
                 color: #ffffff;
 
                 &:hover {
+
                     color: inherit;
                 }
             }
@@ -981,12 +1090,14 @@
         }
     }
 
+
     .g-chat {
         flex: 2;
         width: 100%;
         background-color: #ffffff;
         padding: 1rem;
     }
+
 
     .content {
         transition: all 0.4s ease;
@@ -1030,11 +1141,17 @@
         strong {
             line-height: 1.2;
             font-size: 0.9rem;
+
+
         }
 
         small {
+
+
             line-height: 1;
         }
+
+
     }
 
 
@@ -1043,7 +1160,9 @@
       ============================*/
     .g-chat {
 
+
     }
+
 
     .g-chat-history {
         width: auto;
@@ -1065,8 +1184,9 @@
             border-radius: 0.3rem;
             padding: 0.5rem;
             position: relative;
-            max-width: 86%;
+            max-width: 70%;
             min-width: 60%;
+            width: 100%;
 
             time {
                 font-size: 12px;
@@ -1085,7 +1205,10 @@
             }
 
         }
+
+
     }
+
 
     .chat-msg-content {
         &.msg-other {
@@ -1100,17 +1223,27 @@
                 background-color: #e8e8e8;
                 color: #434652;
                 clear: both;
-                max-width: 86%;
+                max-width: 70%;
                 min-width: 60%;
-
+                width: 100%;
 
                 time {
                     font-size: 12px;
                     display: block;
+
                     width: 100%;
                     float: right;
                     clear: both;
                 }
+            }
+        }
+    }
+
+
+    .chat-msg-content {
+        &.msg-schedule {
+            & .chat-msg {
+                background-color: rgba(195, 159, 71, 0.5);
             }
         }
     }
@@ -1129,6 +1262,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
+
     }
 
     .g-chat-attachment {
@@ -1142,6 +1277,8 @@
         label > input[type=file] {
             visibility: hidden;
             width: 0;
+
+
         }
 
         i {
@@ -1160,7 +1297,10 @@
             justify-content: center;
             padding: 7px;
 
+
         }
+
+
     }
 
 
@@ -1178,6 +1318,7 @@
         display: none;
     }
 
+
     #open-chat {
         display: block;
         height: 100%;
@@ -1191,6 +1332,7 @@
 
     .g-date-picker {
         position: relative;
+
 
         &::before {
             content: "";
@@ -1220,6 +1362,8 @@
             /**
          * @script clear current chat
          * */
+
+
         }
 
 
@@ -1243,7 +1387,11 @@
     }
 
     .g-close-box.active {
+
+
         display: block;
+
+
     }
 
     /*============================
@@ -1296,9 +1444,14 @@
     .tag-list > li:hover {
         background-color: #329d8b;
 
+
         & a {
+
+
             color: #ffffff;
         }
+
+
     }
 
     //overwrite rule
@@ -1322,6 +1475,7 @@
         padding: 0.5rem;
         border-radius: 5px;
         box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+
 
         &:focus-visible {
             outline: 1px solid #329d8b;
@@ -1388,7 +1542,7 @@
             this.fullScreen = this.$refs.fullscreen;
             this.chatsView();
             this.bindCurrentRoute("Chats");
-            this.interval = setInterval(() => this.openChatsView(), 9000);
+            this.interval = setInterval(() => this.openChatsView(), 5000);
 
             const leftItems = document.querySelectorAll('.g-chat-left li');
             const contentItems = document.querySelectorAll('.g-chat .content');
@@ -1555,7 +1709,7 @@
                 const element = event.target;
                 if (element.scrollHeight - element.scrollTop === element.clientHeight) {
                     // do something when scrolled to the bottom
-                    let lastValue = this.openData[Object.keys(this.openData).pop()].log_time;
+                    let lastValue = this.openData[Object.keys(this.openData).pop()].last_text_at;
                     // console.log(lastValue);
                     let url = `api/previous-chats/${lastValue}`;
                     axios.get(url).then((res) => {
@@ -1564,9 +1718,30 @@
                         result = {...this.openData, ...result};
                         this.openData = result;
                     })
-                    .catch(function (error) {
-                        console.log(error.response);
-                    });
+                        .catch(function (error) {
+                            console.log(error.response);
+                        });
+                }
+            },
+            /**
+             * @script  Initialize when chat history scroll reached at bottom
+             * */
+            scrollCustomBottomClose(event) {
+                const element = event.target;
+                if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                    // do something when scrolled to the bottom
+                    let lastValue = this.closeData[Object.keys(this.closeData).pop()].last_text_at;
+                    // console.log(lastValue);
+                    let url = `api/previous-close-chats/${lastValue}`;
+                    axios.get(url).then((res) => {
+                        // console.log(this.openData);
+                        let result = res.data.closeChat;
+                        result = {...this.closeData, ...result};
+                        this.closeData = result;
+                    })
+                        .catch(function (error) {
+                            console.log(error.response);
+                        });
                 }
             },
 
@@ -1586,9 +1761,9 @@
                     console.log(result);
                     this.chatInfo.data = result;
                 })
-                .catch(function (error) {
-                    console.log(error.response);
-                });
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
             },
 
 
@@ -1646,40 +1821,12 @@
 
 
             },
-            selectItem: function (index) {
-                // remove active state from previously active item
-                if (this.activeIndex !== -1) {
-                    this.$set(this.openData[this.activeIndex], 'isActive', false);
-                }
 
-                // toggle active state of clicked item
-                this.$set(this.openData[index], 'isActive', !this.openData[index].isActive);
-                this.activeIndex = index;
-            },
-            chatsView() {
-                var url = 'api/chats';
-                axios.get(url).then((res) => {
-                    this.data = res.data;
-                    this.templateData = res.data.templateInfoNew;
-                    this.openData = res.data.openChat;
-                    this.settings = res.data.settings;
-                    this.openDataForSearch = res.data.openChat;
-                    this.closeData = res.data.closeChat;
-                    this.lastUpdate = res.data.lastUpdate;
-                    console.log(this.openData);
-                    console.log(this.closeData);
-                    this.$setDocumentTitle(this.data.title);
-                })
-                    .catch(function (error) {
-                        console.log(error.response);
-                    });
-            },
             openChatsView() {
                 let url = `api/open-chats/${this.lastUpdate}`;
                 let self = this;
                 if (this.lastUpdate) {
                     axios.get(url).then((res) => {
-                        // console.log(this.openData);
                         if (typeof res.data.lastUpdate !== 'undefined') {
                             let result = res.data.openChat;
                             result = {...result, ...this.openData};
@@ -1689,11 +1836,14 @@
                             let newResult = res.data.openChat;
                             $.each(newResult, function (index, value) {
                                 self.openData[index] = value;
+                                if (self.chatHeadPhone == index) {
+                                    self.addCustomerChat(value.sms_text, value.log_time, value.direction);
+                                }
                             });
                         }
                     })
                         .catch(function (error) {
-                            console.log(error.response);
+                            console.log(error);
                         });
                 }
 
@@ -1732,32 +1882,67 @@
                 this.chatHeadSmsText = itemInfo.sms_text;
                 this.callid = itemInfo.callid;
 
-                // contact data
-                this.contactData = {
-                    custom_data: true,
-                    id: itemInfo.id,
-                    first_name: itemInfo.first_name,
-                    last_name: itemInfo.last_name,
-                    phone: itemInfo.phone,
-                    company: itemInfo.company,
-                    street: itemInfo.street,
-                    zip: itemInfo.zip,
-                    suite: itemInfo.suite,
-                    city: itemInfo.city,
-                    state: itemInfo.state,
-                    phone_type: 'M',
-                    custom_0: itemInfo.custom_0,
-                    custom_1: itemInfo.custom_1,
-                    custom_2: itemInfo.custom_2,
-                    custom_3: itemInfo.custom_3,
-                    custom_4: itemInfo.custom_4,
-                    custom_5: itemInfo.custom_5,
-                    custom_6: itemInfo.custom_6,
-                    custom_7: itemInfo.custom_7,
-                    custom_8: itemInfo.custom_8,
-                    custom_9: itemInfo.custom_9
+                // write axios for per click data
+                var contactData = {};
+                contactData.phone = itemInfo.phone;
+                var url = `api/contact-info`;
+                axios.post(url, contactData.phone).then((res) => {
+                    // this.chatInfo = res.data;
+                    console.log(res.data);
+                    // contact data
+                    this.contactData = {
+                        custom_data: true,
+                        id: res.data.id,
+                        first_name: res.data.first_name,
+                        last_name: res.data.last_name,
+                        phone: res.data.phone,
+                        company: res.data.company,
+                        street: res.data.street,
+                        zip: res.data.zip,
+                        suite: res.data.suite,
+                        city: res.data.city,
+                        state: res.data.state,
+                        phone_type: 'M',
+                        custom_0: res.data.custom_0,
+                        custom_1: res.data.custom_1,
+                        custom_2: res.data.custom_2,
+                        custom_3: res.data.custom_3,
+                        custom_4: res.data.custom_4,
+                        custom_5: res.data.custom_5,
+                        custom_6: res.data.custom_6,
+                        custom_7: res.data.custom_7,
+                        custom_8: res.data.custom_8,
+                        custom_9: res.data.custom_9
+                    };
 
-                };
+                }).catch(function (error) {
+                    console.log(error.response);
+                    // contact data
+                    this.contactData = {
+                        custom_data: true,
+                        id: itemInfo.id,
+                        first_name: itemInfo.first_name,
+                        last_name: itemInfo.last_name,
+                        phone: itemInfo.phone,
+                        company: itemInfo.company,
+                        street: itemInfo.street,
+                        zip: itemInfo.zip,
+                        suite: itemInfo.suite,
+                        city: itemInfo.city,
+                        state: itemInfo.state,
+                        phone_type: 'M',
+                        custom_0: itemInfo.custom_0,
+                        custom_1: itemInfo.custom_1,
+                        custom_2: itemInfo.custom_2,
+                        custom_3: itemInfo.custom_3,
+                        custom_4: itemInfo.custom_4,
+                        custom_5: itemInfo.custom_5,
+                        custom_6: itemInfo.custom_6,
+                        custom_7: itemInfo.custom_7,
+                        custom_8: itemInfo.custom_8,
+                        custom_9: itemInfo.custom_9
+                    };
+                });
 
                 $('#' + 'alert-' + itemInfo.phone).hide();
                 $('.serving').hide();
@@ -1904,29 +2089,6 @@
                         console.log(error.response);
                     });
             },
-            openChatsView() {
-                let url = `api/open-chats/${this.lastUpdate}`;
-                let self = this;
-                if (this.lastUpdate) {
-                    axios.get(url).then((res) => {
-                        // console.log(this.openData);
-                        if (typeof res.data.lastUpdate !== 'undefined') {
-                            let result = res.data.openChat;
-                            result = {...result, ...this.openData};
-                            this.lastUpdate = res.data.lastUpdate;
-                            this.openData = result;
-                            // console.log(this.openData);
-                            let newResult = res.data.openChat;
-                            $.each(newResult, function (index, value) {
-                                self.openData[index] = value;
-                            });
-                        }
-                    })
-                        .catch(function (error) {
-                            console.log(error.response);
-                        });
-                }
-            },
 
             sendMessage() {
                 let phoneValue;
@@ -1998,12 +2160,11 @@
                                 "num_parts": this.prevSmsData.data[keyName].num_parts,
                                 "status": this.prevSmsData.data[keyName].status,
                                 "ob_status": this.prevSmsData.data[keyName].ob_status,
-                                "direction": this.prevSmsData.data[keyName].direction,
+                                "direction": "O",
                                 "rate": this.prevSmsData.data[keyName].rate,
                                 "bill": this.prevSmsData.data[keyName].bill
                             };
                             currentArrayChat[lastKey] = currenObjChat;
-                            console.log('=============lastkey===========');
                             let result = {...this.chatInfo.data, ...currentArrayChat};
                             this.chatInfo.data = result;
                             // console.log(lastKey);
@@ -2024,7 +2185,7 @@
                                 "num_parts": "",
                                 "status": "",
                                 "ob_status": "",
-                                "direction": "",
+                                "direction": "O",
                                 "rate": "",
                                 "bill": ""
                             };
@@ -2094,29 +2255,41 @@
                 // let currentMessage = currentElement.innerText || currentElement.textContent;
                 let cursorPosition = $("textarea#s-msg").prop('selectionStart');
                 let currentMessage = $('textarea#s-msg').val();
-                console.log(currentMessage);
-                console.log(cursorPosition);
                 currentMessage = currentMessage.substring(0, cursorPosition) + this.contactData[item] + currentMessage.substring(cursorPosition);
-                console.log(currentMessage);
                 $('textarea#s-msg').val(currentMessage);
                 $('#tag-list').hide();
             },
 
-            // addContactItem(item) {
-            //     let currentElement = document.getElementById('s-msg');
-            //     let mySpan = document.createElement("span");
-            //     mySpan.innerHTML = item;
-            //     mySpan.setAttribute('contenteditable', 'false'); // make the span tag non-editable
-            //     currentElement.appendChild(mySpan);
-            //     // currentElement.appendChild(document.createElement("br")); // add a non-editable line break
-            //     let range = document.createRange();
-            //     range.setStartAfter(mySpan.nextElementSibling); // set the range after the br tag
-            //     range.collapse(true); // collapse the range to the end
-            //     let sel = window.getSelection();
-            //     sel.removeAllRanges();
-            //     sel.addRange(range); // set the focus to the end of the range
-            //     $('#tag-list').hide();
-            // },
+            addCustomerChat(message, log_time, direction) {
+                console.log(Object.keys(this.prevSmsData.data).length);
+                if (Object.keys(this.prevSmsData.data).length > 0) {
+                    let keyName = Object.keys(this.prevSmsData.data)[0];
+                    let lastKey = Math.floor(Date.now() / 1000);
+                    let currentArrayChat = [];
+                    let currenObjChat = {
+                        "id": this.prevSmsData.data[keyName].id,
+                        "log_time": log_time,
+                        "delivery_time": this.prevSmsData.data[keyName].delivery_time,
+                        "account_id": this.prevSmsData.data[keyName].account_id,
+                        "userid": this.prevSmsData.data[keyName].userid,
+                        "schedule_id": this.prevSmsData.data[keyName].schedule_id,
+                        "callid": this.prevSmsData.data[keyName].callid,
+                        "did": this.prevSmsData.data[keyName].did,
+                        "client_number": this.prevSmsData.data[keyName].client_number,
+                        "sms_text": message,
+                        "num_parts": this.prevSmsData.data[keyName].num_parts,
+                        "status": this.prevSmsData.data[keyName].status,
+                        "ob_status": this.prevSmsData.data[keyName].ob_status,
+                        "direction": direction,
+                        "rate": this.prevSmsData.data[keyName].rate,
+                        "bill": this.prevSmsData.data[keyName].bill
+                    };
+                    currentArrayChat[lastKey] = currenObjChat;
+                    let result = {...this.chatInfo.data, ...currentArrayChat};
+                    this.chatInfo.data = result;
+                }
+
+            },
 
 
         },

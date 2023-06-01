@@ -106,7 +106,7 @@
                                                 <li class="list-group-item" @click.prevent="addContactItem('state')"><a
                                                         href="#">State</a></li>
                                                 <li class="list-group-item" @click.prevent="addContactItem('zip')"><a
-                                                        href="#">zip</a></li>
+                                                        href="#">CPAS (ZIP)</a></li>
 
                                                 <!--                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
                                                 <!--                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->
@@ -148,7 +148,7 @@
                                                 <div class="input-group-append">
                                                     <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
                                                 </div>
-                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd" v-validate="this.scheduleShow ? 'required' :''"  v-model="compose.scheduleDateEnd" :config="dateOptions"
+                                                <date-picker data-vv-as="End Time" name="scheduleDateEnd"  v-model="compose.scheduleDateEnd" :config="dateOptions"
                                                               class="form-control m-input date-time-picker" placeholder="End" autocomplete="off"></date-picker>
                                                 <span class="m-form__help" v-if="errors.has('end_time')">
                                                         {{ errors.first('scheduleDateEnd')}}
@@ -160,6 +160,15 @@
                                         <label class="col-lg-3 col-form-label"  for="activeHours">Active Hours:<span class="required">*</span></label>
                                         <div class="col-lg-9">
                                             <div class="md-checkbox-inline">
+                                                <b-form-checkbox
+                                                        v-model="allSelected"
+                                                        :indeterminate="indeterminate"
+                                                        aria-describedby="compose.activeHours"
+                                                        aria-controls="compose.activeHours"
+                                                        @change="checkedAll"
+                                                >
+                                                    {{ allSelected ? 'Un-select All' : 'All' }}
+                                                </b-form-checkbox>
                                                 <b-form-checkbox-group
                                                         id="activeHours"
                                                         v-model="compose.activeHours"
@@ -169,8 +178,8 @@
                                                 </b-form-checkbox-group>
                                             </div>
                                             <span class="m-form__help" v-if="errors.has('activeHour') || validationErrors.activeHour">
-                                            {{ errors.first('activeHour') || validationErrors.activeHour[0] }}
-                                        </span>
+                                                {{ errors.first('activeHour') || validationErrors.activeHour[0] }}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -285,14 +294,20 @@ export default {
             modalData: {},
             baseUrl: "",
             toList: [],
-            compose: {},
+            compose: {
+                scheduleDateEnd : "0000-00-00 00:00:00",
+                activeHour : "111111111111111111111111",
+                activeHours : []
+            },
             message: "",
             scheduleShow: false,
             validationErrors: {},
             data: {
                 settings: {}
             },
-            to: {}
+            to: {},
+            allSelected: false,
+            indeterminate: false
         };
     },
     computed: {
@@ -459,7 +474,7 @@ export default {
                     this.compose.to = this.to.value;
                     this.compose.message = this.message;
                     this.compose.scheduleShow = this.scheduleShow;
-                    if(this.scheduleShow){
+                    if(this.scheduleShow && 'activeHours' in this.compose){
                         this.compose.activeHours = this.compose.activeHours.map(Number);
                         let activeHour = "";
                         for (var active_hour = 0; active_hour < 24; active_hour++) {
@@ -527,6 +542,25 @@ export default {
                 $('#tag-list').hide();
             }
         },
+        checkedAll(checked) {
+            this.compose.activeHours = checked ? this.data.activeHours.slice() : [];
+            console.log(checked);
+        },
+    },
+    watch: {
+        selected(newValue, oldValue) {
+            // Handle changes in individual flavour checkboxes
+            if (newValue.length === 0) {
+                this.indeterminate = false
+                this.allSelected = false
+            } else if (newValue.length === this.compose.activeHours.length) {
+                this.indeterminate = false
+                this.allSelected = true
+            } else {
+                this.indeterminate = true
+                this.allSelected = false
+            }
+        }
     },
 
     beforeDestroy() {

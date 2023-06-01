@@ -40,7 +40,7 @@
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
                                                     </div> 
-                                                <date-picker @dp-change="showTimeFormat" data-vv-as="End Time" name="end_time" v-validate="'date_format:DD/MM/YYYY HH:mm|after:'+searchKey.start_time+'|date_between:'+searchKey.start_time+','+getValidDiffDate(searchKey.start_time,15)"  v-model="searchKey.end_time" 
+                                                <date-picker @dp-change="showTimeFormat" data-vv-as="End Time" name="end_time" v-validate="'date_format:DD/MM/YYYY HH:mm|after:'+searchKey.start_time"  v-model="searchKey.end_time"
                                                 :config="datepickerOpt" class="form-control m-input date-time-picker" placeholder="To" autocomplete="off"></date-picker>  
                                                     <span class="m-form__help" v-if="errors.has('end_time')">
                                                         {{ errors.first('end_time')}}
@@ -97,7 +97,10 @@
                                             <th>Selected</th>
                                             <th>Sent</th>
                                             <th>Status</th>                                            
-                                            <th colspan="2">Action</th>
+                                            <th>Edit</th>
+                                            <th>Pause</th>
+                                            <th>Detail</th>
+                                            <th>Remove</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -113,11 +116,17 @@
                                                 <router-link href="#"  v-if="schedule.is_schedule=='1'" v-bind:to="{name: 'ComposeEdit', params: {id:schedule.id}}" class="text-info" data-toggle="m-tooltip" title="Edit">
                                                     <i class='fa fa-edit'></i>
                                                 </router-link>
+                                            </td>
+                                            <td>
                                                 <a href="#" @click.prevent="changeStatus(schedule.id,index,'P')" v-if="schedule.status=='A'" class="text-info" data-toggle="m-tooltip" title="Play"><i class="fa fa-play"></i></a>
                                                 <a href="#" @click.prevent="changeStatus(schedule.id,index,'A')" v-if="schedule.status=='P'" class="text-info" data-toggle="m-tooltip" title="Pause"><i class="fa fa-pause"></i></a>
+                                            </td>
+                                            <td>
                                                 <router-link href="#"  v-bind:to="{name: 'ScheduleDetail', params: {id:schedule.id}}" class="text-info" data-toggle="m-tooltip" title="Detail">
                                                     <i class='fa fa-folder'></i>
                                                 </router-link>
+                                            </td>
+                                            <td>
                                                 <a @click.prevent="deleteSchedule(schedule.id,index)"  v-if="schedule.is_schedule=='1'" class="text-danger" href="#" data-toggle="m-tooltip" title="Delete">
                                                     <i class='fa fa-trash'></i>
                                                 </a>

@@ -216,7 +216,13 @@ class GroupService extends AppService
      */
     public function delete($id){
         $dataObj = $this->getDetail($id);
-       
+
+        // check if the group list is in the schedule list
+        $chk_sch = DB::select("SELECT * FROM sms_schedule_contact WHERE status='P' AND group_id='{$id}'");
+        if(!empty($chk_sch)) {
+            return $this->processServiceResponse(false, "This group already in schedule", $dataObj);
+        }
+
         if($dataObj->delete()) {
             $this->AuditLogService->createLog($dataObj, 'D');
             if($this->ContactsService->deleteContactsByGroupId($id)){

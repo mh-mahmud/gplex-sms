@@ -23,7 +23,7 @@
                                 <span class="m-accordion__item-title">Search</span>
                                 <span class="m-accordion__item-mode"></span>    
                             </div>
-                            <b-collapse id="collapse1" class="vue-accordion-body">
+                            <b-collapse visible id="collapse1" class="vue-accordion-body">
                                 
                                 <b-card>
                                     <!-- search form -->
@@ -100,7 +100,7 @@
                                 <table class="table table-striped- table-bordered table-hover table-checkable dataTable no-footer dtr-inline collapsed sortable" id="m_table_1" role="grid" aria-describedby="m_table_1_info" style="width: 1044px;">
                                     <thead>
                                         <tr role="row" style="text-align: center">                                                                                      
-                                            <!-- <th>Ser.</th> -->
+                                            <th>Ser.</th>
                                             <th>Time <span>*</span></th>                                            
                                             <th>DID</th>
                                             <th>Client Name</th>
@@ -112,7 +112,7 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="(log, index) in data.data" :class="log.status == 'U' ? 'm-bold' : ''" style="text-align: center">                                            
-                                            <!-- <td>{{index+1}}</td> -->
+                                            <td>{{parseInt(data.meta.from) + index}}</td>
                                             <td>{{ log.log_time | formatDate('MM/DD/YYYY hh:mm A') }} </td>                                            
                                             <td>{{ log.did | formatPhone }}</td>
                                             <td>{{ log.first_name }}</td>
@@ -178,8 +178,8 @@ export default {
         return {
             datepickerOpt:{format: 'MM/DD/Y HH:mm',useCurrent: 'day',showClear: true,showClose: true},
             searchKey: {                
-                'start_time': '',
-                'end_time': '',
+                'start_time': moment().day(-11).format('MM/DD/Y')+" 00:00",
+                'end_time': moment().format('MM/DD/Y')+" 23:59",
                 'did': '',
                 'client': '',
                 'client_name': '',

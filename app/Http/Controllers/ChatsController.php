@@ -119,6 +119,15 @@ class ChatsController extends AppController
         return response()->json($layoutData);
     }
 
+    public function getPreviousCloseChat($date) {
+        $layoutData['openChat'] = $this->ChatsService->getPreviousCloseChats($this->account_id,$date);
+//        if(count($layoutData['openChat']) > 0){
+//            list($firstKey) = array_keys($layoutData['openChat']);
+//            $layoutData['lastTime'] = $layoutData['openChat'][$firstKey]->log_time;
+//        }
+        return response()->json($layoutData);
+    }
+
     /*
         -- End
     */
@@ -245,6 +254,20 @@ class ChatsController extends AppController
         $layoutData['maxDateDiff'] = config("dashboard_constant.REPORT_MAX_DATE_DIFF");
         // Return collection of list as a reosurce
         return response()->json($layoutData);
+    }
+
+    public function getContactData() {
+        if(!empty($_POST)) {
+            $phone = null;
+            foreach($_POST as $key=>$val) {
+                $phone = $key;
+            }
+            $data = $this->ChatsService->getContactData($phone);
+            if(!empty($data)) {
+                return json_encode($data);
+            }
+        }
+        return false;
     }
 
 }

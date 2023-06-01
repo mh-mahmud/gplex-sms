@@ -411,7 +411,6 @@ class ContactController extends Controller
     // -- code for contact settings
     public function createInitSettings()
     {
-        dd("Hello");
         $layoutData['userType'] = config("dashboard_constant.USER_TYPE");
         $layoutData['userStatus'] = config("dashboard_constant.USER_STATUS");
         $layoutData['title'] = 'Contact Settings Page | '.config("app.name");
