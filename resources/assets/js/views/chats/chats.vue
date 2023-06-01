@@ -139,8 +139,7 @@
 
 
                                             <div id="close-chat">
-                                                <ul>
-
+                                                <ul @scroll="scrollCustomBottomClose">
                                                     <li class="chat-box" v-for="(item2, key2) in closeData"
                                                         :data-target="'content-'+key2"
                                                         v-on:click="greet(item2)">
@@ -158,8 +157,6 @@
                                                             </div>
                                                         </div>
                                                     </li>
-
-
                                                 </ul>
                                             </div>
 
@@ -1720,6 +1717,27 @@
                         let result = res.data.openChat;
                         result = {...this.openData, ...result};
                         this.openData = result;
+                    })
+                        .catch(function (error) {
+                            console.log(error.response);
+                        });
+                }
+            },
+            /**
+             * @script  Initialize when chat history scroll reached at bottom
+             * */
+            scrollCustomBottomClose(event) {
+                const element = event.target;
+                if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                    // do something when scrolled to the bottom
+                    let lastValue = this.closeData[Object.keys(this.closeData).pop()].last_text_at;
+                    // console.log(lastValue);
+                    let url = `api/previous-close-chats/${lastValue}`;
+                    axios.get(url).then((res) => {
+                        // console.log(this.openData);
+                        let result = res.data.closeChat;
+                        result = {...this.closeData, ...result};
+                        this.closeData = result;
                     })
                         .catch(function (error) {
                             console.log(error.response);

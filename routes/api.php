@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/chats', 'ChatsController@getChatsData');
     Route::get('/open-chats/{date}', 'ChatsController@getOpenChat');
     Route::get('/previous-chats/{date}', 'ChatsController@getPreviousChat');
+    Route::get('/previous-close-chats/{date}', 'ChatsController@getPreviousCloseChat');
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
     Route::get('/previous-chat-info/{id}/{date}', 'ChatsController@previousChatsByUserId');
     Route::post('/add-disposition', 'ChatsController@storeDisposition');

@@ -79,6 +79,24 @@ class ChatsService extends AppService {
         return $allData;
     }
 
+    public function getPreviousCloseChats($account_id,$date) {
+
+        $did = $this->getDid();
+        $data = DB::select("select c.phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9, c.last_text_at from contacts as c LEFT JOIN contact_opt_status AS cos ON cos.phone=c.phone AND cos.account_id=c.account_id WHERE c.account_id='{$account_id}' AND c.last_did='{$did}' AND c.last_text_at < '{$date}' AND c.last_text_at != '0000-00-00 00:00:00' AND cos.status='O' ORDER BY last_text_at DESC limit 20 ");
+
+        $allData = [];
+        foreach ($data as $datum){
+            $uniqueData = DB::select("select ls.log_time, callid, SUBSTRING(ls.sms_text, 1, 15) AS sms_text, ls.status from log_sms as ls WHERE ls.account_id='{$account_id}' AND ls.did='{$did}' and ls.client_number='{$datum->phone}' ORDER BY log_time DESC limit 1 ");
+            $allData[$datum->phone] = count($uniqueData) > 0 ? (object) array_merge((array) $datum, (array) $uniqueData[0]) : $datum;
+
+        }
+//        uasort($allData, function($a, $b) {
+//            if (strtotime($a->log_time) == strtotime($b->log_time)) return 0;
+//            return (strtotime($a->log_time) < strtotime($b->log_time)) ? 1 : -1;
+//        });
+        return $allData;
+    }
+
     public function getCloseChats($account_id) {
         $did = $this->getDid();
         $data = DB::select("select c.phone,c.id, c.first_name,c.last_name,c.company, c.state, c.street, c.suite, c.city, c.zip, c.company, c.custom_0, c.custom_1, c.custom_2, c.custom_3, c.custom_4, c.custom_5, c.custom_6, c.custom_7, c.custom_8, c.custom_9, c.last_text_at from contacts AS c LEFT JOIN contact_opt_status AS cos ON cos.phone=c.phone AND cos.account_id=c.account_id AND cos.did=c.last_did WHERE c.account_id='{$account_id}' AND c.last_did='{$did}' AND cos.status='O' ORDER BY last_text_at DESC limit 20 ");

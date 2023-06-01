@@ -160,6 +160,15 @@
                                         <label class="col-lg-3 col-form-label"  for="activeHours">Active Hours:<span class="required">*</span></label>
                                         <div class="col-lg-9">
                                             <div class="md-checkbox-inline">
+                                                <b-form-checkbox
+                                                        v-model="allSelected"
+                                                        :indeterminate="indeterminate"
+                                                        aria-describedby="compose.activeHours"
+                                                        aria-controls="compose.activeHours"
+                                                        @change="checkedAll"
+                                                >
+                                                    {{ allSelected ? 'Un-select All' : 'All' }}
+                                                </b-form-checkbox>
                                                 <b-form-checkbox-group
                                                         id="activeHours"
                                                         v-model="compose.activeHours"
@@ -169,8 +178,8 @@
                                                 </b-form-checkbox-group>
                                             </div>
                                             <span class="m-form__help" v-if="errors.has('activeHour') || validationErrors.activeHour">
-                                            {{ errors.first('activeHour') || validationErrors.activeHour[0] }}
-                                        </span>
+                                                {{ errors.first('activeHour') || validationErrors.activeHour[0] }}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="form-group m-form__group row">
@@ -287,7 +296,8 @@ export default {
             toList: [],
             compose: {
                 scheduleDateEnd : "0000-00-00 00:00:00",
-                activeHour : "111111111111111111111111"
+                activeHour : "111111111111111111111111",
+                activeHours : []
             },
             message: "",
             scheduleShow: false,
@@ -295,7 +305,9 @@ export default {
             data: {
                 settings: {}
             },
-            to: {}
+            to: {},
+            allSelected: false,
+            indeterminate: false
         };
     },
     computed: {
@@ -530,6 +542,25 @@ export default {
                 $('#tag-list').hide();
             }
         },
+        checkedAll(checked) {
+            this.compose.activeHours = checked ? this.data.activeHours.slice() : [];
+            console.log(checked);
+        },
+    },
+    watch: {
+        selected(newValue, oldValue) {
+            // Handle changes in individual flavour checkboxes
+            if (newValue.length === 0) {
+                this.indeterminate = false
+                this.allSelected = false
+            } else if (newValue.length === this.compose.activeHours.length) {
+                this.indeterminate = false
+                this.allSelected = true
+            } else {
+                this.indeterminate = true
+                this.allSelected = false
+            }
+        }
     },
 
     beforeDestroy() {
