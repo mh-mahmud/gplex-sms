@@ -106,7 +106,7 @@
                                                 <li class="list-group-item" @click.prevent="addContactItem('state')"><a
                                                         href="#">State</a></li>
                                                 <li class="list-group-item" @click.prevent="addContactItem('zip')"><a
-                                                        href="#">CPAS (ZIP)</a></li>
+                                                        href="#">ZIP</a></li>
 
                                                 <!--                                                    <li  v-if="data.settings.custom_0_name" class="list-group-item"><a @click.prevent="addContactItem('custom_0')"  href="#">{{data.settings.custom_0_name}}</a></li>-->
                                                 <!--                                                    <li  v-if="data.settings.custom_1_name" class="list-group-item"><a @click.prevent="addContactItem('custom_1')"  href="#">{{data.settings.custom_1_name}}</a></li>-->

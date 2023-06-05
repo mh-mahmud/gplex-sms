@@ -112,9 +112,9 @@
                                     </div>    
                                 </div>
                                 <div class="form-group m-form__group row" :class="errors.has('zip') || validationErrors.zip ? 'has-error' : ''">
-                                    <label class="col-lg-3 col-form-label"  for="zip">CPAS (ZIP):</label>
+                                    <label class="col-lg-3 col-form-label"  for="zip">ZIP:</label>
                                     <div class="col-lg-6">
-                                        <input data-vv-as="zip" name="zip" v-validate="'max:30'"  v-model="contact.zip" type="text" class="form-control m-input" placeholder="Enter CPAS (ZIP)">
+                                        <input data-vv-as="zip" name="zip" v-validate="'max:30'"  v-model="contact.zip" type="text" class="form-control m-input" placeholder="Enter ZIP">
                                         <span class="m-form__help" v-if="errors.has('zip') || validationErrors.zip">
                                             {{ errors.first('zip') || validationErrors.zip[0] }}
                                         </span>

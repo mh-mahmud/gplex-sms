@@ -434,7 +434,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>CPAS (ZIP)</td>
+                                                        <td>ZIP</td>
                                                         <td>
                                                             <input :data-vv-as="contactData.zip" name="zip"
                                                                    v-model="contactData.zip" type="text"
