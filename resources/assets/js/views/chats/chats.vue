@@ -635,12 +635,9 @@
 }
 
 .g-open-chat-header {
-
   background-color: darken(#fafafa, 5%);
   flex-grow: 1;
   width: 100%;
-
-
 }
 
 .g-open-chat-h-main {
@@ -720,8 +717,6 @@
     vertical-align: middle;
     transition: all 0.4s ease-in-out;
   }
-
-
 }
 
 .g-chat-user-property {
@@ -731,59 +726,6 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
-}
-
-
-/*============================
-         Search
-  ============================*/
-.search-container {
-  position: relative;
-  margin-left: auto;
-}
-
-
-.search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 1rem;
-  color: #ccc;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.search-container input[type="text"] {
-  width: 0;
-  max-width: 0;
-  padding: 12px 20px;
-  margin: 8px 0;
-  box-sizing: border-box;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: all 0.3s ease;
-  background-color: transparent;
-}
-
-.search-container input[type="text"]:focus {
-  outline: none;
-  border-bottom: 2px solid #329e8c;
-
-
-}
-
-.search-container.active .search-icon {
-  left: 10px;
-
-
-  color: #329e8c;
-}
-
-.search-container.active input[type="text"] {
-  max-width: 150px;
-  width: 100%;
-  margin-left: 10px;
 }
 
 
@@ -980,24 +922,27 @@
   background-color: transparent;
 }
 
+.search-container.active {
+  background-color: #ffffff;
+  margin-right: -0.3rem;
+}
+
 .search-container input[type="text"]:focus {
   outline: none;
   border-bottom: 2px solid #329e8c;
-
-
 }
 
 .search-container.active .search-icon {
-  left: 10px;
-
-
+  left: 5px;
   color: #329e8c;
 }
 
 .search-container.active input[type="text"] {
-  max-width: 150px;
+  max-width: 100%;
   width: 100%;
-  margin-left: 10px;
+  margin-left: 3px;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 
@@ -1416,14 +1361,9 @@
 .tag-list > li:hover {
   background-color: #329d8b;
 
-
   & a {
-
-
     color: #ffffff;
   }
-
-
 }
 
 //overwrite rule
@@ -1607,9 +1547,62 @@ export default {
 
 
   },
+
+
   destroyed() {
     clearInterval(this.interval)
   },
+
+
+  computed: {
+    /**
+     * @mominriyadh
+     * @returns { string}
+     */
+    fullScreenIconClass() {
+      return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
+    },
+
+
+    /**
+     * @mominriyadh
+     * @returns {unknown[]}
+     */
+    filteredData() {
+      const keyword = this.searchKeyword.toLowerCase().trim();
+      if (keyword === '') {
+        return this.openData; // Return all values if no keyword is provided
+      } else {
+        // Filter data based on search keyword
+        const filtered = Object.values(this.openData).filter(item =>
+            item.first_name.toLowerCase().startsWith(keyword) || item.last_name.toLowerCase().startsWith(keyword)
+        );
+
+        // return Object.values(this.openData).filter(item =>
+        //     item.first_name.toLowerCase().includes(keyword)
+        // );
+
+        // Sort the filtered array to show matching elements/names first
+        const sorted = filtered.sort((a, b) => {
+          const nameA = a.first_name.toLowerCase() || a.last_name.toLowerCase();
+          const nameB = b.first_name.toLowerCase() || a.last_name.toLowerCase();
+          if (nameA.startsWith(keyword) && !nameB.startsWith(keyword)) {
+            return -1; // a should come before b
+          } else if (!nameA.startsWith(keyword) && nameB.startsWith(keyword)) {
+            return 1; // b should come before a
+          } else {
+            return nameA.localeCompare(nameB); // Sort alphabetically
+          }
+        });
+
+        return sorted;
+      }
+
+    }
+
+  },
+
+
   methods: {
     /**
      * @script  For Close Handler
@@ -1655,7 +1648,6 @@ export default {
           commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
           commonLib.unblockUI(".m-content");
           this.clearCurrentCaht();
-
         })
             .catch(function (error) {
               console.log(error.response);
@@ -1719,6 +1711,9 @@ export default {
     },
 
 
+    /**
+     * @script for => Full Screen
+     */
     toggleFullScreen() {
       this.isFullScreen = !this.isFullScreen;
       const chatArea = document.querySelector('.g-chat-area');
@@ -2194,53 +2189,6 @@ export default {
 
   },
 
-  computed: {
-    /**
-     * @mominriyadh
-     * @returns {string}
-     */
-    fullScreenIconClass() {
-      return this.isFullScreen ? 'bi bi-box-arrow-in-down-left' : 'bi bi-arrows-fullscreen';
-    },
-
-
-    /**
-     * @mominriyadh
-     * @returns {unknown[]}
-     */
-    filteredData() {
-      const keyword = this.searchKeyword.toLowerCase().trim();
-      if (keyword === '') {
-        return Object.values(this.openData); // Return all values if no keyword is provided
-      } else {
-        // Filter data based on search keyword
-        const filtered = Object.values(this.openData).filter(item =>
-            item.first_name.toLowerCase().startsWith(keyword)
-        );
-
-        // return Object.values(this.openData).filter(item =>
-        //     item.first_name.toLowerCase().startsWith(keyword)
-        // );
-
-        // Sort the filtered array to show matching elements/names first
-        const sorted = filtered.sort((a, b) => {
-          const nameA = a.first_name.toLowerCase();
-          const nameB = b.first_name.toLowerCase();
-          if (nameA.startsWith(keyword) && !nameB.startsWith(keyword)) {
-            return -1; // a should come before b
-          } else if (!nameA.startsWith(keyword) && nameB.startsWith(keyword)) {
-            return 1; // b should come before a
-          } else {
-            return nameA.localeCompare(nameB); // Sort alphabetically
-          }
-        });
-
-        return sorted;
-      }
-
-    }
-
-  },
 
   beforeDestroy() {
     // Remove event listener from the document object
