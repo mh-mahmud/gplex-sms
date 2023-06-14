@@ -115,20 +115,29 @@
                                 <strong class="mb-0">{{
                                     item.first_name ? item.first_name : item.phone
                                   }}
-                                  {{ item.last_name }} </strong>
+                                  {{ item.last_name }}
+                                  <sup v-if="item.status === 'U'" :id="'alert-' + key"
+                                       class=""><span class="text-right"><i
+                                      class="bi bi-bell-fill" style="color: #f70606;"></i></span>
+                                  </sup>
+                                </strong>
                                 <small v-if="item.sms_text">{{
                                     item.sms_text.substr(0, 15)
                                   }} ...
                                 </small>
-                                <!--                                                                <small :id="'serving-' + key" class="serving"-->
-                                <!--                                                                       style="display: none"><span class="text-right"-->
-                                <!--                                                                                                   style="color: #3cffed;">Serving...</span>-->
-                                <!--                                                                </small>-->
+                                <small :id="'serving-' + key" class="serving"
+                                       style=""><span class="text-right"
+                                                                   style="color: #3cffed;">Serving...</span>
+                                </small>
                               </div>
-                              <div v-if="item.status === 'U'" :id="'alert-' + key"
-                                   class=""><span class="text-right"><i
-                                  class="bi bi-bell-fill" style="color: #f70606;"></i></span>
+
+                              <div class="g-time-status-area">
+                                <small class="g-date-time">
+                                  <!--                                  2 min ago-->
+                                  Apr 10, 2023
+                                </small>
                               </div>
+
                             </div>
                           </li>
                         </ul>
@@ -147,10 +156,21 @@
                               </div>
                               <div class="g-chat-left-u-meta">
                                 <strong class="mb-0">{{ item2.first_name }}
-                                  {{ item2.last_name }}</strong>
+                                  {{ item2.last_name }}
+<!--                                  <sup v-if="item.status === 'U'" :id="'alert-' + key"-->
+<!--                                       class=""><span class="text-right"><i-->
+<!--                                      class="bi bi-bell-fill" style="color: #f70606;"></i></span>-->
+<!--                                  </sup>-->
+                                </strong>
                                 <small v-if="item2.sms_text">{{
                                     item2.sms_text.substr(0, 15)
                                   }}
+                                </small>
+                              </div>
+                              <div class="g-time-status-area">
+                                <small class="g-date-time">
+                                  <!--                                  2 min ago-->
+                                  Apr 10, 2023
                                 </small>
                               </div>
                             </div>
@@ -782,7 +802,6 @@
 }
 
 .chat-box {
-  padding: 13px !important;
   border-bottom: 1px solid #333;
 }
 
@@ -1047,7 +1066,7 @@
   display: flex;
   gap: 5px;
   align-items: center;
-  height: 40px;
+  height: 55px;
 }
 
 .g-chat-left-u-image {
@@ -1063,23 +1082,29 @@
 .g-chat-left-u-meta {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   strong {
     line-height: 1.2;
     font-size: 0.9rem;
-
-
   }
 
   small {
-
-
     line-height: 1;
   }
-
-
 }
 
+.g-time-status-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.g-date-time {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
 
 /*============================
          Main Chat Format
