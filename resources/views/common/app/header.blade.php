@@ -74,8 +74,8 @@ $authUser = Session::get('loginUser');
                                                 <a href="{{ route('logout') }}" class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
                                                     Logout
                                                 </a>
-                                                <a href="{{ url('#/user-reset-password') }}" class="btn m-btn--pill btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder" style="float: right">
-                                                    Password Reset
+                                                <a href="{{ url('#/user-reset-password') }}" class="btn m-btn--pill btn-secondary m-btn m-btn--label-brand m-btn--bolder" style="padding: .75rem 1.70rem;font-size: 1rem;font-weight: 400;font-family: Poppins;float: right">
+                                                    Password Change
                                                 </a>
                                             </li>
                                         </ul>

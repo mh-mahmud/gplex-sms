@@ -118,7 +118,13 @@
                                                                 <strong class="mb-0">{{
                                                                     item.first_name ? item.first_name : item.phone
                                                                     }}
-                                                                    {{ item.last_name }} </strong>
+                                                                    {{ item.last_name }}
+                                                                    <sup v-if="item.status === 'U'" :id="'alert-' + key"
+                                                                         class=""><span class="text-right"><i
+                                                                            class="bi bi-bell-fill"
+                                                                            style="color: #f70606;"></i></span>
+                                                                    </sup>
+                                                                </strong>
                                                                 <small v-if="item.sms_text">{{
                                                                     item.sms_text.substr(0, 15)
                                                                     }} ...
@@ -128,9 +134,11 @@
                                                                 <!--                                                                                                   style="color: #3cffed;">Serving...</span>-->
                                                                 <!--                                                                </small>-->
                                                             </div>
-                                                            <div v-if="item.status == 'U'" :id="'alert-' + key"
-                                                                 class=""><span class="text-right"><i
-                                                                    class="bi bi-bell-fill" style="color: #f70606;"></i></span>
+                                                            <div class="g-time-status-area">
+                                                                <small class="g-date-time">
+                                                                    <!--                                  2 min ago-->
+                                                                    Apr 10, 2023
+                                                                </small>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -149,10 +157,24 @@
                                                             </div>
                                                             <div class="g-chat-left-u-meta">
                                                                 <strong class="mb-0">{{ item2.first_name }}
-                                                                    {{ item2.last_name }}</strong>
+                                                                    {{ item2.last_name }}
+
+                                                                    <sup v-if="item2.status === 'U'" :id="'alert-' + key2"
+                                                                         class=""><span class="text-right"><i
+                                                                            class="bi bi-bell-fill"
+                                                                            style="color: #f70606;"></i></span>
+                                                                    </sup>
+
+                                                                </strong>
                                                                 <small v-if="item2.sms_text">{{
                                                                     item2.sms_text.substr(0, 15)
                                                                     }}
+                                                                </small>
+                                                            </div>
+                                                            <div class="g-time-status-area">
+                                                                <small class="g-date-time">
+                                                                    <!--                                  2 min ago-->
+                                                                    Apr 10, 2023
                                                                 </small>
                                                             </div>
                                                         </div>
@@ -181,7 +203,8 @@
                                                             <div class="chat-msg">
                                                                 {{ msg.sms_text }}
                                                                 <time>
-                                                                  <span style="font-size:10px" v-if="msg.direction=='O'">
+                                                                  <span style="font-size:10px"
+                                                                        v-if="msg.direction=='O'">
                                                                     <i v-if="msg.userid">{{ msg.userid }} - </i>
                                                                   </span>
                                                                     {{
@@ -1137,6 +1160,7 @@
     .g-chat-left-u-meta {
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         strong {
             line-height: 1.2;
@@ -1152,6 +1176,10 @@
         }
 
 
+    }
+
+    .g-time-status-area {
+        flex-shrink: 0;
     }
 
 

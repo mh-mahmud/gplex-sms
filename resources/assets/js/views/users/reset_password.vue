@@ -19,14 +19,14 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    <form class="m-form" @submit.prevent="addUser">
+                    <form class="m-form" @submit.prevent="resetPassword">
                         <div class="m-portlet__body">
                             <div class="m-form__section m-form__section--first">
                                 
                                 <div class="form-group m-form__group row" :class="errors.has('old_password') || validationErrors.old_password ? 'has-error' : ''">
                                     <label class="col-lg-3 col-form-label"  for="old_password">Old Password:<span class="required">*</span></label>
                                     <div class="col-lg-6">
-                                        <input data-vv-as="Old Password" name="old_password" v-validate="'required|min:6|max:32'"  v-model="user.old_password" type="password" class="form-control m-input" placeholder="Enter Old Password">
+                                        <input data-vv-as="Old Password" name="old_password" v-validate="'required|max:32'"  v-model="user.old_password" type="password" class="form-control m-input" placeholder="Enter Old Password">
                                         <span class="m-form__help" v-if="errors.has('old_password') || validationErrors.old_password">
                                             {{ errors.first('old_password') || validationErrors.old_password[0] }}
                                         </span>
@@ -100,18 +100,18 @@ export default {
 
     },
     // Add/Update User
-    addUser() {
+    resetPassword() {
         this.$validator.validateAll().then((result) => { 
             if(result == true){
                 if(typeof commonLib != 'undefined'){
                     commonLib.blockUI({target: ".m-content",animate: true,overlayColor: 'none'});
                 }
                 var vm = this;
-                axios.post('api/users', this.user).then((res) => 
+                axios.post('api/password-reset', this.user).then((res) =>
                 {
                     this.user = {};
                     commonLib.iniToastrNotification(res.data.response_msg.type, res.data.response_msg.title, res.data.response_msg.message);
-                    this.$router.push({name:'UserList'});
+                    this.$router.push({name:'Dashboard'});
                     commonLib.unblockUI(".m-content");
                 })
                 .catch(function (error) {

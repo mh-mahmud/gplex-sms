@@ -223,6 +223,7 @@ export default {
                 return moment(date, 'YYYY-MM-DD hh:mm').format('DD-MM-YYYY hh:mm A');
         },
         changeStatus: function(scheduleId, index, status){
+            // '/schedule-change-status/{log_time}/{account_id}/{did}/{client_number}/{callid}/{status}', 'ScheduleController@getScheduleChangeStatus'
             var url = 'api/schedule-change-status/'+scheduleId+'/'+status;
             axios.get(url).then((res) => 
             {                

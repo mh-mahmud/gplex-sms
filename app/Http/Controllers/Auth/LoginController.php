@@ -124,7 +124,7 @@ class LoginController extends Controller
         ->leftJoin($pbxDbName.'.account_profile as ap','user.account_id','ap.account_id')
         ->where(['user.account_id' => $request->account_id,'user.extn' => $request->extn,'user.active' => 'Y', 'user.allow_sms' => 'Y'])
         ->first();
-        if ($user && $user->password = md5($user->userid.$request->password)) {
+        if ($user && $user->password == md5($user->userid.$request->password)) {
             $user->password = '';            
             $userData = array('account_id'=>$user->account_id,'userid'=>$user->userid,'department_id'=>$user->department_id,'fname'=>$user->fname,'lname'=>$user->lname,'cname'=>$user->cname);
             $this->guard()->login($user, $request->has('remember'));

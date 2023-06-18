@@ -19,7 +19,7 @@
                     <!--begin: Datatable -->
                     <div id="m_table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="m-portlet__body">
 		                            <div class="m-widget28">
                                         <div class="m-widget28__container" >
@@ -50,67 +50,133 @@
 		                            </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
                                 <div class="m-portlet m--bg-info m-portlet--bordered-semi m-portlet--full-height ">
-                                    <div class="m-portlet__head">
-                                        <div class="m-portlet__head-caption">
-                                            <div class="m-portlet__head-title">
-                                                <h3 class="m-portlet__head-text m--font-light">
-                                                    Last 7 days
-                                                </h3>
+                                    <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="m-portlet__head">
+                                                    <div class="m-portlet__head-caption">
+                                                        <div class="m-portlet__head-title">
+                                                            <h3 class="m-portlet__head-text m--font-light">
+                                                                Last 7 days
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div class="col-md-6">
+                                                <div class="m-portlet__head">
+                                                    <div class="m-portlet__head-caption">
+                                                        <div class="m-portlet__head-title">
+                                                            <h3 class="m-portlet__head-text m--font-light">
+                                                                Today
+                                                            </h3>
+                                                        </div>
+                                                    </div>
 
-                                        <div class="m-portlet__head-tools">
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-secondary router-link-active" title="Refresh" @click.prevent="dashboardView"><span><i class="fa fa-refresh"></i></span></a>
-                                        </div>
+                                                    <div class="m-portlet__head-tools">
+                                                        <a href="javascript:void(0);" class="btn btn-sm btn-secondary router-link-active" title="Refresh" @click.prevent="dashboardView"><span><i class="fa fa-refresh"></i></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div class="m-portlet__body">
-                                        <!--begin::Widget 29-->
-                                        <div class="m-widget29">
-                                            <div v-if="data.inboundLog"  class="m-widget_content">
-                                                <h3 class="m-widget_content-title">
-                                                    <router-link href="javascript:void(0);"  v-bind:to="{name: 'InboundList'}" title="Inbound List">Inbound</router-link>
-                                                </h3>
-                                                <div class="m-widget_content-items">
-                                                    <div class="m-widget_content-item">
-                                                        <span>Status</span>
-                                                        <span class="m--font-accent" style="font-size: 1.5rem;font-weight: 600;">Unread</span>
-                                                        <span class="m--font-accent">Received</span>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <!--begin::Widget 29-->
+                                                <div class="m-widget29">
+                                                    <div v-if="data.inboundLog"  class="m-widget_content">
+                                                        <h3 class="m-widget_content-title">
+                                                            <router-link href="javascript:void(0);"  v-bind:to="{name: 'InboundList'}" title="Inbound List">Inbound</router-link>
+                                                        </h3>
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span>Status</span>
+                                                                <span class="m--font-accent" style="font-size: 1.5rem;font-weight: 600;">Unread</span>
+                                                                <span class="m--font-accent">Received</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>Total</span>
+                                                                <span style="font-size: 1.5rem;font-weight: 600;color: #fe21be;">{{data.unreadLog.total}}</span>
+                                                                <span>{{data.inboundLog.total}}</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="m-widget_content-item">
-                                                        <span>Total</span>
-                                                        <span style="font-size: 1.5rem;font-weight: 600;color: #fe21be;">{{data.unreadLog.total}}</span>
-                                                        <span>{{data.inboundLog.total}}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div v-if="data.outboundLog" class="m-widget_content">
-                                                <h3 class="m-widget_content-title">
-                                                    <router-link href="javascript:void(0);"  v-bind:to="{name: 'OutboundList'}" title="Outbound List">Outbound</router-link>
-                                                    </h3>
-                                                <div class="m-widget_content-items">
-                                                    <div class="m-widget_content-item">
-                                                        <span>Status</span>
-                                                        <span class="m--font-accent">Sent</span>
-                                                    </div>
-                                                    <div class="m-widget_content-item">
-                                                        <span>Total</span>
-                                                        <span>{{data.outboundLog.total}}</span>
-                                                    </div>
-                                                </div>
+                                                    <div v-if="data.outboundLog" class="m-widget_content">
+                                                        <h3 class="m-widget_content-title">
+                                                            <router-link href="javascript:void(0);"  v-bind:to="{name: 'OutboundList'}" title="Outbound List">Outbound</router-link>
+                                                        </h3>
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span>Status</span>
+                                                                <span class="m--font-accent">Sent</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>Total</span>
+                                                                <span>{{data.outboundLog.total}}</span>
+                                                            </div>
+                                                        </div>
 
-                                                <div class="m-widget_content-items">
-                                                    <div class="m-widget_content-item">
-                                                        <span class="m--font-accent">Pending</span>
-                                                    </div>
-                                                    <div class="m-widget_content-item">
-                                                        <span>{{data.smsInfo[0].pending}}</span>
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span class="m--font-accent">Pending</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>{{data.smsInfo[0].pending}}</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <!--end::Widget 29-->
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!--begin::Widget 29-->
+                                                <div class="m-widget29">
+                                                    <div v-if="data.inboundLogToday"  class="m-widget_content">
+                                                        <h3 class="m-widget_content-title">
+                                                            <router-link href="javascript:void(0);"  v-bind:to="{name: 'InboundList'}" title="Inbound List">Inbound</router-link>
+                                                        </h3>
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span>Status</span>
+                                                                <span class="m--font-accent" style="font-size: 1.5rem;font-weight: 600;">Unread</span>
+                                                                <span class="m--font-accent">Received</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>Total</span>
+                                                                <span style="font-size: 1.5rem;font-weight: 600;color: #fe21be;">{{data.unreadLogToday.total}}</span>
+                                                                <span>{{data.inboundLogToday.total}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-if="data.outboundLogToday" class="m-widget_content">
+                                                        <h3 class="m-widget_content-title">
+                                                            <router-link href="javascript:void(0);"  v-bind:to="{name: 'OutboundList'}" title="Outbound List">Outbound</router-link>
+                                                        </h3>
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span>Status</span>
+                                                                <span class="m--font-accent">Sent</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>Total</span>
+                                                                <span>{{data.outboundLogToday.total}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="m-widget_content-items">
+                                                            <div class="m-widget_content-item">
+                                                                <span class="m--font-accent">Pending</span>
+                                                            </div>
+                                                            <div class="m-widget_content-item">
+                                                                <span>{{data.smsInfo[0].pending}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Widget 29-->
                                             </div>
                                         </div>
-                                        <!--end::Widget 29-->
                                     </div>
                                 </div>
                             </div>

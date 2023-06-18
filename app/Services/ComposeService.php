@@ -20,6 +20,7 @@ use Validator;
 use App\Services\SchedulesService;
 use App\Services\AuditLogService;
 use App\Services\UsersService;
+use App\Services\GsmSmsEncoding;
 
 class ComposeService extends AppService
 {
@@ -28,6 +29,7 @@ class ComposeService extends AppService
         $this->SchedulesService = new SchedulesService();
         $this->AuditLogService = new AuditLogService();
         $this->UsersService = new UsersService();
+        $this->GsmSmsEncoding = new GsmSmsEncoding();
     }
 
     /**
@@ -452,6 +454,10 @@ class ComposeService extends AppService
     public function getScheduleDetail($id, $withbr)
     {
         return $this->SchedulesService->getScheduleDetailForCompose($id, $withbr);
+    }
+
+    public function getSmsRatePart($smsString){
+        return $this->GsmSmsEncoding->multipartLength($smsString);
     }
 
 }

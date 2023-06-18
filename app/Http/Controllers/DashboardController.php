@@ -64,6 +64,9 @@ class DashboardController extends AppController
         $layoutData['unreadLog'] = $this->LogService->getLogUnreadSummary($this->account_id);
         $layoutData['inboundLog'] = $this->LogService->getLogInboundSummary($this->account_id);
         $layoutData['outboundLog'] = $this->LogService->getLogOutboundSummary($this->account_id);
+        $layoutData['unreadLogToday'] = $this->LogService->getLogUnreadToday($this->account_id);
+        $layoutData['inboundLogToday'] = $this->LogService->getLogInboundToday($this->account_id);
+        $layoutData['outboundLogToday'] = $this->LogService->getLogOutboundToday($this->account_id);
         $layoutData['accountInfo'] = $this->Service->getAccountInfo($this->account_id);        
         $layoutData['smsInfo'] = $this->LogService->getSmsInfo($this->account_id);
         
