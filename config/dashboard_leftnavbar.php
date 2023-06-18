@@ -129,6 +129,15 @@ return [
         'url' => '#/audit-log-list',
         'model_list' => []
     ],
+    [
+        'name' => 'AutoMessage',
+        'title' => 'Auto Message Settings',
+        'icon' => 'flaticon-file',
+        'sidebar_menu_active' => 'AutoMessage',
+        'vue_route_name' => 'AutoMessage',
+        'url' => '#/auto-message-settings',
+        'model_list' => []
+    ],
     // [
     //     'name' => 'administrator',
     //     'title' => 'Users',
