@@ -103,6 +103,9 @@ export default {
         deleteUser(id, index){
             var self = this;
             this.$deletePagiItem(self.data.data, index, self.pagination, 'Are you sure you want to delete this list?', 'api/groups/' + id);
+            setTimeout(function() {
+                window.location.reload();
+            }, 4000);
         },
         uploadUser(id, index) {
             this.$router.push('contact-import/?groupId='+id);

@@ -542,7 +542,7 @@ class ContactsService extends AppService
                 "state" => "State",
                 "suite" => "Suite",
                 "city" => "City",
-                "zip" => "ZIP",
+                "zip" => "CPAS (ZIP)",
             );
 
             $settings = $this->getAllSettings();

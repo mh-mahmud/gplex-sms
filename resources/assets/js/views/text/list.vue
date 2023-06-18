@@ -23,7 +23,7 @@
                                 <span class="m-accordion__item-title">Search</span>
                                 <span class="m-accordion__item-mode"></span>    
                             </div>
-                            <b-collapse id="collapse1" class="vue-accordion-body">
+                            <b-collapse visible id="collapse1" class="vue-accordion-body">
                                 
                                 <b-card>
                                     <!-- search form -->
@@ -40,7 +40,7 @@
                                                     <div class="input-group-append">
                                                         <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
                                                     </div> 
-                                                <date-picker @dp-change="showTimeFormat" data-vv-as="End Time" name="end_time" v-validate="'date_format:MM/DD/YYYY HH:mm|after:'+searchKey.start_time+'|date_between:'+searchKey.start_time+','+getValidDiffDate(searchKey.start_time,15)"  v-model="searchKey.end_time" 
+                                                <date-picker @dp-change="showTimeFormat" data-vv-as="End Time" name="end_time" v-validate="'date_format:MM/DD/YYYY HH:mm|after:'+searchKey.start_time+'|date_between:'+searchKey.start_time+','+getValidDiffDate(searchKey.start_time,17)"  v-model="searchKey.end_time"
                                                 :config="datepickerOpt" class="form-control m-input date-time-picker" placeholder="To" autocomplete="off"></date-picker>  
                                                     <span class="m-form__help" v-if="errors.has('end_time')">
                                                         {{ errors.first('end_time')}}
@@ -178,8 +178,8 @@ export default {
         return {
             datepickerOpt:{format: 'MM/DD/Y HH:mm',useCurrent: 'day',showClear: true,showClose: true},
             searchKey: {                
-                'start_time': '',
-                'end_time': '',
+                'start_time': moment().day(-11).format('MM/DD/Y')+" 00:00",
+                'end_time': moment().format('MM/DD/Y')+" 00:00",
                 'did': '',
                 'client': '',
                 'client_name': '',

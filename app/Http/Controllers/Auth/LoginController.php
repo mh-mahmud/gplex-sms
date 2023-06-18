@@ -119,14 +119,12 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {      
         $pbxDbName = config('database.pbx_db_name');
-
         $user = User::selectRaw("user.*, up.email, IF(up.timezone='', ap.timezone, up.timezone) as timezone, up.password")
         ->leftJoin($pbxDbName.'.user_profile as up','user.userid','up.userid')
         ->leftJoin($pbxDbName.'.account_profile as ap','user.account_id','ap.account_id')
         ->where(['user.account_id' => $request->account_id,'user.extn' => $request->extn,'user.active' => 'Y', 'user.allow_sms' => 'Y'])
-        ->first(); 
-
-        if ($user && $user->password = md5($user->userid.$request->password)) {
+        ->first();
+        if ($user && $user->password == md5($user->userid.$request->password)) {
             $user->password = '';            
             $userData = array('account_id'=>$user->account_id,'userid'=>$user->userid,'department_id'=>$user->department_id,'fname'=>$user->fname,'lname'=>$user->lname,'cname'=>$user->cname);
             $this->guard()->login($user, $request->has('remember'));

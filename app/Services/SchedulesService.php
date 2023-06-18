@@ -284,16 +284,15 @@ class SchedulesService extends AppService
      * @param int $id
      * @param string $status 
      */
-    public function changeScheduleStatus($scheduleId, $status){
-        $this->getAccountId();
-        $res = Schedule::where('id',$scheduleId)
-                    ->where('account_id',$this->getAccountId())
-                    ->update(['status' => $status]);
-        if($res){
-            $this->AuditLogService->createLog(array('status' => $status), 'U');
-        }
-        return $this->processServiceResponse($res ? true : false, $res ? "Update Successfully!" : "Update Failed!",$status);
+    public function changeScheduleStatus($schedule_id, $status){
+
+    $res = Schedule::where('id',$schedule_id)
+        ->update(['status' => $status]);
+    if($res){
+        $this->AuditLogService->createLog(array('status' => $status), 'U');
     }
+    return $this->processServiceResponse($res ? true : false, $res ? "Schedule Update Successfully!" : "Schedule Update Failed!",$status);
+}
     
 
     /**

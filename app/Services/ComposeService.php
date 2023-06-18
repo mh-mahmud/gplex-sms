@@ -20,6 +20,7 @@ use Validator;
 use App\Services\SchedulesService;
 use App\Services\AuditLogService;
 use App\Services\UsersService;
+use App\Services\GsmSmsEncoding;
 
 class ComposeService extends AppService
 {
@@ -28,21 +29,26 @@ class ComposeService extends AppService
         $this->SchedulesService = new SchedulesService();
         $this->AuditLogService = new AuditLogService();
         $this->UsersService = new UsersService();
+        $this->GsmSmsEncoding = new GsmSmsEncoding();
     }
+
     /**
      * get pagination data
      */
-    public function getPagination(){
+    public function getPagination()
+    {
         // Get list
-        $data = Contact::orderBy('created_at', 'DESC')->paginate(config('dashboard_constant.PAGINATION_LIMIT')); 
+        $data = Contact::orderBy('created_at', 'DESC')->paginate(config('dashboard_constant.PAGINATION_LIMIT'));
         return $this->paginationDataFormat($data->toArray());
     }
+
     /**
      * save data
      * @param array request
      */
-    public function save($request){        
-        
+    public function save($request)
+    {
+
         $rules = [
             'to' => 'required',
             'from' => 'required|max:13',
@@ -51,108 +57,108 @@ class ComposeService extends AppService
         $authUser = Session::get('loginUser');
 
         $scheduleShow = $request->input('scheduleShow');
-        if($scheduleShow){
-            $rules['scheduleDate'] = 'required';            
-            $rules['scheduleDateEnd'] = 'required';
-            $rules['activeHours'] = 'required';
+        if ($scheduleShow) {
+            $rules['scheduleDate'] = 'required';
+            $rules['time_zone'] = 'required';
         }
-        Validator::make($request->all(),$rules)->validate();
+        Validator::make($request->all(), $rules)->validate();
 
-        
-        $smsTo = $request->input('to');        
-        $time_zone = $request->input('time_zone'); 
-        foreach($smsTo as $key => $value){
-            if(!isset($value['code'])){
+
+        $smsTo = $request->input('to');
+        $time_zone = $request->input('time_zone');
+        foreach ($smsTo as $key => $value) {
+            if (!isset($value['code'])) {
                 $smsTo[$key]['code'] = $value['value'];
             }
-        }  
-        if(!$this->hasBalance()){
-            return $this->processServiceResponse(false, 'Balance is insufficient.Please talk to your management for top-up.',null);
+        }
+        if (!$this->hasBalance()) {
+            return $this->processServiceResponse(false, 'Balance is insufficient.Please talk to your management for top-up.', null);
         }
         $commit = true;
-                
-            DB::beginTransaction();
-            try {
-                
-		if ($scheduleShow) {
-                    if (empty($time_zone)) $time_zone = 'America/Chicago';
-                    $start_time = $request->input('scheduleDate');
-                    $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
-	            if (!$this->isValidDate($start_time)) {
-	                $start_time = $date->format('Y-m-d H:i:s');
-                    }
-                    $start_time_utc = $this->getGMTTime($start_time, $time_zone);
-                    $stop_time = $request->input('scheduleDateEnd');
-                    if (!$this->isValidDate($stop_time)) {
-                        $stop_time = '0000-00-00 00:00:00';
-                        $stop_time_utc = '0000-00-00 00:00:00';
-                    } else {
-                        $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
-                    }
-                    $active_hour = $request->input('activeHour');
-		} else {
-		   $start_time = date('Y-m-d H:i:s');
-		   $stop_time = '0000-00-00 00:00:00';
-		   $start_time_utc = date('Y-m-d H:i:s');
-		   $stop_time_utc = '0000-00-00 00:00:00';
-		   $active_hour = '';
-		}
-                
-                $scheduleId = $this->genScheduleId();
-                $schedule = new Schedule;
-                $schedule->id = $scheduleId;
-                $schedule->account_id = $this->getAccountId();
-                $schedule->sms_from = $request->input('from');
-                $schedule->sms_text = $request->input('message');
-                $schedule->time_zone = $scheduleShow ? $time_zone : '';
-                $schedule->start_time = $start_time;
-                $schedule->start_time_utc = $start_time_utc;
-                $schedule->active_hour = $active_hour;
-                $schedule->stop_time = $stop_time;
-                $schedule->stop_time_utc = $stop_time_utc;
-                $schedule->next_fetch_time = date('Y-m-d H:i:s');
-                $schedule->is_schedule = $scheduleShow ? '1' : '0';
-                $schedule->is_repeat = '0';
-                $schedule->status = config('dashboard_constant.PENDING');
-                $schedule->created_by = \Auth::user()->userid;
-                $schedule->updated_by = \Auth::user()->userid;
-                if($schedule->save()){
-                    $schedule->id = $scheduleId;
-                    $this->AuditLogService->createLog($schedule, 'A');
-                    $contacts = array_column($smsTo, "value","code");
-                    $conArr = $this->getGrpIndContacts($contacts);                
-                    $conReqData = [                    
-                        'schedule_id' => $scheduleId,
-                        'account_id' => $this->getAccountId(),
-                        'status' => config('dashboard_constant.PENDING'),
-                        'created_by' => \Auth::user()->userid,
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s'),
-                    ];
-                    // insert data into schedule contacts table
-                    $this->SchedulesService->saveScheduleContacts(array_merge(['group_id' => $conArr['group']],$conReqData) ,'group_id');
-                    $this->SchedulesService->saveScheduleContacts(array_merge(['phone' => $conArr['single']],$conReqData) ,'phone');
-                    // update total number of contacts of schedule table
-                    $this->SchedulesService->updateTotalContacts($scheduleId,$conArr);
+
+        DB::beginTransaction();
+        try {
+
+            if ($scheduleShow) {
+                if (empty($time_zone)) $time_zone = 'America/Chicago';
+                $start_time = $request->input('scheduleDate');
+                $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
+                if (!$this->isValidDate($start_time)) {
+                    $start_time = $now_date->format('Y-m-d H:i:s');
                 }
-                DB::commit();
-            } catch (\Throwable $e) {
-                DB::rollback();
-                throw $e;
-                $commit = false;
+                $start_time_utc = $this->getGMTTime($start_time, $time_zone);
+                $stop_time = $request->input('scheduleDateEnd');
+                if (!$this->isValidDate($stop_time)) {
+                    $stop_time = '0000-00-00 00:00:00';
+                    $stop_time_utc = '0000-00-00 00:00:00';
+                } else {
+                    $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
+                }
+                $active_hour = $request->input('activeHour');
+            } else {
+                $start_time = date('Y-m-d H:i:s');
+                $stop_time = '0000-00-00 00:00:00';
+                $start_time_utc = date('Y-m-d H:i:s');
+                $stop_time_utc = '0000-00-00 00:00:00';
+                $active_hour = '';
             }
-        
-        
-        
+
+            $scheduleId = $this->genScheduleId();
+            $schedule = new Schedule;
+            $schedule->id = $scheduleId;
+            $schedule->account_id = $this->getAccountId();
+            $schedule->sms_from = $request->input('from');
+            $schedule->sms_text = $request->input('message');
+            $schedule->time_zone = $scheduleShow ? $time_zone : '';
+            $schedule->start_time = $start_time;
+            $schedule->start_time_utc = $start_time_utc;
+            $schedule->active_hour = $active_hour;
+            $schedule->stop_time = $stop_time;
+            $schedule->stop_time_utc = $stop_time_utc;
+            $schedule->next_fetch_time = date('Y-m-d H:i:s');
+            $schedule->is_schedule = $scheduleShow ? '1' : '0';
+            $schedule->is_repeat = '0';
+            $schedule->status = config('dashboard_constant.PENDING');
+            $schedule->created_by = \Auth::user()->userid;
+            $schedule->updated_by = \Auth::user()->userid;
+            if ($schedule->save()) {
+                $schedule->id = $scheduleId;
+                $this->AuditLogService->createLog($schedule, 'A');
+                $contacts = array_column($smsTo, "value", "code");
+                $conArr = $this->getGrpIndContacts($contacts);
+                $conReqData = [
+                    'schedule_id' => $scheduleId,
+                    'account_id' => $this->getAccountId(),
+                    'status' => config('dashboard_constant.PENDING'),
+                    'created_by' => \Auth::user()->userid,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
+                // insert data into schedule contacts table
+                $this->SchedulesService->saveScheduleContacts(array_merge(['group_id' => $conArr['group']], $conReqData), 'group_id');
+                $this->SchedulesService->saveScheduleContacts(array_merge(['phone' => $conArr['single']], $conReqData), 'phone');
+                // update total number of contacts of schedule table
+                $this->SchedulesService->updateTotalContacts($scheduleId, $conArr);
+            }
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollback();
+            throw $e;
+            $commit = false;
+        }
+
+
         $msg = ($scheduleShow) ? "Message Successfully Added to Queue!" : "Message Sent Successfully!";
-        return $commit ? $this->processServiceResponse(true, $msg,$request->all()) : $this->processServiceResponse(false, $msg, $request->all());
-        
+        return $commit ? $this->processServiceResponse(true, $msg, $request->all()) : $this->processServiceResponse(false, $msg, $request->all());
+
     }
+
     /**
      * save reply data
      * @param array request
      */
-    public function saveReply($request){
+    public function saveReply($request)
+    {
 
         /*if(!$this->hasBalance()){
             return $this->processServiceResponse(false, 'Balance is insufficient.Please talk to your management for top-up.',null);
@@ -160,7 +166,7 @@ class ComposeService extends AppService
 
         $authUser = Session::get('loginUser');
         $user_time_zone = $authUser['timezone'];
-        
+
         //DB::statement("SET time_zone = '".$user_time_zone."';");
 
         $smsFrom = $request->input('from');
@@ -183,17 +189,17 @@ class ComposeService extends AppService
         $schedule->stop_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
         $schedule->stop_time_utc = date('Y-m-d H:i:s');
         $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
-        $schedule->is_schedule = '0';    
+        $schedule->is_schedule = '0';
         $schedule->is_repeat = '0';
         $schedule->status = config('dashboard_constant.PENDING');
         $schedule->userid = \Auth::user()->userid;
         $schedule->created_by = \Auth::user()->userid;
         $schedule->updated_by = \Auth::user()->userid;
-        if($schedule->save()){
+        if ($schedule->save()) {
             $schedule->id = $scheduleId;
             $this->AuditLogService->createLog($schedule, 'A');
             $insData = [
-                'id' => $this->SchedulesService->genScheduleContactId(),          
+                'id' => $this->SchedulesService->genScheduleContactId(),
                 'schedule_id' => $scheduleId,
                 'account_id' => $this->getAccountId(),
                 'phone' => $smsTo,
@@ -203,19 +209,21 @@ class ComposeService extends AppService
                 'updated_at' => date('Y-m-d H:i:s'),
             ];
             $result = ScheduleContact::insert($insData);
-            if($result){
-                return $this->processServiceResponse(true, "Reply Sent Successfully!",$insData);
+            if ($result) {
+                return $this->processServiceResponse(true, "Reply Sent Successfully!", $insData);
             }
         }
-        return $this->processServiceResponse(false, "Reply Sent Failed!",$schedule);        
+        return $this->processServiceResponse(false, "Reply Sent Failed!", $schedule);
 
     }
+
     /**
      * update data
      * @param array request
      */
-    public function updateData($request, $id){
-        
+    public function updateData($request, $id)
+    {
+
         $rules = [
             'to' => 'required',
             'from' => 'required|max:13',
@@ -223,66 +231,66 @@ class ComposeService extends AppService
         ];
 
         $scheduleShow = $request->input('scheduleShow');
-        $smsTo = $request->input('to');        
+        $smsTo = $request->input('to');
         $time_zone = $request->input('time_zone');
 
-        if($scheduleShow){
-            $rules['scheduleDate'] = 'required|after:'.date('Y-m-d');
-            $rules['scheduleDateEnd'] = 'required|after:'.date('Y-m-d');
+        if ($scheduleShow) {
+            $rules['scheduleDate'] = 'required|after:' . date('Y-m-d');
+            $rules['scheduleDateEnd'] = 'required|after:' . date('Y-m-d');
             $rules['activeHours'] = 'required';
-        }        
-        Validator::make($request->all(),$rules)->validate();
+        }
+        Validator::make($request->all(), $rules)->validate();
 
         $commit = true;
         DB::beginTransaction();
         try {
 
-                if ($scheduleShow) {
-                    if (empty($time_zone)) $time_zone = 'America/Chicago';
-                    $start_time = $request->input('scheduleDate');
-                    $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
-                    if (!$this->isValidDate($start_time)) {
-                        $start_time = $date->format('Y-m-d H:i:s');
-                    }
-                    $start_time_utc = $this->getGMTTime($start_time, $time_zone);
-                    $stop_time = $request->input('scheduleDateEnd');
-                    if (!$this->isValidDate($stop_time)) {
-                        $stop_time = '0000-00-00 00:00:00';
-                        $stop_time_utc = '0000-00-00 00:00:00';
-                    } else {
-                        $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
-                    }
-                    $active_hour = $request->input('activeHour');
-                } else {
-                   $start_time = date('Y-m-d H:i:s');
-                   $stop_time = '0000-00-00 00:00:00';
-                   $start_time_utc = date('Y-m-d H:i:s');
-                   $stop_time_utc = '0000-00-00 00:00:00';
-                   $active_hour = '';
+            if ($scheduleShow) {
+                if (empty($time_zone)) $time_zone = 'America/Chicago';
+                $start_time = $request->input('scheduleDate');
+                $now_date = new \DateTime("now", new \DateTimeZone($time_zone));
+                if (!$this->isValidDate($start_time)) {
+                    $start_time = $now_date->format('Y-m-d H:i:s');
                 }
-           
+                $start_time_utc = $this->getGMTTime($start_time, $time_zone);
+                $stop_time = $request->input('scheduleDateEnd');
+                if (!$this->isValidDate($stop_time)) {
+                    $stop_time = '0000-00-00 00:00:00';
+                    $stop_time_utc = '0000-00-00 00:00:00';
+                } else {
+                    $stop_time_utc = $this->getGMTTime($stop_time, $time_zone);
+                }
+                $active_hour = $request->input('activeHour');
+            } else {
+                $start_time = date('Y-m-d H:i:s');
+                $stop_time = '0000-00-00 00:00:00';
+                $start_time_utc = date('Y-m-d H:i:s');
+                $stop_time_utc = '0000-00-00 00:00:00';
+                $active_hour = '';
+            }
+
             $scheduleId = $id;
-            $schedule = Schedule::find($scheduleId);                      
+            $schedule = Schedule::find($scheduleId);
             $schedule->sms_from = $request->input('from');
             $schedule->sms_text = $request->input('message');
             $schedule->time_zone = $scheduleShow ? $time_zone : '';
-            $schedule->start_time = $start_time; 
-	    $schedule->start_time_utc = $start_time_utc;
+            $schedule->start_time = $start_time;
+            $schedule->start_time_utc = $start_time_utc;
             $schedule->active_hour = $active_hour;
             $schedule->stop_time = $stop_time;
-	    $schedule->stop_time_utc = $stop_time_utc;
+            $schedule->stop_time_utc = $stop_time_utc;
             $schedule->next_fetch_time = $this->dateToTimestamp(date('Y-m-d H:i:s'));
-            $schedule->is_schedule = $scheduleShow ? '1' : '0';            
+            $schedule->is_schedule = $scheduleShow ? '1' : '0';
             $schedule->is_repeat = '0';
-            $schedule->num_contacts = 0;                       
+            $schedule->num_contacts = 0;
             $schedule->updated_by = \Auth::user()->userid;
             $scheduleU = $schedule->getDirty();
-            if($schedule->save()){
+            if ($schedule->save()) {
                 $this->AuditLogService->createLog($scheduleU, 'U');
                 $this->SchedulesService->deleteScheduleContacts($scheduleId);
-                $contacts = array_column($smsTo, "value","code");  
-                $conArr = $this->getGrpIndContacts($contacts);                
-                $conReqData = [                    
+                $contacts = array_column($smsTo, "value", "code");
+                $conArr = $this->getGrpIndContacts($contacts);
+                $conReqData = [
                     'schedule_id' => $scheduleId,
                     'account_id' => $this->getAccountId(),
                     'status' => config('dashboard_constant.PENDING'),
@@ -291,10 +299,10 @@ class ComposeService extends AppService
                     'updated_at' => date('Y-m-d H:i:s'),
                 ];
                 // insert data into schedule contacts table
-                $this->SchedulesService->saveScheduleContacts(array_merge(['group_id' => $conArr['group']],$conReqData) ,'group_id');
-                $this->SchedulesService->saveScheduleContacts(array_merge(['phone' => $conArr['single']],$conReqData) ,'phone');
+                $this->SchedulesService->saveScheduleContacts(array_merge(['group_id' => $conArr['group']], $conReqData), 'group_id');
+                $this->SchedulesService->saveScheduleContacts(array_merge(['phone' => $conArr['single']], $conReqData), 'phone');
                 // update total number of contacts of schedule table
-                $this->SchedulesService->updateTotalContacts($scheduleId,$conArr);
+                $this->SchedulesService->updateTotalContacts($scheduleId, $conArr);
             }
             DB::commit();
         } catch (\Throwable $e) {
@@ -302,38 +310,41 @@ class ComposeService extends AppService
             throw $e;
             $commit = false;
         }
-        return $commit ? $this->processServiceResponse(true, "Compose Added Successfully!",$request->all()) : $this->processServiceResponse(false, "Compose Added Failed!", $request->all());
-        
+        return $commit ? $this->processServiceResponse(true, "Compose Added Successfully!", $request->all()) : $this->processServiceResponse(false, "Compose Added Failed!", $request->all());
+
     }
+
     /**
      * get group & individual contact list
      * @param array $contacts
      */
-    public function getGrpIndContacts($contacts){ 
-        $conArr = ['group'=>[],'single'=>[]];
-        array_walk( $contacts,
-            function( $val, $key) use (&$conArr) {                
-                if($val != $key){                    
-                    if(strpos($val, '('.$key.')') > 0){
+    public function getGrpIndContacts($contacts)
+    {
+        $conArr = ['group' => [], 'single' => []];
+        array_walk($contacts,
+            function ($val, $key) use (&$conArr) {
+                if ($val != $key) {
+                    if (strpos($val, '(' . $key . ')') > 0) {
                         $conArr['single'][] = $key;
-                    }else{
+                    } else {
                         $conArr['group'][] = $key;
                     }
-                }else{                    
+                } else {
                     $conArr['single'][] = $key;
                 }
-            } 
-        ); 
+            }
+        );
         return $conArr;
     }
 
     /**
      * CHECK BALANCE
      */
-    public function hasBalance(){
+    public function hasBalance()
+    {
         $account_id = $this->getAccountId();
         $obj = $this->UsersService->getAccountInfo($account_id);
-        if($obj->credit_amount - $obj->used_amount <=0){
+        if ($obj->credit_amount - $obj->used_amount <= 0) {
             return false;
         }
         return true;
@@ -344,17 +355,18 @@ class ComposeService extends AppService
      */
     public function isValidDate($date, $format = 'Y-m-d H:i:s')
     {
-       $d = \DateTime::createFromFormat($format, $date);
-       return $d && $d->format($format) == $date;
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 
     /**
      * GENERATE RANDOM SCHEDULE CONTACT ID
      */
-    public function genScheduleContactId(){
-        $id = $this->genRandNum(10); 
-        $idExists = ScheduleContact::find($id); 
-        if($idExists){
+    public function genScheduleContactId()
+    {
+        $id = $this->genRandNum(10);
+        $idExists = ScheduleContact::find($id);
+        if ($idExists) {
             return $this->genScheduleContactId();
         }
         return $id;
@@ -363,10 +375,11 @@ class ComposeService extends AppService
     /**
      * GENERATE RANDOM QUEUE ID
      */
-    public function genQueueId(){
-        $id = $this->genRandNum(10); 
-        $idExists = Queue::find($id); 
-        if($idExists){
+    public function genQueueId()
+    {
+        $id = $this->genRandNum(10);
+        $idExists = Queue::find($id);
+        if ($idExists) {
             return $this->genQueueId();
         }
         return $id;
@@ -375,61 +388,76 @@ class ComposeService extends AppService
     /**
      * GENERATE RANDOM SCHEDULE ID
      */
-    public function genScheduleId(){ 
+    public function genScheduleId()
+    {
         $id = $this->genRandNum(10);
-        $idExists = Schedule::find($id); 
-        if($idExists){
+        $idExists = Schedule::find($id);
+        if ($idExists) {
             return $this->genScheduleId();
         }
         return $id;
     }
+
     /**
      * get Template list
      */
-    public function getTemplates(){
-        $account_id = $this->getAccountId();        
+    public function getTemplates()
+    {
+        $account_id = $this->getAccountId();
         $data = Template::where('account_id', '=', $account_id)->get();
-        foreach($data as $key => $value){
+        foreach ($data as $key => $value) {
             $value->omessage = $value->message;
             $value->message = nl2br($value->message);
         }
         return $data->toArray();
     }
+
     /**
      * get Group list
      */
-    public function getGroups(){
-        $account_id = $this->getAccountId();        
+    public function getGroups()
+    {
+        $account_id = $this->getAccountId();
         $data = Group::where('account_id', '=', $account_id)->get();
         return $data->toArray();
     }
+
     /**
      * get Agent list
      */
-    public function getDid(){
+    public function getDid()
+    {
         $account_id = $this->getAccountId();
         //$data = Did::where('account_id', '=', $account_id)->pluck('did');
         //$data = Did::where('account_id', '=', $account_id)->where('extn','=','102')->pluck('did');
         //return $data->toArray();
         return \Auth::user()->cname;
     }
+
     /**
      * get Group list
      */
-    public function getAllDid(){
+    public function getAllDid()
+    {
         $account_id = $this->getAccountId();
         //$data = Did::where('account_id', '=', $account_id)->pluck('did');
         //$data = Did::where('account_id', '=', $account_id)->where('extn','=','102')->pluck('did');
         //return $data->toArray();
         return array(\Auth::user()->cname);
     }
+
     /**
      * get Schedule Detail
-     *  @param char $id schedule Id
-     *  @param bool $withbr sms_text with line breaks
+     * @param char $id schedule Id
+     * @param bool $withbr sms_text with line breaks
      */
-    public function getScheduleDetail($id, $withbr){
+    public function getScheduleDetail($id, $withbr)
+    {
         return $this->SchedulesService->getScheduleDetailForCompose($id, $withbr);
     }
-    
+
+    public function getSmsRatePart($smsString){
+        return $this->GsmSmsEncoding->multipartLength($smsString);
+    }
+
 }

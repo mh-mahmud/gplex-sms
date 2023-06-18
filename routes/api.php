@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::delete('/contact-delete/{id}/{group_id}', 'ContactController@postDeleteContactFromGroup');
     // Schedule
     Route::get('/schedule-detail/{id}', 'ScheduleController@getScheduleDetail');
-    Route::get('/schedule-change-status/{scheduleId}/{status}', 'ScheduleController@getScheduleChangeStatus');
+    Route::get('/schedule-change-status/{schedule_id}/{status}', 'ScheduleController@getScheduleChangeStatus');
     // Outbound
     Route::get('/outbound-list', 'OutboundController@getList');
     // Inbound
@@ -93,6 +93,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/chats', 'ChatsController@getChatsData');
     Route::get('/open-chats/{date}', 'ChatsController@getOpenChat');
     Route::get('/previous-chats/{date}', 'ChatsController@getPreviousChat');
+    Route::get('/previous-close-chats/{date}', 'ChatsController@getPreviousCloseChat');
     Route::get('/chat-info/{id}', 'ChatsController@chatsByUserId');
     Route::get('/previous-chat-info/{id}/{date}', 'ChatsController@previousChatsByUserId');
     Route::post('/add-disposition', 'ChatsController@storeDisposition');
@@ -100,4 +101,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/close-leads/{clientNumber}', 'ChatsController@closeLeads');
     Route::get('/open-leads/{clientNumber}', 'ChatsController@openLeads');
     Route::get('/disposition-log', 'ChatsController@getDispositionLog');
+    // Route::get('/contact-info/{phone}', 'ChatsController@getContactData');
+    Route::post('/contact-info/', 'ChatsController@getContactData');
 });

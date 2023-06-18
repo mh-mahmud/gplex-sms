@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ContactStatus;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\Log;
@@ -64,6 +65,13 @@ class LogService extends AppService
         }
 
         return $this->paginationDataFormat($data->toArray());
+    }
+
+    public function getContactStatus($from, $to){
+        // Get list
+        $data = ContactStatus::select('status')->where('phone','=',$to)->where('account_id','=',$this->getAccountId())->where('did','=',$from)->first();
+
+        return $data->status;
     }
 
     /**
@@ -147,6 +155,20 @@ class LogService extends AppService
         ->first();
     }
     /**
+     * get log inbound unread message summary detail
+     * @param string $accountId
+     */
+	public function getLogUnreadToday($accountId){
+        return $data = DB::table('log_sms')
+        ->select(DB::raw('status, COALESCE(SUM(num_parts),0) as total'))
+        ->whereRaw("log_time BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW()")
+        ->where('account_id', $accountId)
+        ->where('did', Auth::user()->cname)
+        ->where('direction', 'I')
+        ->where('status', 'U')
+        ->first();
+    }
+    /**
      * get log inbound summary detail
      * @param string $accountId
      */
@@ -161,10 +183,37 @@ class LogService extends AppService
         ->first();
     }
     /**
+     * get log inbound summary detail
+     * @param string $accountId
+     */
+	public function getLogInboundToday($accountId){
+        return $data = DB::table('log_sms')
+        ->select(DB::raw('status, COALESCE(SUM(num_parts),0) as total'))
+        ->whereRaw("log_time BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW()")
+        ->where('account_id', $accountId)
+        ->where('did', Auth::user()->cname)
+        ->where('direction', 'I')
+        //->where('status', 'U')
+        ->first();
+    }
+    /**
      * get log outbound summary detail
      * @param string $accountId
      */
 	public function getLogOutboundSummary($accountId){
+        return $data = DB::table('log_sms')
+        ->select(DB::raw('status, COALESCE(SUM(num_parts),0) as total'))
+        ->whereRaw("log_time BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW()")
+        ->where('account_id', $accountId)
+        ->where('did', Auth::user()->cname)
+        ->where('direction', 'O')
+        ->first();
+    }
+    /**
+     * get log outbound summary detail
+     * @param string $accountId
+     */
+	public function getLogOutboundToday($accountId){
         return $data = DB::table('log_sms')
         ->select(DB::raw('status, COALESCE(SUM(num_parts),0) as total'))
         ->whereRaw("log_time BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW()")

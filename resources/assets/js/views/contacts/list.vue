@@ -92,7 +92,7 @@
                                             <th>State</th>
                                             <th>Street</th>
                                             <th>Suite</th>
-                                            <th>CPAS (ZIP)</th>
+                                            <th>ZIP</th>
                                             <!-- <th>Type</th>                                            
                                             <th>Country</th> -->
                                             <th colspan="2">Action</th>

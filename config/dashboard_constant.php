@@ -119,6 +119,8 @@ return[
         'F' => 'Failed',
         'R' => '-',
         'U' => 'Unread',
+        'E' => 'Unread',
+        'T' => 'Unread',
     ],
     'SMS_DIRECTION' => [
         'I' => 'Inbound',
