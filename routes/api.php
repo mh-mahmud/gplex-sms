@@ -103,4 +103,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/disposition-log', 'ChatsController@getDispositionLog');
     // Route::get('/contact-info/{phone}', 'ChatsController@getContactData');
     Route::post('/contact-info/', 'ChatsController@getContactData');
+    Route::get('/message-settings', 'ChatsController@getMessageSettings');
+    Route::post('/update-stop-message', 'ChatsController@updateStopMessage');
+    Route::post('/update-auto-message', 'ChatsController@updateAutoMessage');
 });

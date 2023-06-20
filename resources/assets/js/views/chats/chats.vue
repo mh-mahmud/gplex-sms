@@ -137,7 +137,9 @@
                                                             <div class="g-time-status-area">
                                                                 <small class="g-date-time">
                                                                     <!--                                  2 min ago-->
-                                                                    Apr 10, 2023
+                                                                    {{
+                                                                        item.last_text_at | formatDate("MMM DD, hh:mm A")
+                                                                    }}
                                                                 </small>
                                                             </div>
                                                         </div>
@@ -174,7 +176,9 @@
                                                             <div class="g-time-status-area">
                                                                 <small class="g-date-time">
                                                                     <!--                                  2 min ago-->
-                                                                    Apr 10, 2023
+                                                                    {{
+                                                                    item2.last_text_at | formatDate("MMM DD, hh:mm A")
+                                                                    }}
                                                                 </small>
                                                             </div>
                                                         </div>

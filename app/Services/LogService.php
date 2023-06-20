@@ -70,8 +70,7 @@ class LogService extends AppService
     public function getContactStatus($from, $to){
         // Get list
         $data = ContactStatus::select('status')->where('phone','=',$to)->where('account_id','=',$this->getAccountId())->where('did','=',$from)->first();
-
-        return $data->status;
+        return $data ? $data->status : 'I';
     }
 
     /**

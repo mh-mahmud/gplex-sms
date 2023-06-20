@@ -132,8 +132,8 @@ return [
     [
         'name' => 'AutoMessage',
         'title' => 'Auto Message Settings',
-        'icon' => 'flaticon-file',
-        'sidebar_menu_active' => 'AutoMessage',
+        'icon' => 'flaticon-settings',
+        'sidebar_menu_active' => 'auto-message-settings',
         'vue_route_name' => 'AutoMessage',
         'url' => '#/auto-message-settings',
         'model_list' => []

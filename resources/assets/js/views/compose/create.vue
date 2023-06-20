@@ -72,7 +72,7 @@
                                                   v-validate="'required|max:'+data.sms_text_size" v-model="message"
                                                   style="height:150px;resize: none;" type="text"
                                                   class="form-control m-input mb-2"
-                                                  placeholder="Enter Message" @blur=""></textarea>
+                                                  placeholder="Enter Message"></textarea>
                                         <span class="limiter">{{ calculateSMSParts }}</span>
                                         <a role="button" href="javascript:void(0)" @click.prevent="bindModalData(data)"
                                            data-toggle="modal" data-target="#template-modal"

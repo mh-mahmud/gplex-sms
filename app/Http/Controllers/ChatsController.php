@@ -270,4 +270,56 @@ class ChatsController extends AppController
         return false;
     }
 
+    /**
+     * Check for store Disposition.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getMessageSettings(Request $request)
+    {
+        $authUser = \Session::get('loginUser');
+        $layoutData['stopMessage'] = $this->ChatsService->getStopMessage();
+        $layoutData['autoMessage'] = $this->ChatsService->getAutoMessage();
+        $layoutData['js_plugin'] = $this->getJsPlugin(["JSP_BOOTSTRAP_BOOTBOX","JSP_SORTABLE"]);
+        $layoutData['currentDid'] = \Auth::user()->cname;
+        $layoutData['userTimeZone'] = $authUser['timezone'];
+        $layoutData['title'] = 'Message Settings | '.config("app.name");
+        $layoutData['breadcrumb'] = [
+            "links" => [
+                [
+                    "name" => "Message Settings",
+                    "url" => url("#/auto-message-settings"),
+                    "icon" => "flaticon-list-1"
+                ]
+            ]
+        ];
+        return response()->json($layoutData);
+    }
+
+
+
+    /**
+     * Check for store update Stop Message.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStopMessage(Request $request)
+    {
+        $data = $this->ChatsService->saveStopMessage($request);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);
+    }
+
+    /**
+     * Check for store update Auto Message.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAutoMessage(Request $request)
+    {
+        $data = $this->ChatsService->saveAutoMessage($request);
+        $responseMsg = $this->Service->processControllerResponse($data[config('msg_label.MSG_RESULT')], $data[config('msg_label.MSG_MESSAGE')]);
+        return response()->json($responseMsg);
+    }
+
 }

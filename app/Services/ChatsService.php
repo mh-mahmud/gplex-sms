@@ -2,15 +2,18 @@
 
 namespace App\Services;
 
+use App\Models\AutoMessage;
 use App\Models\Contact;
 use App\Models\ContactStatus;
 use App\Models\Disposition;
 use App\Models\DispositionCode;
+use App\Models\StopMessage;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Log;
 use Session;
 use Auth;
+use Validator;
 use App\Models\Template;
 
 class ChatsService extends AppService {
@@ -267,6 +270,18 @@ class ChatsService extends AppService {
         return $result;
     }
 
+    public function getStopMessage(){
+        $account_id = $this->getAccountId();
+        $did = $this->getDid();
+        return DB::table('account_opt_settings')->where('account_id', $account_id)->where('did', $did)->first();
+    }
+
+    public function getAutoMessage(){
+        $account_id = $this->getAccountId();
+        $did = $this->getDid();
+        return DB::table('auto_reply_settings')->where('account_id', $account_id)->where('did', $did)->first();
+    }
+
     public function getClientDisposition($clientNumber){
         $account_id = $this->getAccountId();
 //        $data = Disposition::where('cli', '=', $clientNumber)->orderBy('tstamp','DESC')->limit(10)->get();
@@ -325,6 +340,54 @@ class ChatsService extends AppService {
 
     public function getContactData($phone) {
         return Contact::where('phone', $phone)->first();
+    }
+
+    public function saveStopMessage($request) {
+        Validator::make($request->all(),[
+            'opt_out_text' => 'required|string|max:150',
+            'opt_txt_send_option' => 'required|string|max:1',
+        ])->validate();
+//        DB::enableQueryLog();
+        $dataObj = $this->getStopMessage();
+        if($dataObj == null){
+            $dataObj =  new StopMessage;
+            $dataObj->account_id = $this->getAccountId();
+            $dataObj->did  = $this->getDid();
+            $dataObj->opt_out_text = $request->input('opt_out_text');
+            $dataObj->opt_txt_send_option = $request->input('opt_txt_send_option');
+        }else{
+            StopMessage::where('account_id','=',$this->getAccountId())->where('did','=',$this->getDid())->update(['opt_out_text' => $request->input('opt_out_text'),'opt_txt_send_option' => $request->input('opt_txt_send_option')]);
+            return $this->processServiceResponse(true, "Stop Message Update Successfully!",$dataObj);
+        }
+//        dd(DB::getQueryLog());
+        if($dataObj->save()) {
+            return $this->processServiceResponse(true, "Stop Message Update Successfully!",$dataObj);
+        }
+        return $this->processServiceResponse(false, "Stop Message Update Failed!",$dataObj);
+    }
+
+    public function saveAutoMessage($request) {
+        Validator::make($request->all(),[
+            'reply_text' => 'required|string|max:160',
+            'auto_reply_status' => 'required|string|max:1',
+        ])->validate();
+//        DB::enableQueryLog();
+        $dataObj = $this->getAutoMessage();
+        if($dataObj == null){
+            $dataObj =  new AutoMessage;
+            $dataObj->account_id = $this->getAccountId();
+            $dataObj->did  = $this->getDid();
+            $dataObj->reply_text = $request->input('reply_text');
+            $dataObj->auto_reply_status = $request->input('auto_reply_status');
+        }else{
+            AutoMessage::where('account_id','=',$this->getAccountId())->where('did','=',$this->getDid())->update(['reply_text' => $request->input('reply_text'),'auto_reply_status' => $request->input('auto_reply_status')]);
+            return $this->processServiceResponse(true, "Auto Message Update Successfully!",$dataObj);
+        }
+//        dd(DB::getQueryLog());
+        if($dataObj->save()) {
+            return $this->processServiceResponse(true, "Auto Message Update Successfully!",$dataObj);
+        }
+        return $this->processServiceResponse(false, "Auto Message Update Failed!",$dataObj);
     }
 
 }

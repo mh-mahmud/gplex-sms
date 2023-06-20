@@ -1,7 +1,7 @@
 window.Vue = require('vue');
 // Inbound Component
 const TextList = Vue.component('TextList', require('../views/text/list.vue'));
-const AutoMessage = Vue.component('AutoMessage', require('../views/autoMessage/contact_settings.vue'));
+const AutoMessage = Vue.component('AutoMessage', require('../views/autoMessage/message_settings.vue'));
 
 export default [
     // inbound route
